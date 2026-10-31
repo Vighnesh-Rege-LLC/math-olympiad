@@ -1,0 +1,1663 @@
+[
+ {
+  "id": "am-gm",
+  "name": "AM-GM and mean inequalities",
+  "group": "Inequalities",
+  "related": [
+   "cauchy-schwarz",
+   "symmetry",
+   "induction",
+   "polynomials"
+  ],
+  "examples": [
+   {
+    "title": "Minimum of $x+\\frac1x$",
+    "problem": "Find the minimum of $x+\\dfrac1x$ over $x>0$.",
+    "steps": [
+     "By AM-GM on the two terms: $\\dfrac{x+\\frac1x}2\\ge\\sqrt{x\\cdot\\frac1x}=1$.",
+     "So $x+\\dfrac1x\\ge2$.",
+     "Equality needs $x=\\dfrac1x$, i.e. $x=1$, which is allowed. So the minimum is $2$."
+    ]
+   },
+   {
+    "title": "A product inequality",
+    "problem": "For $a,b,c\\ge0$ prove $(a+b)(b+c)(c+a)\\ge8abc$.",
+    "steps": [
+     "Apply AM-GM to each factor: $a+b\\ge2\\sqrt{ab}$, $b+c\\ge2\\sqrt{bc}$, $c+a\\ge2\\sqrt{ca}$.",
+     "All terms are non-negative, so multiply the three inequalities: $(a+b)(b+c)(c+a)\\ge8\\sqrt{ab\\cdot bc\\cdot ca}=8abc$.",
+     "Equality holds when $a=b=c$ (it also holds when two of the variables are $0$)."
+    ]
+   },
+   {
+    "title": "Splitting to match equality",
+    "problem": "Positive reals $x,y$ satisfy $x+y=3$. Find the maximum of $x^2y$.",
+    "steps": [
+     "The product has $x$ twice, so split $x$ into two equal parts $\\frac x2,\\frac x2$ and apply AM-GM to the three numbers $\\frac x2,\\frac x2,y$.",
+     "$\\dfrac{\\frac x2+\\frac x2+y}3\\ge\\sqrt[3]{\\dfrac x2\\cdot\\dfrac x2\\cdot y}$. The left side is $\\dfrac{x+y}3=1$.",
+     "So $\\dfrac{x^2y}4\\le1$ and $x^2y\\le4$.",
+     "Equality needs $\\frac x2=y$, so with $x+y=3$ we get $y=1$, $x=2$. At that point $x^2y=4$, so the maximum is $4$."
+    ]
+   }
+  ],
+  "what": "For non-negative reals $a_1,\\dots,a_n$:\n$$\\frac{a_1+\\dots+a_n}{n}\\ \\ge\\ \\sqrt[n]{a_1a_2\\cdots a_n},$$\nwith equality exactly when all the $a_i$ are equal. This is the AM-GM inequality.\n\nA consequence for two numbers: $a^2+b^2\\ge2ab$, because $(a-b)^2\\ge0$. The same trick, \"a square is non-negative\", proves many inequalities.\n\nIt works because the product of numbers with a fixed sum is largest when they are balanced. This tells you both the bound and the place where it is sharp, so the equality case guides how to split terms.",
+  "recognize": [
+   "A sum (or product) of positive terms is compared to a product (or sum).",
+   "You are asked for the minimum of a sum like $x+\\frac1x$, or the maximum of a product with fixed sum.",
+   "The expected extremum occurs when variables are equal.",
+   "Terms can be split or grouped so that their product becomes constant."
+  ],
+  "mistakes": [
+   "Applying AM-GM to terms that can be negative. It requires non-negative numbers.",
+   "Reaching a bound but never checking that equality is attainable. The bound may not be the true minimum or maximum.",
+   "Choosing a split that makes the equality case impossible. Find where equality should occur first.",
+   "Multiplying inequalities when some sides could be negative."
+  ],
+  "variations": [
+   "**Weighted AM-GM:** $\\lambda_1a_1+\\dots+\\lambda_na_n\\ge a_1^{\\lambda_1}\\cdots a_n^{\\lambda_n}$ for non-negative $a_i$ and non-negative weights summing to $1$.",
+   "**Power mean chain:** $\\min\\le\\text{HM}\\le\\text{GM}\\le\\text{AM}\\le\\text{QM}\\le\\max$.",
+   "**Homogenization:** use a constraint to make all terms the same degree before comparing.",
+   "**Cauchy–Schwarz:** often an alternative when sums of squares or fractions appear ([[cauchy-schwarz]]).",
+   "**Proof by induction:** the general case can be proved by forward-backward (Cauchy) induction ([[induction]])."
+  ]
+ },
+ {
+  "id": "angle-chasing",
+  "name": "Angle chasing and cyclic quadrilaterals",
+  "group": "Geometry",
+  "related": [
+   "similar-triangles",
+   "trigonometry",
+   "coordinates"
+  ],
+  "examples": [
+   {
+    "title": "Feet of altitudes",
+    "problem": "In triangle $ABC$ let $D$ and $E$ be the feet of the altitudes from $A$ and $B$. Show that $A,B,D,E$ lie on a circle.",
+    "steps": [
+     "$\\angle ADB=90^\\circ$ and $\\angle AEB=90^\\circ$.",
+     "Both $D$ and $E$ see the segment $AB$ at a right angle, so they lie on the circle with diameter $AB$ (Thales' converse).",
+     "Hence $A,B,D,E$ are concyclic."
+    ]
+   },
+   {
+    "title": "Reflecting the orthocenter",
+    "problem": "In an acute triangle $ABC$ with orthocenter $H$, let $H'$ be the reflection of $H$ over $BC$. Show that $H'$ lies on the circumcircle of $ABC$.",
+    "steps": [
+     "Let $E$ be the foot of the altitude from $B$ and $F$ the foot of the altitude from $C$. Both pass through $H$.",
+     "In right triangle $BEC$ the angle at $C$ is $C$, so $\\angle HBC=\\angle EBC=90^\\circ-C$.",
+     "In right triangle $CFB$ the angle at $B$ is $B$, so $\\angle HCB=\\angle FCB=90^\\circ-B$.",
+     "In triangle $BHC$: $\\angle BHC=180^\\circ-(90^\\circ-C)-(90^\\circ-B)=B+C=180^\\circ-A$.",
+     "Reflection over $BC$ preserves angles, so $\\angle BH'C=180^\\circ-A$.",
+     "In an acute triangle $H$ is inside the triangle, on the altitude $AD$ with $D$ strictly between $B$ and $C$. So $H'$ lies on line $AD$ on the other side of $BC$ from $A$, and $ABH'C$ is a convex quadrilateral.",
+     "Its opposite angles at $A$ and $H'$ sum to $180^\\circ$, so it is cyclic and $H'$ lies on the circumcircle."
+    ]
+   }
+  ],
+  "what": "Compute unknown angles from known ones, using these facts:\n- The angles of a triangle sum to $180^\\circ$.\n- **Inscribed angle theorem:** an inscribed angle is half the central angle on the same arc, so angles on the same arc are equal.\n- **Cyclic quadrilateral:** a convex quadrilateral $ABCD$ is cyclic exactly when $\\angle A+\\angle C=180^\\circ$, equivalently when $\\angle ABD=\\angle ACD$.\n- **Tangent-chord angle:** the angle between a tangent and a chord equals the inscribed angle in the alternate segment on that chord.\n- **Thales:** an angle subtending a diameter is $90^\\circ$.\n\nThe main move: find that four points lie on a circle (by equal angles), then use the circle to get more equal angles.\n\nIt works because angle relations are rigid and local. Spotting that two equal angles on the same side of a segment subtend it tells you the four points are concyclic.",
+  "recognize": [
+   "Perpendicular lines, altitudes, and feet of perpendiculars (right angles give circles with a diameter).",
+   "Several equal angles in a diagram, or an angle condition to prove.",
+   "A circle through three points of the figure, with a fourth that may lie on it.",
+   "A claim of \"concyclic\", \"collinear\", or \"perpendicular\"."
+  ],
+  "mistakes": [
+   "Relying on a diagram's configuration. The same argument may fail for an obtuse triangle or a different point order. Use directed angles mod $180^\\circ$ to be safe.",
+   "Assuming a quadrilateral is convex when applying the cyclic criterion.",
+   "Asserting points are concyclic because they \"look\" it.",
+   "Mislabeling which arc an inscribed angle sees."
+  ],
+  "variations": [
+   "**Directed angles:** $\\angle(\\ell,m)$ mod $180^\\circ$ remove configuration issues.",
+   "**Spiral similarity and Miquel's theorem:** circles through a common point.",
+   "**Radical axis:** pairs of circles and lines of equal power ([[similar-triangles]]).",
+   "**Trigonometric alternative:** compute instead of chase ([[trigonometry]])."
+  ]
+ },
+ {
+  "id": "casework",
+  "name": "Casework",
+  "group": "Proof methods",
+  "related": [
+   "pigeonhole",
+   "modular-arithmetic",
+   "symmetry",
+   "extremal"
+  ],
+  "examples": [
+   {
+    "title": "Three mutually related people",
+    "problem": "Any two of six people are either friends or strangers. Show there are three people who are all mutual friends or all mutual strangers.",
+    "steps": [
+     "Pick a person $A$. The other $5$ people are each a friend or a stranger of $A$.",
+     "By [[pigeonhole]] either at least $3$ are friends of $A$, or at least $3$ are strangers of $A$. These are the two cases.",
+     "**Case 1: $A$ has three friends $X,Y,Z$.** If any two of them are friends, say $X,Y$, then $A,X,Y$ are three mutual friends. Otherwise $X,Y,Z$ are mutual strangers.",
+     "**Case 2: $A$ has three strangers $X,Y,Z$.** If any two of them are strangers, say $X,Y$, then $A,X,Y$ are mutual strangers. Otherwise $X,Y,Z$ are mutual friends.",
+     "Either way, a triple exists."
+    ]
+   },
+   {
+    "title": "Twin-prime-like triples",
+    "problem": "Find all primes $p$ such that $p+2$ and $p+4$ are also prime.",
+    "steps": [
+     "Split by the residue of $p$ mod $3$, the three possible cases.",
+     "If $p\\equiv0\\pmod3$, then $p$ is prime and divisible by $3$, so $p=3$. Check: $3,5,7$ are all prime. ✓",
+     "If $p\\equiv1\\pmod3$, then $p+2\\equiv0\\pmod3$. Since $p+2>3$, it is composite. ✗",
+     "If $p\\equiv2\\pmod3$, then $p+4\\equiv0\\pmod3$. Since $p+4>3$, it is composite. ✗",
+     "So the only such prime is $p=3$."
+    ]
+   }
+  ],
+  "what": "Split the problem into a few exhaustive cases and handle each separately. The cases must cover every possibility (exhaustive); if they also do not overlap, you can add counts without double counting (exclusive).\n\nIt works because a hard general statement may become easy once an extra assumption is available in each case. In case $A$ you can use $x>0$, in case $B$ you have $x\\le0$.\n\nGood casework chooses cases that give you information, such as by residue class, by sign, by the position of a particular element, or by \"largest value here / elsewhere\". It then reduces the number of cases using [[symmetry]].",
+  "recognize": [
+   "The statement involves absolute values, minimums, maximums, or floor functions.",
+   "A parameter takes a few types of value (parity, residue mod $3$, sign, size).",
+   "A natural object has a special element (a person with the most friends, the largest side) and you can split on what happens at it.",
+   "Direct search is finite but large, and structure reduces it."
+  ],
+  "mistakes": [
+   "Gaps: a case you didn't think of (negative values, zero, equality, small $n$). Say why your cases cover everything.",
+   "Overlapping cases when counting, which counts an object twice.",
+   "Too many cases. If you have $20$ cases, look for a better organizing idea or use symmetry to merge them.",
+   "Doing one case carefully and waving the rest away with \"similarly\". Check that the others really are the same."
+  ],
+  "variations": [
+   "**Without loss of generality (WLOG):** when a problem is symmetric, assume an ordering such as $a\\le b\\le c$ (see [[symmetry]]).",
+   "**Complementary counting:** count the cases that are not wanted.",
+   "**Case on the extreme:** put the largest element or the first violation in a case of its own.",
+   "**Residue cases:** all cases mod $n$ ([[modular-arithmetic]])."
+  ]
+ },
+ {
+  "id": "cauchy-schwarz",
+  "name": "Cauchy–Schwarz and Titu's lemma",
+  "group": "Inequalities",
+  "related": [
+   "am-gm",
+   "double-counting",
+   "symmetry"
+  ],
+  "examples": [
+   {
+    "title": "Sum of squares",
+    "problem": "If $a+b+c=1$ show that $a^2+b^2+c^2\\ge\\dfrac13$.",
+    "steps": [
+     "Apply Cauchy–Schwarz with $(a,b,c)$ and $(1,1,1)$: $(a^2+b^2+c^2)(1+1+1)\\ge(a+b+c)^2=1$.",
+     "So $a^2+b^2+c^2\\ge\\dfrac13$, with equality for $a=b=c=\\dfrac13$."
+    ]
+   },
+   {
+    "title": "Reciprocals",
+    "problem": "Positive reals $x,y,z$ satisfy $x+y+z=1$. Show that $\\dfrac1x+\\dfrac1y+\\dfrac1z\\ge9$.",
+    "steps": [
+     "Write each term as $\\dfrac{1^2}{x}$ and apply Titu's lemma with numerators $1,1,1$.",
+     "$\\dfrac{1^2}{x}+\\dfrac{1^2}{y}+\\dfrac{1^2}{z}\\ge\\dfrac{(1+1+1)^2}{x+y+z}=9$.",
+     "Equality for $x=y=z=\\frac13$."
+    ]
+   },
+   {
+    "title": "Nesbitt's inequality",
+    "problem": "For positive reals $a,b,c$ show $\\dfrac a{b+c}+\\dfrac b{c+a}+\\dfrac c{a+b}\\ge\\dfrac32$.",
+    "steps": [
+     "Multiply numerator and denominator by $a$ (and similarly for the others): $\\dfrac a{b+c}=\\dfrac{a^2}{a(b+c)}$.",
+     "By Titu's lemma, the sum is at least $\\dfrac{(a+b+c)^2}{a(b+c)+b(c+a)+c(a+b)}=\\dfrac{(a+b+c)^2}{2(ab+bc+ca)}$.",
+     "Since $(a+b+c)^2=a^2+b^2+c^2+2(ab+bc+ca)\\ge3(ab+bc+ca)$ (because $a^2+b^2+c^2\\ge ab+bc+ca$), the fraction is at least $\\dfrac{3(ab+bc+ca)}{2(ab+bc+ca)}=\\dfrac32$."
+    ]
+   }
+  ],
+  "what": "For real numbers $a_1,\\dots,a_n$ and $b_1,\\dots,b_n$:\n$$\\left(\\sum a_i^2\\right)\\left(\\sum b_i^2\\right)\\ \\ge\\ \\left(\\sum a_ib_i\\right)^2,$$\nwith equality exactly when the vectors $(a_i)$ and $(b_i)$ are proportional.\n\nIts most useful form for olympiads is **Titu's lemma** (also called the Engel form): for $x_i>0$,\n$$\\frac{a_1^2}{x_1}+\\dots+\\frac{a_n^2}{x_n}\\ \\ge\\ \\frac{(a_1+\\dots+a_n)^2}{x_1+\\dots+x_n}.$$\n\nIt works because it bounds a sum of products by sums of squares. When a problem has a squared quantity, or fractions with a square in the numerator, the inequality turns many terms into one.",
+  "recognize": [
+   "A constraint on $\\sum a_i$ and an expression involving $\\sum a_i^2$, or the reverse.",
+   "Sums of fractions $\\sum\\frac{a_i}{b_i}$ that can be written as $\\sum\\frac{a_i^2}{a_ib_i}$.",
+   "You need a lower bound for $\\sum\\frac1{x_i}$ with $\\sum x_i$ fixed.",
+   "A sum of square roots needs an upper bound."
+  ],
+  "mistakes": [
+   "Using Titu with a denominator that can be negative or zero.",
+   "Forgetting to check equality conditions. The bound is sharp only when the sequences are proportional.",
+   "Choosing the wrong splitting of a term into $a_i$ and $b_i$. Try to make the equality condition match what you expect.",
+   "Applying the inequality in the wrong direction. It bounds the square of a sum by a product of sums."
+  ],
+  "variations": [
+   "**Hölder's inequality:** the cube version, for non-negative reals: $\\left(\\sum a^3\\right)\\left(\\sum b^3\\right)\\left(\\sum c^3\\right)\\ge\\left(\\sum abc\\right)^3$.",
+   "**Rearrangement inequality:** a sum of products is largest when sequences are similarly ordered.",
+   "**Sums of square roots:** $\\left(\\sum\\sqrt{x_i}\\right)^2\\le n\\sum x_i$.",
+   "**Alternative proof:** [[am-gm]] often gives the same result, and works when terms aren't of the right shape."
+  ]
+ },
+ {
+  "id": "coloring",
+  "name": "Coloring arguments",
+  "group": "Combinatorics",
+  "related": [
+   "invariants",
+   "parity",
+   "double-counting",
+   "pigeonhole"
+  ],
+  "examples": [
+   {
+    "title": "Strips of length 4",
+    "problem": "Can a $10\\times10$ board be tiled by $1\\times4$ rectangles (placed horizontally or vertically)?",
+    "steps": [
+     "Number rows and columns $0,\\dots,9$ and color the cell $(i,j)$ with $c=(i+j)\\bmod4$.",
+     "A horizontal strip covers cells with $i+j$ equal to $s,s+1,s+2,s+3$ for some $s$, which is each of the four colors exactly once. A vertical strip does the same.",
+     "So a tiling by $25$ strips covers each color exactly $25$ times.",
+     "Count cells by color. The residues $0,\\dots,9$ mod $4$ occur $3,3,2,2$ times for residues $0,1,2,3$. Count the cells with $i+j\\equiv1\\pmod4$ by the pair of residues $(i\\bmod4,\\ j\\bmod4)$: $(0,1)$ gives $3\\cdot3=9$ cells, $(1,0)$ gives $9$, $(2,3)$ gives $2\\cdot2=4$, and $(3,2)$ gives $4$. The total is $26$.",
+     "$26\\ne25$, so no tiling exists."
+    ]
+   },
+   {
+    "title": "A closed knight's tour on a $5\\times5$ board",
+    "problem": "Can a knight visit every square of a $5\\times5$ board exactly once and return to its starting square?",
+    "steps": [
+     "Color the board like a chessboard. A knight's move always goes from one color to the other.",
+     "A closed tour visiting all $25$ squares is a cycle of $25$ moves, alternating colors.",
+     "Alternating colors around a cycle requires an even number of squares, since the colors alternate and the tour must come back to the starting color.",
+     "$25$ is odd, so it is impossible."
+    ]
+   }
+  ],
+  "what": "Assign colors (or labels, or numbers) to the cells, points or vertices of a configuration so that every allowed piece or move interacts with the colors in a controlled way. Then count colors.\n\nIt works as an [[invariants|invariant]] built in space. If every tile of a certain shape covers exactly one cell of each color, then a tiling must use each color equally often, and a board with unequal color counts cannot be tiled.\n\nThe art is choosing the coloring: two colors for dominoes, four colors for $1\\times4$ strips, stripes, diagonals, or $(i+j)\\bmod k$.",
+  "recognize": [
+   "Tilings, coverings, or \"can pieces fill this board?\".",
+   "A piece or token that moves by a fixed rule (knight, bishop, king, rook), and the question asks about reaching a place or making a tour.",
+   "Regions of a grid are removed, and the remaining part is to be covered.",
+   "Counts of two or more types of cell must match some quantity."
+  ],
+  "mistakes": [
+   "Using a coloring where pieces do not cover colors uniformly. Check every orientation of every piece.",
+   "Counting cells of each color wrongly. Recount using a formula or a small table.",
+   "Treating \"equal counts\" as sufficient. A tiling-count coloring argument proves impossibility only. When counts match, you still must give a construction ([[constructive]]).",
+   "Forgetting that you can try more than one coloring. If chessboard coloring fails, try stripes or $(i+j)\\bmod3$."
+  ],
+  "variations": [
+   "**Weighted colorings:** assign numbers such as $\\pm1$ (for example $(-1)^{i+j}$) or powers of a root of unity, not just colors, and show the total covered by any piece is fixed (often $0$).",
+   "**Coloring graphs:** vertices colored so adjacent vertices differ (see [[graph-theory]]).",
+   "**Coloring the plane:** color points, then use [[pigeonhole]] to find two of the same color at a given distance.",
+   "**Coloring to prove existence:** probabilistic or counting colorings are advanced relatives."
+  ]
+ },
+ {
+  "id": "complex-numbers",
+  "name": "Complex numbers in geometry",
+  "group": "Geometry",
+  "related": [
+   "coordinates",
+   "trigonometry",
+   "polynomials"
+  ],
+  "examples": [
+   {
+    "title": "An equilateral triangle test",
+    "problem": "Show that distinct complex numbers $a,b,c$ are the vertices of an equilateral triangle if and only if $a^2+b^2+c^2=ab+bc+ca$.",
+    "steps": [
+     "Triangle $abc$ is equilateral exactly when $c-a$ is $b-a$ rotated by $+60^\\circ$ or $-60^\\circ$. With $\\zeta=e^{i\\pi/3}$ this means $c-a=\\zeta(b-a)$ or $c-a=\\bar\\zeta(b-a)$.2. Let $u=c-a$ and $v=b-a$. The condition is $(u-\\zeta v)(u-\\bar\\zeta v)=0$.",
+     "Expand: $u^2-(\\zeta+\\bar\\zeta)uv+\\zeta\\bar\\zeta v^2$. Since $\\zeta+\\bar\\zeta=2\\cos60^\\circ=1$ and $\\zeta\\bar\\zeta=1$, this is $u^2-uv+v^2=0$.",
+     "Substitute back: $(c-a)^2-(c-a)(b-a)+(b-a)^2=a^2+b^2+c^2-ab-bc-ca$.",
+     "So the triangle is equilateral exactly when $a^2+b^2+c^2=ab+bc+ca$."
+    ]
+   },
+   {
+    "title": "A product over roots of unity",
+    "problem": "Let $\\omega=e^{2\\pi i/n}$ for $n\\ge2$. Show that $\\prod_{k=1}^{n-1}|1-\\omega^k|=n$. (Geometrically: the product of the distances from one vertex of a regular $n$-gon inscribed in a unit circle to the other vertices is $n$.)",
+    "steps": [
+     "The roots of $x^n-1$ are $1,\\omega,\\dots,\\omega^{n-1}$, so $x^n-1=\\prod_{k=0}^{n-1}(x-\\omega^k)$.",
+     "Divide by $x-1$: $1+x+\\dots+x^{n-1}=\\prod_{k=1}^{n-1}(x-\\omega^k)$.",
+     "Put $x=1$: $n=\\prod_{k=1}^{n-1}(1-\\omega^k)$.",
+     "Taking absolute values gives $\\prod|1-\\omega^k|=n$."
+    ]
+   }
+  ],
+  "what": "Identify the plane with $\\mathbb C$: the point $(x,y)$ is $z=x+yi$. Then:\n- **Multiplication by $e^{i\\theta}$ rotates** a point about $0$ by $\\theta$. Multiplication by a real $k>0$ scales it.\n- To rotate $B$ about $A$ by $\\theta$: $B'=A+e^{i\\theta}(B-A)$.\n- $|z-w|$ is the distance, and $|z|^2=z\\bar z$.\n- The $n$th roots of unity $\\omega^k=e^{2\\pi ik/n}$ are the vertices of a regular $n$-gon, and they satisfy $1+\\omega+\\dots+\\omega^{n-1}=0$.\n- A point on the unit circle has $\\bar z=1/z$, which removes conjugates from many computations.\n\nIt works because rotation and similarity, which are awkward with coordinates, become single multiplications. Regular polygons and unit circles become algebra.",
+  "recognize": [
+   "Rotations, squares, equilateral triangles, or regular polygons.",
+   "A circle, which you can place as the unit circle.",
+   "A statement about angles of $60^\\circ$, $90^\\circ$ or $120^\\circ$ (these correspond to simple multipliers $e^{i\\pi/3}$, $i$, $e^{2\\pi i/3}$).",
+   "Sums or products over roots of unity."
+  ],
+  "mistakes": [
+   "Using $\\bar z=1/z$ for points not on the unit circle.",
+   "Forgetting that rotating about a point other than $0$ needs the shift: $A+e^{i\\theta}(B-A)$.",
+   "Mixing up the direction of rotation ($+\\theta$ is counterclockwise).",
+   "Treating $|z|^2$ as $z^2$."
+  ],
+  "variations": [
+   "**Unit circle setup:** place a circumcircle as the unit circle, so points $a,b,c$ have $\\bar a=1/a$, and chord/tangent conditions become algebraic.",
+   "**Roots of unity filters:** see [[generating-functions]].",
+   "**De Moivre:** $(\\cos\\theta+i\\sin\\theta)^n=\\cos n\\theta+i\\sin n\\theta$ for multiple-angle identities ([[trigonometry]]).",
+   "**Rotation-scaling maps:** directly similar triangles correspond to $z\\mapsto az+b$ (oppositely similar ones need $z\\mapsto a\\bar z+b$)."
+  ]
+ },
+ {
+  "id": "constructive",
+  "name": "Constructive arguments",
+  "group": "Proof methods",
+  "related": [
+   "induction",
+   "pigeonhole",
+   "extremal",
+   "invariants"
+  ],
+  "examples": [
+   {
+    "title": "Long runs of composite numbers",
+    "problem": "Show that for every positive integer $n$ there are $n$ consecutive positive integers, all composite.",
+    "steps": [
+     "Take the numbers $(n+1)!+2,\\ (n+1)!+3,\\ \\dots,\\ (n+1)!+(n+1)$. There are $n$ of them and they are consecutive.",
+     "For $2\\le k\\le n+1$, $k$ divides $(n+1)!$ and divides $k$, so $k$ divides $(n+1)!+k$.",
+     "Also $(n+1)!+k>k$ and $k\\ge2$, so each number has a divisor strictly between $1$ and itself. It is composite."
+    ]
+   },
+   {
+    "title": "Using the Chinese remainder theorem",
+    "problem": "Show that for every $n$ there are $n$ consecutive positive integers, each divisible by a perfect square greater than $1$.",
+    "steps": [
+     "Choose $n$ distinct primes $p_1,\\dots,p_n$.",
+     "The moduli $p_1^2,\\dots,p_n^2$ are pairwise coprime, so by the Chinese remainder theorem there is a positive integer $x$ with $x\\equiv-i\\pmod{p_i^2}$ for every $i=1,\\dots,n$.",
+     "Then $p_i^2$ divides $x+i$ for every $i$. The numbers $x+1,\\dots,x+n$ are consecutive and each is divisible by a square greater than $1$."
+    ]
+   },
+   {
+    "title": "Tiling with L-trominoes",
+    "problem": "From a $2^n\\times2^n$ board one square is removed, anywhere. Show that the rest can be tiled by L-shaped trominoes (three squares in an L).",
+    "steps": [
+     "Induct on $n$. For $n=1$ the $2\\times2$ board minus one square is exactly one L-tromino.",
+     "For $n\\ge2$ cut the board into four $2^{n-1}\\times2^{n-1}$ quadrants. The removed square lies in one quadrant, call it $Q$.",
+     "Place one L-tromino at the center of the board, covering one square from each of the three quadrants other than $Q$. The three squares are those adjacent to the center point.",
+     "Now each quadrant is a $2^{n-1}\\times2^{n-1}$ board with exactly one square missing: $Q$ has the original removed square, and each other quadrant has the square covered by the central L.",
+     "By the induction hypothesis each quadrant can be tiled. Together with the central tromino this tiles the board."
+    ],
+    "note": "(The area $4^n-1$ is divisible by $3$, which is a necessary condition. The construction shows it is sufficient here.)"
+   }
+  ],
+  "what": "To prove that something exists, build it. A constructive argument gives an explicit object (a number, a tiling, a sequence, a graph, an arrangement) and then checks that it has every required property.\n\nIt is the right tool when a statement says \"there exist\", \"it is possible\", \"for every $n$ there is...\". A pure existence argument ([[pigeonhole]], [[extremal]]) can also work, but if an object can be named you also learn what it looks like.\n\nConstructions are found by experiment: try small $n$, find a pattern, then prove the pattern works. A good construction often arrives by induction ([[induction]]), where you build the $(n+1)$ object from the $n$ one.",
+  "recognize": [
+   "\"Prove that for every $n$ there exist $n$ numbers such that...\".",
+   "\"Is it possible to arrange / color / tile / schedule...?\" and you suspect yes.",
+   "An optimization problem: you need an example to show the bound is attained.",
+   "Small cases suggest a pattern you can extend."
+  ],
+  "mistakes": [
+   "Giving an example for small $n$ and claiming it works for all $n$. A general construction needs a proof that it satisfies every condition.",
+   "Checking some conditions of the construction but not all.",
+   "Describing the construction vaguely (\"and so on\"). Define it precisely, usually with a formula or a recursion.",
+   "Confusing \"possible\" with \"for every $n$\". A construction for even $n$ doesn't settle odd $n$."
+  ],
+  "variations": [
+   "**Inductive construction:** build the $n+1$ object from the $n$ one (third example).",
+   "**Explicit formulas:** factorials, CRT, geometric progressions.",
+   "**Optimization:** show an upper bound by an argument, and attain it by a construction.",
+   "**Algorithmic construction:** a procedure that provably terminates ([[invariants|monovariants]]).",
+   "**Probabilistic existence:** show a random object works with positive probability ([[expectation]])."
+  ]
+ },
+ {
+  "id": "coordinates",
+  "name": "Coordinate geometry",
+  "group": "Geometry",
+  "related": [
+   "complex-numbers",
+   "trigonometry",
+   "similar-triangles",
+   "symmetry"
+  ],
+  "examples": [
+   {
+    "title": "A rectangle identity",
+    "problem": "$ABCD$ is a rectangle and $P$ is any point in the plane. Show that $PA^2+PC^2=PB^2+PD^2$.",
+    "steps": [
+     "Place $A=(0,0)$, $B=(a,0)$, $C=(a,b)$, $D=(0,b)$, and let $P=(x,y)$.",
+     "$PA^2=x^2+y^2$ and $PC^2=(x-a)^2+(y-b)^2$.",
+     "$PB^2=(x-a)^2+y^2$ and $PD^2=x^2+(y-b)^2$.",
+     "Both $PA^2+PC^2$ and $PB^2+PD^2$ equal $x^2+y^2+(x-a)^2+(y-b)^2$, so they are equal."
+    ]
+   },
+   {
+    "title": "A locus",
+    "problem": "$A$ and $B$ are points at distance $3$. Describe the set of points $P$ with $PA=2\\,PB$.",
+    "steps": [
+     "Put $A=(0,0)$ and $B=(3,0)$, and let $P=(x,y)$.",
+     "$PA=2PB$ means $x^2+y^2=4\\big((x-3)^2+y^2\\big)$ (both sides are non-negative, so squaring loses nothing).",
+     "Expand: $x^2+y^2=4x^2-24x+36+4y^2$, i.e. $3x^2+3y^2-24x+36=0$, i.e. $x^2+y^2-8x+12=0$.",
+     "Complete the square: $(x-4)^2+y^2=4$.",
+     "The locus is the circle with center $(4,0)$ and radius $2$."
+    ]
+   }
+  ],
+  "what": "Place the figure in a coordinate system and turn geometric statements into algebra: distances become $\\sqrt{(x_1-x_2)^2+(y_1-y_2)^2}$, lines become equations, perpendicularity becomes slopes with product $-1$ (or a zero dot product), and circles become $(x-h)^2+(y-k)^2=r^2$.\n\nThe key choice is the coordinate system. Put the origin at a natural point and an axis along a natural line, so that as many coordinates as possible are $0$ or symmetric. A well-chosen frame turns a messy statement into a short computation.\n\nIt works because algebra is mechanical. Once the setup is right, the proof is a verification, and it avoids most dependence on the diagram, though sign and root choices still need care.",
+  "recognize": [
+   "The figure has right angles, a rectangle, a square, or a line you can use as an axis.",
+   "Distances, midpoints, ratios, or loci (sets of points satisfying a condition) are involved.",
+   "Synthetic angle-chasing gets stuck, or depends on a diagram.",
+   "The statement is an identity about lengths (sum of squares, ratios)."
+  ],
+  "mistakes": [
+   "A coordinate system that makes the problem harder: general positions of all vertices lead to heavy algebra. Use symmetry to put points on axes.",
+   "Assuming a special case (an isosceles triangle, a right angle) by choosing coordinates too specially. Keep as many parameters as the problem has degrees of freedom.",
+   "Arithmetic slips. Re-verify by plugging in a specific point.",
+   "Squaring both sides when one side could be negative."
+  ],
+  "variations": [
+   "**Vectors:** dot products for angles and perpendicularity.",
+   "**Barycentric coordinates:** weights relative to a triangle, strong for concurrency and ratios.",
+   "**Complex numbers:** treat the plane as $\\mathbb C$ for rotations ([[complex-numbers]]).",
+   "**Trigonometric coordinates:** $(r\\cos\\theta,\\ r\\sin\\theta)$ when circles are involved ([[trigonometry]]).",
+   "**Shoelace formula:** area from coordinates of the vertices."
+  ]
+ },
+ {
+  "id": "descent",
+  "name": "Infinite descent and Vieta jumping",
+  "group": "Proof methods",
+  "related": [
+   "extremal",
+   "modular-arithmetic",
+   "diophantine",
+   "induction"
+  ],
+  "examples": [
+   {
+    "title": "No solutions for $x^2+y^2=3z^2$",
+    "problem": "Show that the only integers with $x^2+y^2=3z^2$ are $x=y=z=0$.",
+    "steps": [
+     "Suppose there is a nonzero solution, and take one with $|x|+|y|+|z|$ as small as possible, not all zero. We will build a smaller one.",
+     "Squares are $0$ or $1$ mod $3$. If $x^2+y^2\\equiv0\\pmod3$, then both $x^2$ and $y^2$ are $0$ mod $3$ (otherwise the sum is $1$ or $2$ mod $3$).",
+     "So $3\\mid x$ and $3\\mid y$. Write $x=3a$, $y=3b$. The equation becomes $9a^2+9b^2=3z^2$, so $z^2=3(a^2+b^2)$.",
+     "Then $3\\mid z^2$, so $3\\mid z$. Write $z=3c$. Then $9c^2=3(a^2+b^2)$, so $a^2+b^2=3c^2$.",
+     "So $(a,b,c)$ is another nonzero solution, with $|a|+|b|+|c|=\\frac13(|x|+|y|+|z|)$. It is smaller, contradicting minimality.",
+     "Therefore no nonzero solution exists."
+    ]
+   },
+   {
+    "title": "Vieta jumping",
+    "problem": "Let $a,b$ be positive integers with $ab+1\\mid a^2+b^2$. Show that $\\dfrac{a^2+b^2}{ab+1}$ is a perfect square.",
+    "steps": [
+     "Let $k=\\frac{a^2+b^2}{ab+1}$, a positive integer. Suppose $k$ is not a perfect square. Among all pairs of positive integers $(a,b)$ with $a^2+b^2=k(ab+1)$, choose one with $a+b$ minimal. By symmetry assume $a\\ge b$.",
+     "View the equation as a quadratic in $a$: $a^2-kb\\,a+(b^2-k)=0$. Its roots are $a$ and $a'$, with $a+a'=kb$ and $aa'=b^2-k$.",
+     "So $a'=kb-a$ is an integer, and $(a',b)$ satisfies the same equation.",
+     "**$a'\\ne0$:** if $a'=0$, then $b^2-k=0$ and $k=b^2$ would be a perfect square.",
+     "**$a'$ is not negative:** if $a'\\le-1$, then $a'^2-kba'+b^2-k=0$ with $-kba'\\ge kb\\ge k$, so $0=a'^2-kba'+b^2-k\\ge a'^2+b^2>0$, a contradiction.",
+     "So $a'$ is a positive integer, and $(a',b)$ is a valid pair. Minimality forces $a'+b\\ge a+b$, i.e. $a'\\ge a$.",
+     "But $a'=\\dfrac{b^2-k}{a}<\\dfrac{b^2}{a}\\le b\\le a$ (using $a\\ge b$). So $a'<a$, contradicting step 6.",
+     "So $k$ is a perfect square."
+    ]
+   }
+  ],
+  "what": "**Infinite descent** proves that no solutions exist. Assume a solution in positive integers exists, and from it build a strictly smaller solution. Repeating forever would give an infinite decreasing sequence of positive integers, which is impossible. Equivalently, pick the smallest solution (see [[extremal]]) and produce a smaller one.\n\n**Vieta jumping** is a particular descent. If $(a,b)$ solves an equation that is quadratic in $a$, the other root $a'$ of the same quadratic gives another solution $(a',b)$, and Vieta's formulas say $a'$ is an integer. Jump between roots to make the pair smaller.\n\nIt works because positive integers cannot decrease forever. Descent turns \"there is a solution\" into \"there is a smaller one\", which cannot hold for the smallest.",
+  "recognize": [
+   "An equation in integers that you suspect has no nontrivial solutions, especially one that is homogeneous (every term has the same degree).",
+   "A divisibility condition like $ab+1\\mid a^2+b^2$ symmetric in $a,b$ and quadratic in each.",
+   "Reducing mod a small number shows every variable is divisible by that number.",
+   "You have a result of the form \"the only solution is $0$\" or \"$k$ must be a perfect square\"."
+  ],
+  "mistakes": [
+   "Not checking that the new solution is also in the allowed set (positive, integer, satisfies the same condition). In Vieta jumping the sign of the new root needs its own argument.",
+   "Using descent to claim a solution exists. Descent shows nonexistence, or shows a structure, never produces a solution by itself.",
+   "Choosing a measure that does not strictly decrease. Show the new value is strictly smaller.",
+   "In Vieta jumping, forgetting the symmetric case $a=b$ or the case where the \"smaller\" root equals the larger."
+  ],
+  "variations": [
+   "**Descent via divisibility:** reduce mod $p$ to show each variable is a multiple of $p$, divide out, repeat (first example).",
+   "**Vieta jumping:** quadratic in two variables, symmetric or nearly so. A common ending is that a boundary case (a root $0$) pins the answer.",
+   "**Descent on a different quantity:** the size of a configuration, a perimeter, or the number of objects.",
+   "**Fermat's classic:** $x^4+y^4=z^2$ has no positive solutions, proved by descent."
+  ]
+ },
+ {
+  "id": "diophantine",
+  "name": "Diophantine equations",
+  "group": "Number theory",
+  "related": [
+   "modular-arithmetic",
+   "divisibility",
+   "descent",
+   "casework"
+  ],
+  "examples": [
+   {
+    "title": "Simon's favorite factoring trick",
+    "problem": "Find all ordered pairs of positive integers $(x,y)$ with $\\dfrac1x+\\dfrac1y=\\dfrac16$.",
+    "steps": [
+     "Multiply out: $6y+6x=xy$, i.e. $xy-6x-6y=0$.",
+     "Add $36$ to both sides to factor: $(x-6)(y-6)=36$.",
+     "Since $\\frac1x<\\frac16$, we have $x>6$, and likewise $y>6$. So both factors $x-6$ and $y-6$ are positive.",
+     "The positive divisors of $36$ are $1,2,3,4,6,9,12,18,36$, giving nine ordered pairs.",
+     "The solutions are $(7,42),(8,24),(9,18),(10,15),(12,12),(15,10),(18,9),(24,8),(42,7)$."
+    ]
+   },
+   {
+    "title": "Completing the square",
+    "problem": "Find all integer solutions of $x^2=y^2+2y+13$.",
+    "steps": [
+     "Complete the square: $x^2=(y+1)^2+12$, so $x^2-(y+1)^2=12$.",
+     "Factor: $(x-y-1)(x+y+1)=12$. Let $d=x-y-1$ and $e=x+y+1$, so $de=12$.",
+     "Their sum $d+e=2x$ is even, so $d$ and $e$ have the same parity. Since $12$ is even, both must be even.",
+     "Even factor pairs of $12$: $(2,6),(6,2),(-2,-6),(-6,-2)$.",
+     "Use $x=\\frac{d+e}2$ and $y+1=\\frac{e-d}2$:\n   - $(2,6)$: $x=4$, $y=1$. Check: $16=1+2+13$. ✓\n   - $(6,2)$: $x=4$, $y=-3$. Check: $16=9-6+13$. ✓\n   - $(-2,-6)$: $x=-4$, $y=-3$.\n   - $(-6,-2)$: $x=-4$, $y=1$.",
+     "The solutions are $(x,y)=(\\pm4,1)$ and $(\\pm4,-3)$."
+    ]
+   }
+  ],
+  "what": "Equations whose solutions must be integers (or positive integers). The main strategies:\n- **Factor:** rewrite as $(\\text{something})(\\text{something else})=\\text{constant}$, then list the divisor pairs.\n- **Bound:** show variables are small by size arguments, then check the finite list.\n- **Reduce mod $n$:** show there are no solutions, or restrict their form ([[modular-arithmetic]]).\n- **Parametrize:** describe all solutions by a formula, as for Pythagorean triples.\n- **Descent:** show a smallest solution leads to a smaller one ([[descent]]).\n\nIt works because integrality is a strong constraint: a product of integers equal to $36$ has only finitely many possibilities.",
+  "recognize": [
+   "\"Find all integer / positive integer solutions\".",
+   "An equation that rearranges to $xy+ax+by=c$ (use Simon's favorite factoring trick).",
+   "A difference of squares or a quadratic that completes to a square.",
+   "An exponent equation like $2^a+1=b^2$."
+  ],
+  "mistakes": [
+   "Missing negative factor pairs when the variables can be negative.",
+   "Missing the symmetric (swapped) pairs, or counting ordered and unordered pairs inconsistently.",
+   "Not checking each candidate in the original equation.",
+   "Dividing by something that could be $0$.",
+   "Forgetting parity constraints on the factors."
+  ],
+  "variations": [
+   "**Pythagorean triples:** all primitive solutions of $a^2+b^2=c^2$ are, up to swapping $a$ and $b$, $a=m^2-n^2$, $b=2mn$, $c=m^2+n^2$ with $m>n>0$, $\\gcd(m,n)=1$ and opposite parity.",
+   "**Pell equations:** $x^2-Dy^2=1$, with $D$ a positive non-square, has infinitely many solutions generated from a smallest one.",
+   "**Exponential equations:** compare sizes and use mod arguments to limit exponents.",
+   "**Linear equations:** $ax+by=c$ is solvable exactly when $\\gcd(a,b)\\mid c$ ([[divisibility]])."
+  ]
+ },
+ {
+  "id": "divisibility",
+  "name": "Divisibility and gcd",
+  "group": "Number theory",
+  "related": [
+   "modular-arithmetic",
+   "diophantine",
+   "descent",
+   "polynomials"
+  ],
+  "examples": [
+   {
+    "title": "Reduce the divisor",
+    "problem": "Find all positive integers $n$ such that $n+1\\mid n^2+1$.",
+    "steps": [
+     "Write $n^2+1=(n+1)(n-1)+2$.",
+     "Since $n+1\\mid(n+1)(n-1)$, we get $n+1\\mid n^2+1$ exactly when $n+1\\mid2$.",
+     "For positive $n$, $n+1\\ge2$, so $n+1=2$ and $n=1$. Check: $2\\mid2$. ✓"
+    ]
+   },
+   {
+    "title": "Euclid's algorithm with factorials",
+    "problem": "Show that $n!+1$ and $(n+1)!+1$ are coprime for every positive integer $n$.",
+    "steps": [
+     "Let $d=\\gcd(n!+1,\\ (n+1)!+1)$.",
+     "Note $(n+1)!+1=(n+1)(n!+1)-n$. Since $d$ divides $n!+1$ and $(n+1)!+1$, it divides $n$.",
+     "For $n\\ge1$, $n\\mid n!$, so $d\\mid n!$.",
+     "But $d\\mid n!+1$ too, so $d\\mid(n!+1)-n!=1$.",
+     "So $d=1$."
+    ]
+   },
+   {
+    "title": "Coprime sum and product",
+    "problem": "If $\\gcd(a,b)=1$ show that $\\gcd(a+b,ab)=1$.",
+    "steps": [
+     "Suppose a prime $p$ divides both $a+b$ and $ab$.",
+     "Since $p\\mid ab$, Euclid's lemma gives $p\\mid a$ or $p\\mid b$. Say $p\\mid a$.",
+     "Then $p\\mid(a+b)-a=b$. So $p$ divides both $a$ and $b$, contradicting $\\gcd(a,b)=1$.",
+     "So no prime divides both, and the gcd is $1$."
+    ]
+   }
+  ],
+  "what": "The tools for reasoning about when one integer divides another.\n\n- **Euclid's algorithm:** $\\gcd(a,b)=\\gcd(b,a-qb)$ for any integer $q$. Subtract multiples to simplify.\n- **Bézout:** there are integers $x,y$ with $ax+by=\\gcd(a,b)$.\n- **Euclid's lemma:** if a prime $p$ divides $ab$, then $p\\mid a$ or $p\\mid b$. More generally, if $\\gcd(a,b)=1$ and $a\\mid bc$ then $a\\mid c$.\n- **Unique factorization:** every integer $>1$ is a product of primes in exactly one way up to order.\n- If $d\\mid a$ and $d\\mid b$ then $d$ divides every combination $ax+by$.\n\nIt works because divisibility is preserved by linear combinations. To show a quantity divides something, express it as a combination. To bound a gcd, show it divides a small number.",
+  "recognize": [
+   "\"Find all $n$ such that $n+1\\mid n^2+1$\" and similar.",
+   "A gcd of two expressions that are polynomial or factorial in $n$.",
+   "A statement involving \"coprime\" or \"relatively prime\".",
+   "A product $ab$ of coprime positive integers that is a perfect power (each factor is then a perfect power)."
+  ],
+  "mistakes": [
+   "Concluding $a\\mid c$ from $a\\mid bc$ without $\\gcd(a,b)=1$ ($4\\mid2\\cdot2$ but $4\\nmid2$).",
+   "Treating $n+1\\mid f(n)$ as $n+1\\mid f(-1)$ without proof. It works for polynomials with integer coefficients: $n+1\\mid f(n)-f(-1)$.",
+   "Forgetting trivial cases ($n=1$, or when an expression is zero).",
+   "Assuming a gcd is a prime. It can be composite."
+  ],
+  "variations": [
+   "**Perfect powers:** if $a,b>0$, $ab$ is a square and $\\gcd(a,b)=1$, both $a$ and $b$ are squares.",
+   "**Linear combinations:** if $d\\mid x$ and $d\\mid y$, then $d\\mid px+qy$.",
+   "**lcm and gcd:** $\\gcd(a,b)\\cdot\\operatorname{lcm}(a,b)=ab$ for positive $a,b$.",
+   "**Valuations:** count the exact power of $p$ in a number, e.g. Legendre's formula for $n!$.",
+   "**Congruence viewpoint:** [[modular-arithmetic]]."
+  ]
+ },
+ {
+  "id": "double-counting",
+  "name": "Double counting",
+  "group": "Combinatorics",
+  "related": [
+   "pigeonhole",
+   "parity",
+   "graph-theory",
+   "cauchy-schwarz"
+  ],
+  "examples": [
+   {
+    "title": "Divisors",
+    "problem": "Show that $\\sum_{k=1}^{n}\\left\\lfloor\\frac nk\\right\\rfloor=\\sum_{m=1}^{n}d(m)$, where $d(m)$ is the number of positive divisors of $m$.",
+    "steps": [
+     "Count the pairs $(k,m)$ with $1\\le k,m\\le n$ and $k\\mid m$.",
+     "Fix $m$ first. The number of choices of $k$ is the number of divisors of $m$, namely $d(m)$. Total: $\\sum_{m=1}^nd(m)$.",
+     "Fix $k$ first. The multiples of $k$ that are at most $n$ are $k,2k,\\dots,\\lfloor n/k\\rfloor k$, so there are $\\lfloor n/k\\rfloor$ choices of $m$. Total: $\\sum_{k=1}^n\\lfloor n/k\\rfloor$.",
+     "Both are the number of pairs, so the sums are equal."
+    ]
+   },
+   {
+    "title": "Vandermonde-type identity",
+    "problem": "Show that $\\sum_{k=0}^{n}\\binom nk^2=\\binom{2n}n$.",
+    "steps": [
+     "Consider $n$ men and $n$ women. Count the committees of size $n$.",
+     "Directly: $\\binom{2n}n$.",
+     "By the number of men $k$ on the committee: choose $k$ men in $\\binom nk$ ways and $n-k$ women in $\\binom n{n-k}=\\binom nk$ ways. This gives $\\binom nk^2$ committees for each $k$, for a total of $\\sum_k\\binom nk^2$.",
+     "The two counts agree."
+    ]
+   },
+   {
+    "title": "Triangle-free graphs",
+    "problem": "A simple graph on $n$ vertices has no triangle. Show that it has at most $\\frac{n^2}4$ edges.",
+    "steps": [
+     "Let $e$ be the number of edges and $d(v)$ the degree of vertex $v$.",
+     "If $uv$ is an edge, then $u$ and $v$ have no common neighbor (it would form a triangle), so $d(u)+d(v)\\le n$.",
+     "Sum over all edges: $\\sum_{uv}\\big(d(u)+d(v)\\big)\\le ne$.",
+     "In the left side, each vertex $v$ appears once for each of its $d(v)$ edges, so it is counted $d(v)$ times with value $d(v)$. The left side equals $\\sum_vd(v)^2$.",
+     "By Cauchy–Schwarz ([[cauchy-schwarz]]) and $\\sum_vd(v)=2e$: $\\sum_vd(v)^2\\ge\\frac{(2e)^2}n$.",
+     "So $\\frac{4e^2}n\\le ne$, and $e\\le\\frac{n^2}4$ (if $e>0$)."
+    ]
+   }
+  ],
+  "what": "Count the same set in two different ways and equate the results. If both counts are correct, the two expressions must be equal, and often that equality is exactly the identity or inequality you want.\n\nIt works because a finite set has one size. The only effort is to find a set that is natural to count from two sides, typically pairs $(x,y)$ with some relation between $x$ and $y$: count by fixing $x$ first, or by fixing $y$ first.",
+  "recognize": [
+   "An identity with sums of binomials or products that looks like a count.",
+   "A bipartite relationship (people and clubs, points and lines, numbers and divisors) where you can sum over either side.",
+   "A bound on the number of edges, incidences or pairs.",
+   "A sum over $k$ of floor functions, divisors, or degrees."
+  ],
+  "mistakes": [
+   "Counting pairs that are not in bijection between the two methods. Define the set of pairs precisely.",
+   "Double counting ordered versus unordered pairs, and being off by a factor of $2$.",
+   "Not recognizing the set: if one side of the identity looks like a count (a binomial coefficient), the set is often hidden there.",
+   "Weighted counts where the two sides don't use the same weights. Both sides must count the same weighted set."
+  ],
+  "variations": [
+   "**Counting incidences:** points and lines, people and groups.",
+   "**Counting with weights:** count with multiplicity to get an inequality.",
+   "**Bijective proofs:** a one-to-one map shows two sets have equal size. A special form of double counting.",
+   "**Averaging:** the average is at most the maximum, at least the minimum ([[pigeonhole]]).",
+   "**Counting both ways, then an inequality:** like the last example."
+  ]
+ },
+ {
+  "id": "expectation",
+  "name": "Expectation and probabilistic method",
+  "group": "Combinatorics",
+  "related": [
+   "double-counting",
+   "pigeonhole",
+   "recursion",
+   "constructive"
+  ],
+  "examples": [
+   {
+    "title": "Fixed points of a random permutation",
+    "problem": "A permutation of $1,\\dots,n$ is chosen uniformly at random. What is the expected number of fixed points (positions $i$ with $\\sigma(i)=i$)?",
+    "steps": [
+     "Let $I_i=1$ if $\\sigma(i)=i$, else $0$. The number of fixed points is $\\sum_iI_i$.",
+     "$P(I_i=1)=\\dfrac1n$, because $\\sigma(i)$ is equally likely to be any of the $n$ values.",
+     "By linearity, $E=n\\cdot\\dfrac1n=1$, for every $n$. The indicators are dependent, but linearity does not care."
+    ]
+   },
+   {
+    "title": "Probabilistic existence",
+    "problem": "A graph has $e$ edges. Show its vertices can be split into two sets so that at least $\\dfrac e2$ edges go between the sets.",
+    "steps": [
+     "Put each vertex independently into set $A$ or set $B$ with probability $\\frac12$ each.",
+     "An edge $uv$ crosses when $u$ and $v$ land in different sets, with probability $\\frac12$.",
+     "By linearity, the expected number of crossing edges is $\\dfrac e2$.",
+     "A random variable cannot be less than its average for every outcome, so some split gives at least $\\dfrac e2$ crossing edges."
+    ]
+   },
+   {
+    "title": "Waiting time",
+    "problem": "A fair die is rolled repeatedly. What is the expected number of rolls until the first six?",
+    "steps": [
+     "Let $E$ be the expected number of rolls.",
+     "The first roll is a six with probability $\\frac16$, and then the process stops after $1$ roll.",
+     "Otherwise (probability $\\frac56$), one roll is used and the situation is as at the start. So $E=1+\\dfrac56E$.",
+     "$E$ is finite, because the chance of needing more than $n$ rolls is $\\left(\\frac56\\right)^n$, which shrinks geometrically. So we may solve: $\\dfrac E6=1$, so $E=6$."
+    ]
+   }
+  ],
+  "what": "The **expected value** of a random quantity $X$ is its average over all outcomes. Two facts do most of the work:\n- **Linearity of expectation:** $E[X+Y]=E[X]+E[Y]$, always, even when $X$ and $Y$ are dependent.\n- **Indicator variables:** write a count as a sum of $0/1$ variables $I_j$, one per object. Then $E[\\text{count}]=\\sum_jP(I_j=1)$.\n\nThe **probabilistic method** uses the averaging principle: a random object has some quantity with expected value $\\mu$, so some object has that quantity $\\ge\\mu$ and some has it $\\le\\mu$. That proves existence without building the object.\n\nIt works because linearity lets you ignore dependencies, and averaging is the pigeonhole principle for numbers ([[pigeonhole]]).",
+  "recognize": [
+   "You are asked for an expected value of a count (fixed points, runs, pairs).",
+   "A problem says \"show there exists a way to... with at least $k$ ...\", and a random choice makes each part succeed with probability $p$.",
+   "Waiting-time questions: expected number of tries until something happens.",
+   "A sum over objects of \"does this object satisfy the condition\"."
+  ],
+  "mistakes": [
+   "Assuming independence where there is none, and multiplying probabilities. Linearity of expectation does not need independence; products of probabilities do.",
+   "Treating the expectation as the most likely value. The average need not be attained, but it does force a value on each side of it.",
+   "Counting outcomes unevenly. Make sure the random model is uniform over the objects you intend.",
+   "In the existence argument, forgetting to say that \"some outcome is at least the average\"."
+  ],
+  "variations": [
+   "**Variance and second moment:** show a variable is concentrated near its mean.",
+   "**Alteration method:** pick randomly, then fix the few bad parts.",
+   "**First-step analysis:** the waiting-time example, a recurrence on the expectation ([[recursion]]).",
+   "**Counting form:** expected count is a [[double-counting]] of pairs (object, event)."
+  ]
+ },
+ {
+  "id": "extremal",
+  "name": "Extremal principle",
+  "group": "Proof methods",
+  "related": [
+   "induction",
+   "pigeonhole",
+   "descent",
+   "constructive"
+  ],
+  "examples": [
+   {
+    "title": "The player with the most wins",
+    "problem": "In a round-robin tournament every pair of players plays once and there are no ties. Let $A$ be a player with the maximum number of wins. Show that for every other player $B$, either $A$ beat $B$, or $A$ beat some player who beat $B$.",
+    "steps": [
+     "Take $A$ with the most wins. Let $B$ be another player. If $A$ beat $B$, we are done, so assume $B$ beat $A$.",
+     "Suppose, for contradiction, that nobody $A$ beat has beaten $B$.",
+     "Every player $A$ beat then lost to $B$ (there are no ties). Also $B$ beat $A$.",
+     "So $B$ beat everyone $A$ beat, plus $A$ itself. $B$'s wins are at least $A$'s wins $+1$.",
+     "This contradicts the maximality of $A$. So some player beaten by $A$ beat $B$."
+    ]
+   },
+   {
+    "title": "A cycle in a graph",
+    "problem": "In a finite simple graph (no loops or repeated edges) every vertex has degree at least $2$. Show the graph contains a cycle.",
+    "steps": [
+     "Take a longest path $P=v_1v_2\\dots v_k$ (the vertices are all different). A longest path exists because the graph is finite.",
+     "Look at the end vertex $v_1$. If it had a neighbor $w$ outside $P$, then $wv_1v_2\\dots v_k$ would be a longer path. That contradicts the choice of $P$.",
+     "So every neighbor of $v_1$ is on $P$. Since the degree of $v_1$ is at least $2$, it has a neighbor $v_j$ with $j\\ne2$ (it has at least two neighbors, and only one of them is $v_2$). Therefore $j\\ge3$.",
+     "Then $v_1v_2\\dots v_jv_1$ is a cycle."
+    ]
+   },
+   {
+    "title": "Smallest counterexample",
+    "problem": "Show that $\\sqrt2$ is irrational.",
+    "steps": [
+     "Suppose $\\sqrt2=\\frac pq$ with positive integers $p,q$. Among all such representations pick the one with the smallest $q$.",
+     "Then $p^2=2q^2$, so $p^2$ is even, so $p$ is even. Write $p=2r$.",
+     "Then $4r^2=2q^2$, so $q^2=2r^2$, which gives $\\sqrt2=\\frac qr$.",
+     "Also $r<q$: since $\\sqrt2<2$ we have $p<2q$, so $r=\\frac p2<q$. So $\\frac qr$ is a representation with a smaller denominator $r$.",
+     "This contradicts the minimality of $q$."
+    ]
+   }
+  ],
+  "what": "Among finitely many possibilities, there is a largest and a smallest one. Look at the object that is extreme in some quantity (the longest path, the leftmost point, the smallest counterexample, the person with the most wins) and use its extremality to get information.\n\nIt works because an extreme object cannot be improved. If it could, it would not be extreme. So the extreme object satisfies conditions the others need not, and \"you cannot do better\" often forces a contradiction or a structure.\n\nThe art is choosing what to maximize or minimize: a length, a distance, an area, a degree, a value.",
+  "recognize": [
+   "The problem asserts that something exists, such as a vertex, a point, or a pair with some property.",
+   "The configuration is finite, or the quantities are positive integers (a minimum always exists).",
+   "You are tempted to start the argument with \"take any element\" but no element is special.",
+   "Moving or modifying an object seems to always give you a better one, unless it is already optimal."
+  ],
+  "mistakes": [
+   "Using an extreme without checking it exists. Infinitely many objects may have no maximum. State why the set is finite, or the values are positive integers.",
+   "Choosing an extreme that does not interact with the conditions. If your maximum has no connection to the hypotheses, you cannot use it.",
+   "Forgetting that extremes may be non-unique. Say \"an\" extreme object, not \"the\".",
+   "Concluding too early. Often one must show that moving away from the extreme object either improves it or breaks a rule."
+  ],
+  "variations": [
+   "**Smallest counterexample / infinite descent:** see [[descent]].",
+   "**Extreme in geometry:** the point closest to a line, the triangle of smallest area, the pair of points at minimal distance, the vertex of the convex hull.",
+   "**Extreme choice inside a proof:** pick the largest root, the minimal element in a set, the longest chain.",
+   "**Optimization (not only existence):** to find the max of a quantity, guess the extreme configuration and prove nothing is larger (see [[constructive]])."
+  ]
+ },
+ {
+  "id": "functional-equations",
+  "name": "Functional equations",
+  "group": "Algebra",
+  "related": [
+   "symmetry",
+   "induction",
+   "polynomials",
+   "modular-arithmetic"
+  ],
+  "examples": [
+   {
+    "title": "Solving a linear system",
+    "problem": "Find all functions $f:\\mathbb R\\setminus\\{0\\}\\to\\mathbb R$ with $f(x)+2f\\!\\left(\\frac1x\\right)=3x$ for every real $x\\ne0$.",
+    "steps": [
+     "Replace $x$ by $\\frac1x$: $f\\!\\left(\\frac1x\\right)+2f(x)=\\dfrac3x$.",
+     "Now we have two equations in the unknowns $u=f(x)$ and $v=f(1/x)$: $u+2v=3x$ and $2u+v=\\dfrac3x$.",
+     "Multiply the second by $2$ and subtract the first: $3u=\\dfrac6x-3x$, so $f(x)=\\dfrac2x-x$.",
+     "Check: $f(x)+2f(1/x)=\\dfrac2x-x+2\\left(2x-\\dfrac1x\\right)=3x$. ✓"
+    ]
+   },
+   {
+    "title": "Special substitutions",
+    "problem": "Find all $f:\\mathbb R\\to\\mathbb R$ with $f(x)f(y)-f(xy)=x+y$ for all real $x,y$.",
+    "steps": [
+     "Put $y=0$, and let $c=f(0)$: $c\\,f(x)-c=x$ for all $x$.",
+     "If $c=0$ the left side is $0$ but the right side is $x$, which fails for $x=1$. So $c\\ne0$ and $f(x)=1+\\dfrac xc$.",
+     "Put $x=y=0$ in the original: $c^2-c=0$, so $c=1$ (since $c\\ne0$).",
+     "So $f(x)=1+x$. Check: $(1+x)(1+y)-(1+xy)=x+y$. ✓"
+    ]
+   },
+   {
+    "title": "Additive functions on the rationals",
+    "problem": "Find all $f:\\mathbb Q\\to\\mathbb Q$ with $f(x+y)=f(x)+f(y)$.",
+    "steps": [
+     "Put $x=y=0$: $f(0)=2f(0)$, so $f(0)=0$.",
+     "Let $c=f(1)$. By induction $f(n)=nc$ for positive integers $n$ (since $f(n+1)=f(n)+f(1)$).",
+     "Putting $y=-x$ gives $f(-x)=-f(x)$, so $f(n)=nc$ for all integers $n$.",
+     "For $x=\\frac pq$ with $q>0$: $q\\,f\\!\\left(\\frac pq\\right)=f(p)=pc$ (adding $\\frac pq$ to itself $q$ times). So $f\\!\\left(\\frac pq\\right)=c\\cdot\\frac pq$.",
+     "So $f(x)=cx$. Check: it works for any rational $c$."
+    ],
+    "note": "(Over the reals this equation has other, wild solutions unless you add a condition like continuity or monotonicity.)"
+   }
+  ],
+  "what": "A functional equation relates the values of an unknown function at different points, and you must find all functions satisfying it. The standard toolkit:\n- **Substitute special values:** $x=0$, $y=0$, $x=y$, $y=1$, $y=-x$, $y=1/x$.\n- **Swap roles:** if the equation is symmetric after a substitution, use both versions.\n- **Injectivity / surjectivity:** if $f(a)=f(b)$ forces $a=b$ (injective), you can cancel $f$. If every value is attained (surjective), you can choose arguments to hit any target.\n- **Solve for $f$:** treat $f(x)$ and $f$ at a related point as unknowns in a linear system.\n- **Check your answer:** substitute back. A found candidate must be verified.\n\nIt works because a rich equation holds for all inputs. Special inputs give constraints that, together, pin $f$ down.",
+  "recognize": [
+   "\"Find all functions $f:\\mathbb R\\to\\mathbb R$ such that...\".",
+   "An equation with $f$ applied to expressions in $x$ and $y$ for all $x,y$.",
+   "A relation like $f(x)+2f(1/x)=3x$ involving $f$ at two linked points.",
+   "Candidate solutions suggest themselves: linear, constant, $x^2$."
+  ],
+  "mistakes": [
+   "Finding a candidate and not verifying it in the original equation.",
+   "Assuming $f$ is continuous, differentiable, or injective without justification.",
+   "Dividing by $f(x)$ or $x$ when it could be zero. Handle the zero case separately.",
+   "Forgetting solutions: constants $f\\equiv0$ or $f\\equiv1$ often satisfy the equation too.",
+   "Substituting values outside the domain."
+  ],
+  "variations": [
+   "**Injectivity and surjectivity:** prove one early, then use cancellation or choose arguments freely.",
+   "**Fixed points and iteration:** $f(f(x))=x$ equations.",
+   "**Cauchy's equation:** the additive case above, extended using continuity.",
+   "**Equations on integers:** use [[induction]] and [[modular-arithmetic]] after substituting small values.",
+   "**Polynomial functional equations:** compare degrees and coefficients ([[polynomials]])."
+  ]
+ },
+ {
+  "id": "generating-functions",
+  "name": "Generating functions",
+  "group": "Algebra",
+  "related": [
+   "recursion",
+   "telescoping",
+   "double-counting",
+   "polynomials"
+  ],
+  "examples": [
+   {
+    "title": "Counting solutions",
+    "problem": "How many non-negative integer solutions does $x+y+z=n$ have?",
+    "steps": [
+     "Each variable contributes the series $1+t+t^2+\\dots=\\dfrac1{1-t}$, where the exponent records its value.",
+     "The coefficient of $t^n$ in $\\left(\\dfrac1{1-t}\\right)^3$ counts the solutions.",
+     "By the formula for $\\dfrac1{(1-t)^m}$ with $m=3$, this coefficient is $\\binom{n+2}2$."
+    ]
+   },
+   {
+    "title": "A binomial identity",
+    "problem": "Prove that $\\displaystyle\\sum_{k=0}^{r}\\binom mk\\binom n{r-k}=\\binom{m+n}r$.",
+    "steps": [
+     "Expand $(1+x)^m(1+x)^n=(1+x)^{m+n}$.",
+     "The coefficient of $x^r$ on the right is $\\binom{m+n}r$.",
+     "On the left, the coefficient of $x^r$ in the product is $\\sum_k\\binom mk\\binom n{r-k}$ by the convolution rule.",
+     "Equating the two gives the identity."
+    ]
+   },
+   {
+    "title": "Roots of unity filter",
+    "problem": "Show that for $n\\ge1$, $\\displaystyle\\sum_{k\\text{ even}}\\binom nk=2^{n-1}$.",
+    "steps": [
+     "Let $f(x)=(1+x)^n=\\sum_k\\binom nkx^k$.",
+     "Then $f(1)+f(-1)=\\sum_k\\binom nk\\big(1+(-1)^k\\big)$. Odd $k$ contribute $0$ and even $k$ contribute $2\\binom nk$.",
+     "So $\\sum_{k\\text{ even}}\\binom nk=\\dfrac{f(1)+f(-1)}2=\\dfrac{2^n+0^n}2=2^{n-1}$, since $n\\ge1$ gives $0^n=0$."
+    ]
+   }
+  ],
+  "what": "A sequence $a_0,a_1,a_2,\\dots$ is packaged as a power series $A(x)=a_0+a_1x+a_2x^2+\\dots$. Multiplying series convolves the sequences: the coefficient of $x^n$ in $A(x)B(x)$ is $\\sum_{k}a_kb_{n-k}$. Counting problems with independent choices turn into products of series.\n\nKey series:\n- $\\dfrac1{1-x}=1+x+x^2+\\dots$\n- $\\dfrac1{(1-x)^m}=\\sum_{n\\ge0}\\binom{n+m-1}{m-1}x^n$\n- $(1+x)^n=\\sum_{k}\\binom nkx^k$\n\nIt works because algebra on series does the bookkeeping for counting. You never need to find the sequence term by term; you find a closed form for $A(x)$ and read the coefficients.",
+  "recognize": [
+   "Counting the number of ways to choose with restrictions: each type of item contributes a factor.",
+   "Identities with convolution sums like $\\sum_ka_kb_{n-k}$.",
+   "Sums over a subset defined by a residue (even-indexed, multiples of $3$).",
+   "A recurrence that is hard to solve directly."
+  ],
+  "mistakes": [
+   "Forgetting that the factors must be independent. If the choices interact, a simple product does not work.",
+   "Wrong closed form for a series. Test by expanding the first few terms.",
+   "Treating series as functions without caring about convergence. In olympiad counting problems you work with formal series, where convergence is not an issue, but substituting numbers (like $x=-1$) needs a polynomial, or a series that converges at that value.",
+   "Off-by-one errors in the exponent that records the quantity."
+  ],
+  "variations": [
+   "**Exponential generating functions:** for labelled structures (permutations, set partitions), where choices combine with binomial coefficients.",
+   "**Roots of unity filter:** extract terms with exponents in a residue class ($x=\\omega$, a primitive cube root of unity, for mod $3$).",
+   "**Solving recurrences:** multiply the recurrence by $x^n$ and sum ([[recursion]]).",
+   "**Partial fractions of series:** to read off coefficients of $\\dfrac1{(1-ax)(1-bx)}$ when $a\\ne b$.",
+   "**Polynomial viewpoint:** a polynomial identity can be checked by values at many points ([[polynomials]])."
+  ]
+ },
+ {
+  "id": "graph-theory",
+  "name": "Graph theory basics",
+  "group": "Combinatorics",
+  "related": [
+   "double-counting",
+   "parity",
+   "extremal",
+   "induction",
+   "coloring"
+  ],
+  "examples": [
+   {
+    "title": "Trees have $n-1$ edges",
+    "problem": "Show that a tree with $n\\ge1$ vertices has exactly $n-1$ edges.",
+    "steps": [
+     "Induct on $n$. For $n=1$ there is one vertex and no edges.",
+     "For $n\\ge2$, take a longest path in the tree. Its end vertex $v$ has no neighbor off the path (the path could be extended) and no neighbor on the path other than the previous vertex (that would create a cycle). So $v$ is a leaf.",
+     "Remove $v$ and its edge. The result is still connected, because a path between two other vertices never passes through a vertex of degree $1$. It has no cycle, so it is a tree on $n-1$ vertices. It has $n-2$ edges by the induction hypothesis.",
+     "Adding back $v$ gives $n-1$ edges."
+    ]
+   },
+   {
+    "title": "An impossible network",
+    "problem": "Can $15$ computers be wired so that each is connected to exactly $3$ others?",
+    "steps": [
+     "Suppose such a graph existed. The sum of the degrees is $15\\cdot3=45$.",
+     "The sum of degrees is twice the number of edges, so it must be even.",
+     "$45$ is odd, so no such network exists."
+    ]
+   },
+   {
+    "title": "Walking every bridge once",
+    "problem": "A town has islands and bridges forming a connected graph. A walk uses every bridge exactly once and starts and ends on different islands. Show that exactly two islands have an odd number of bridges.",
+    "steps": [
+     "Consider an island $x$ that is neither the start nor the end. Each time the walk passes through $x$ it enters by one bridge and leaves by another. So the bridges at $x$ are used in pairs, and $x$ has even degree.",
+     "The start island $s$: the walk leaves it once at the beginning, and each later visit enters and leaves. So the number of bridge-uses at $s$ is $1+2k$, which is odd. The same holds for the end island $t$ (enter once at the end plus pairs).",
+     "Since $s\\ne t$ and every bridge is used exactly once, $s$ and $t$ have odd degree and all other islands have even degree."
+    ]
+   }
+  ],
+  "what": "A graph is a set of vertices joined by edges. Many puzzles about people, roads, tournaments, or games become questions about a graph once you decide what the vertices and edges are.\n\nBasic facts to carry:\n- The sum of all degrees is twice the number of edges ($\\sum_vd(v)=2e$), so the number of odd-degree vertices is even.\n- A **tree** is a connected graph with no cycle. A tree on $n$ vertices has exactly $n-1$ edges and has at least two leaves (degree-1 vertices) if $n\\ge2$.\n- A connected graph has a closed walk using every edge exactly once (an **Euler circuit**) if and only if every degree is even.\n\nIt works because it strips a problem to its structure. Arguments by [[double-counting]], [[extremal|extremal choice]], [[induction]] on vertices, and [[parity]] all become standard moves.",
+  "recognize": [
+   "Relationships between pairs: friends, games played, roads, handshakes, \"knows\".",
+   "Paths, routes, cycles, connectivity, or coloring conditions.",
+   "\"Each person is connected to exactly $k$ others\" or \"no three are mutually...\".",
+   "A process that moves between states along allowed moves: states are vertices, moves are edges."
+  ],
+  "mistakes": [
+   "Allowing loops or multiple edges when the problem says a simple graph, or the reverse.",
+   "Assuming connected when not given. A tree argument may need each component separately.",
+   "Using a result like \"tree has a leaf\" for a graph with a cycle.",
+   "Modeling badly: if vertices and edges are chosen poorly, the graph does not capture the problem. Ask what is being related."
+  ],
+  "variations": [
+   "**Directed graphs and tournaments:** every pair joined by one directed edge ([[extremal]] gives a king).",
+   "**Bipartite graphs:** vertices split into two sets with edges only across. A graph is bipartite exactly when it has no odd cycle.",
+   "**Planar graphs:** Euler's formula $V-E+F=2$ for connected planar graphs.",
+   "**Graph coloring:** color vertices so adjacent ones differ ([[coloring]]).",
+   "**Ramsey type:** among six people, there are three mutual friends or three mutual strangers ([[casework]])."
+  ]
+ },
+ {
+  "id": "induction",
+  "name": "Induction",
+  "group": "Proof methods",
+  "related": [
+   "extremal",
+   "constructive",
+   "recursion",
+   "invariants"
+  ],
+  "examples": [
+   {
+    "title": "Induction with an inequality",
+    "problem": "Prove that $2^n>n^2$ for all integers $n\\ge5$.",
+    "steps": [
+     "Base case $n=5$: $2^5=32>25=5^2$.",
+     "Assume $2^n>n^2$ for some $n\\ge5$. Then $2^{n+1}=2\\cdot2^n>2n^2$.",
+     "We want $2n^2\\ge(n+1)^2$. This is equivalent to $n^2\\ge2n+1$, i.e. $(n-1)^2\\ge2$, which holds for $n\\ge3$, hence for $n\\ge5$.",
+     "So $2^{n+1}>2n^2\\ge(n+1)^2$, which completes the step."
+    ]
+   },
+   {
+    "title": "Strong induction",
+    "problem": "Show that every integer $n\\ge8$ can be paid exactly with coins of values $3$ and $5$.",
+    "steps": [
+     "Base cases: $8=3+5$, $9=3+3+3$, $10=5+5$.",
+     "Take $n\\ge11$ and assume the claim for all values from $8$ up to $n-1$.",
+     "Since $n\\ge11$, we have $n-3\\ge8$, so $n-3$ can be paid by the assumption.",
+     "Add one coin of value $3$ to get $n$.",
+     "Three base cases are needed because the step reaches back $3$ values. With only the base case $8$, the values $9$ and $10$ would never be reached, and neither would anything that depends on them."
+    ]
+   },
+   {
+    "title": "Strengthening the statement",
+    "problem": "Prove that $1+\\frac1{2^2}+\\frac1{3^2}+\\dots+\\frac1{n^2}<2$ for all $n\\ge1$.",
+    "steps": [
+     "Try induction on the claim as stated. The step would give $S_n<2$ and need $S_n+\\frac1{(n+1)^2}<2$, but knowing only $S_n<2$ leaves no room. The hypothesis is too weak.",
+     "Strengthen: prove $S_n\\le2-\\frac1n$. This implies $S_n<2$, and it gives the induction room.",
+     "Base case $n=1$: $S_1=1=2-\\frac11$.",
+     "Step: assume $S_n\\le2-\\frac1n$. Then $S_{n+1}\\le2-\\frac1n+\\frac1{(n+1)^2}$.",
+     "We need $-\\frac1n+\\frac1{(n+1)^2}\\le-\\frac1{n+1}$, i.e. $\\frac1{(n+1)^2}\\le\\frac1n-\\frac1{n+1}=\\frac1{n(n+1)}$. This is true since $(n+1)^2\\ge n(n+1)$.",
+     "So $S_{n+1}\\le2-\\frac1{n+1}$, completing the induction, and $S_n<2$ follows."
+    ]
+   }
+  ],
+  "what": "To prove a statement $P(n)$ for all integers $n\\ge n_0$:\n1. **Base case:** prove $P(n_0)$.\n2. **Step:** prove that $P(n)$ implies $P(n+1)$ for every $n\\ge n_0$.\n\nThen $P(n_0)$ holds, so $P(n_0+1)$ holds, and so on forever. **Strong induction** lets the step assume $P(k)$ for every $k$ with $n_0\\le k\\le n$, which is useful when $n+1$ depends on much smaller cases.\n\nInduction works because the natural numbers are built by repeatedly adding one. Any claim that transfers from $n$ to $n+1$ climbs the entire ladder.\n\nThe skill is in choosing the statement. Often the claim you want is too weak to carry itself through the step, and you must prove something stronger.",
+  "recognize": [
+   "The statement depends on a positive integer $n$ (sums, sequences, board sizes, number of points).",
+   "A configuration of size $n+1$ can be reduced to size $n$ by deleting one object, merging two, or cutting along something.",
+   "A sequence is defined recursively.",
+   "A direct attack at general $n$ is messy, but $n=1,2,3$ are easy and show a pattern."
+  ],
+  "mistakes": [
+   "Forgetting the base case, or checking only one when the step reaches back further.",
+   "A step that quietly assumes what it is proving, or that works only for $n$ large enough without saying so.",
+   "Applying the hypothesis to a different object than the one the step produces. When reducing a size-$(n+1)$ configuration, check the smaller one satisfies all the conditions of $P(n)$.",
+   "A step that is valid only for $n\\ge2$ but is used from $n=1$. The classic false \"all horses have the same color\" proof fails exactly this way: $P(1)$ is true, but the step $P(1)\\Rightarrow P(2)$ is invalid because the two groups of one horse do not overlap."
+  ],
+  "variations": [
+   "**Strong induction:** assume all earlier cases (coin problems, divisibility, recursion on both halves).",
+   "**Two-step induction:** for sequences like Fibonacci, assume $P(n)$ and $P(n+1)$ and prove $P(n+2)$.",
+   "**Induction on a different parameter:** the number of points, the number of vertices, or the largest element.",
+   "**Backward (Cauchy) induction:** prove for infinitely many $n$ (such as powers of $2$) and step down. This is how AM-GM is proved for all $n$.",
+   "**Strengthening the hypothesis:** see the third example. Also called \"loading\" the induction."
+  ]
+ },
+ {
+  "id": "invariants",
+  "name": "Invariants and monovariants",
+  "group": "Combinatorics",
+  "related": [
+   "parity",
+   "modular-arithmetic",
+   "extremal",
+   "induction",
+   "coloring"
+  ],
+  "examples": [
+   {
+    "title": "The last number on the board",
+    "problem": "The numbers $1,2,\\dots,2023$ are written on a board. In each step choose two numbers $a,b$, erase them and write $|a-b|$. After $2022$ steps one number remains. Can it be $1$?",
+    "steps": [
+     "Try to find what each step preserves. The sum changes from $a+b$ to $|a-b|$, which is not constant. But $|a-b|\\equiv a+b\\pmod 2$, so the parity of the sum does not change.",
+     "Initially the sum is $\\frac{2023\\cdot2024}{2}=2023\\cdot1012$, which is even.",
+     "After every step the sum of the numbers on the board is even.",
+     "At the end the single number is that sum, so it is even. It cannot be $1$."
+    ]
+   },
+   {
+    "title": "Dominoes on a damaged board",
+    "problem": "Two opposite corner squares are removed from an $8\\times8$ board. Can the remaining $62$ squares be tiled by $1\\times2$ dominoes?",
+    "steps": [
+     "Look for a property every domino shares. Each domino covers two adjacent squares.",
+     "Color the board like a chessboard. Adjacent squares have different colors, so every domino covers exactly one white and one black square.",
+     "So any tiling covers equally many white and black squares. The difference (white minus black) is invariant: zero for any set of dominoes.",
+     "Opposite corners have the same color, say both white. The remaining board has $30$ white and $32$ black squares.",
+     "The difference is not zero, so no tiling exists."
+    ]
+   },
+   {
+    "title": "A process that must end (monovariant)",
+    "problem": "$n$ red and blue stones lie in a row. A move picks a red stone immediately followed by a blue stone and swaps them. Show that the process cannot go on forever.",
+    "steps": [
+     "Count $P$, the number of pairs of stones $(i,j)$ with $i<j$, stone $i$ red and stone $j$ blue.",
+     "A move swaps adjacent stones at positions $k,k+1$ (red at $k$, blue at $k+1$). For any third stone, its position relative to both swapped stones is unchanged, so pairs involving a third stone are unchanged.",
+     "The pair $(k,k+1)$ itself was a counted pair (red then blue). After the swap it is blue then red, and it is no longer counted. So $P$ drops by exactly $1$.",
+     "$P$ starts at some value at most $\\binom n2$ and is never negative. So there are at most $\\binom n2$ moves."
+    ]
+   }
+  ],
+  "what": "A process changes a configuration step by step: moves on a board, operations on numbers, swaps. An **invariant** is a quantity that does not change under any allowed step. A **monovariant** is a quantity that strictly decreases (or strictly increases) at every step and takes values in a set where this cannot go on forever, such as the non-negative integers.\n\nInvariants prove impossibility. If the start and the target have different values of an invariant, no sequence of steps connects them. Monovariants prove that a process must stop, or that it must end in a particular state.\n\nAn invariant can be a sum, a parity, a remainder, a color count, or a product. Try small cases and see what survives.",
+  "recognize": [
+   "The problem asks \"is it possible to reach...?\" and the answer feels like no.",
+   "A repeated operation is applied to a collection: numbers erased and replaced, tokens moved, signs flipped.",
+   "The problem asks you to show a process terminates, or to find the final result of any order of operations.",
+   "After a few trials, something stays the same: a total, a parity, a count mod $3$."
+  ],
+  "mistakes": [
+   "Proving \"the invariant is preserved\" in only one case of the operation. Check every allowed move, including edge cases.",
+   "Choosing an invariant that is equal at the start and the target, so it proves nothing. You need a difference between them.",
+   "Using an invariant to claim something is possible. Invariants only show impossibility. For possibility, give an explicit construction ([[constructive]]).",
+   "A monovariant that is not integer-valued, so it could decrease forever (for example, real numbers that keep halving)."
+  ],
+  "variations": [
+   "**Coloring invariants:** see [[coloring]]. Counts of colored cells covered by a piece act like invariants.",
+   "**Residue invariants:** a quantity mod $2$, $3$, or $9$ (see [[parity]] and [[modular-arithmetic]]).",
+   "**Ranking monovariants:** a lexicographic order or a sorted-sequence pattern improves each step, even when no single number monotonically changes."
+  ]
+ },
+ {
+  "id": "modular-arithmetic",
+  "name": "Modular arithmetic",
+  "group": "Number theory",
+  "related": [
+   "parity",
+   "divisibility",
+   "diophantine",
+   "casework",
+   "descent"
+  ],
+  "examples": [
+   {
+    "title": "A sum of two squares",
+    "problem": "Show that no integers $x,y,z$ satisfy $x^2+y^2=4z+3$.",
+    "steps": [
+     "Reduce mod $4$. Squares mod $4$ are $0$ (even numbers) or $1$ (odd numbers).",
+     "So $x^2+y^2\\equiv0,1,$ or $2\\pmod4$.",
+     "But the right side is $4z+3\\equiv3\\pmod4$.",
+     "No residue matches, so there are no solutions."
+    ]
+   },
+   {
+    "title": "Choosing the modulus",
+    "problem": "Show that $x^3+y^3+z^3=2020$ has no integer solutions.",
+    "steps": [
+     "Cubes mod $9$: it is enough to cube the residues $0,\\dots,4$ and use $(-x)^3=-x^3$. We get $0,\\ 1,\\ 8,\\ 27\\equiv0,\\ 64\\equiv1$. So $x^3\\bmod9\\in\\{0,1,8\\}$.",
+     "Sums of three elements from $\\{0,1,8\\}$ give: $0,1,2,3,6,7,8$ (for example, $1+1+1=3$, $8+8+8=24\\equiv6$, $8+8+0=16\\equiv7$, $8+8+1=17\\equiv8$). Residues $4$ and $5$ never appear.",
+     "$2020=9\\cdot224+4\\equiv4\\pmod9$.",
+     "So no solution exists."
+    ]
+   },
+   {
+    "title": "Product of consecutive integers and Fermat",
+    "problem": "Show that $n^5-n$ is divisible by $30$ for every integer $n$.",
+    "steps": [
+     "$30=2\\cdot3\\cdot5$, so it is enough to check divisibility by $2$, $3$ and $5$ separately.",
+     "Factor: $n^5-n=n(n-1)(n+1)(n^2+1)$. The product $(n-1)n(n+1)$ contains a multiple of $2$ and a multiple of $3$.",
+     "For $5$: if $n\\equiv0,1,4\\pmod5$ then one of $n,\\ n-1,\\ n+1$ is divisible by $5$.",
+     "If $n\\equiv2$ or $3\\pmod5$ then $n^2\\equiv4$, so $n^2+1\\equiv0\\pmod5$.",
+     "In every case $5$ divides it. So $30\\mid n^5-n$. (This is also Fermat's little theorem for $p=5$.)"
+    ]
+   }
+  ],
+  "what": "$a\\equiv b\\pmod n$ means $n\\mid a-b$. Congruences can be added, subtracted and multiplied like equations: if $a\\equiv b$ and $c\\equiv d\\pmod n$ then $a+c\\equiv b+d$ and $ac\\equiv bd$. Division is allowed only by numbers coprime to $n$.\n\nUseful facts:\n- Squares mod $3$ are $0,1$. Squares mod $4$ are $0,1$. Squares mod $8$ are $0,1,4$. Cubes mod $9$ are $0,1,8$.\n- **Fermat's little theorem:** if $p$ is prime and $p\\nmid a$ then $a^{p-1}\\equiv1\\pmod p$.\n- **Euler's theorem:** if $\\gcd(a,n)=1$ then $a^{\\varphi(n)}\\equiv1\\pmod n$.\n\nIt works because an integer equation, reduced mod $n$, becomes a finite check. If the reduced equation has no solution, neither does the original.",
+  "recognize": [
+   "An equation in integers claimed to have no solutions, with a left side made of squares, cubes or powers.",
+   "A divisibility question about a large expression (a huge power, a factorial, a polynomial).",
+   "\"Find the last digits\" or \"the remainder when...\" appear.",
+   "The problem has a clean statement for each residue class, so you can split [[casework|into cases]] by remainder."
+  ],
+  "mistakes": [
+   "Dividing a congruence by a number not coprime to the modulus. $2a\\equiv2b\\pmod 6$ does not give $a\\equiv b$.",
+   "Picking a modulus that doesn't separate the values. Try $3,4,5,7,8,9$ and look at the residues of squares, cubes, fourth powers.",
+   "Using Fermat/Euler when $\\gcd(a,n)\\ne1$.",
+   "Missing residue classes. List all residues, including negative ones, and check each."
+  ],
+  "variations": [
+   "**Chinese remainder theorem:** compatible congruences mod coprime moduli combine into one mod the product.",
+   "**Orders:** the smallest $d$ with $a^d\\equiv1\\pmod n$ divides $\\varphi(n)$.",
+   "**Lifting the exponent:** for the exact power of a prime dividing $a^n-b^n$.",
+   "**Quadratic residues:** which numbers are squares mod $p$. Useful for $x^2+y^2$ and similar forms."
+  ]
+ },
+ {
+  "id": "parity",
+  "name": "Parity",
+  "group": "Number theory",
+  "related": [
+   "invariants",
+   "modular-arithmetic",
+   "coloring",
+   "double-counting"
+  ],
+  "examples": [
+   {
+    "title": "Handshakes",
+    "problem": "At a party some people shake hands. Show that the number of people who shook an odd number of hands is even.",
+    "steps": [
+     "Add up, over all people, the number of hands each shook. Each handshake involves two people, so it is counted twice.",
+     "So the total is $2H$ where $H$ is the number of handshakes. It is even.",
+     "Split the total into people with an even count and people with an odd count. The even ones contribute an even amount.",
+     "So the contribution of the odd ones is even too. A sum of odd numbers is even only if there is an even number of them.",
+     "So the number of people with an odd count is even."
+    ]
+   },
+   {
+    "title": "Making a sum zero with signs",
+    "problem": "Can one put a plus or minus sign in front of each of $1,2,\\dots,10$ so that the total is $0$?",
+    "steps": [
+     "Changing a sign changes a term $m$ to $-m$, a change of $2m$, which is even. So the parity of the total never depends on the signs.",
+     "With all plus signs the sum is $1+2+\\dots+10=55$, which is odd.",
+     "So every choice of signs gives an odd total, and it can never be $0$.",
+     "(For $1,\\dots,11$ the sum is $66$, which is even. Parity doesn't forbid it, and indeed $11+10+9+3=33$ gives a split into two equal halves, so signs exist.)"
+    ]
+   }
+  ],
+  "what": "Parity is whether an integer is even or odd. It obeys simple rules: even $\\pm$ even is even, odd $\\pm$ odd is even, odd $\\pm$ even is odd, and a product is odd only if every factor is odd. It is arithmetic mod $2$, the simplest case of [[modular-arithmetic]].\n\nParity is powerful because it throws away almost everything and keeps a robust two-valued fact. If a count must be even and you compute it as odd, you have a contradiction. If a quantity's parity never changes under a process, you have an [[invariants|invariant]].",
+  "recognize": [
+   "Objects pair up (edges join two vertices, dominoes cover two squares, handshakes involve two people).",
+   "A process flips things (switches, signs, coin faces, colors) and the question is whether a state is reachable.",
+   "A sum, product, or count is claimed to equal a specific number, and you can see its parity does not match.",
+   "Moves alternate between two kinds of positions (a knight, a single step along a grid line)."
+  ],
+  "mistakes": [
+   "Using parity to prove something is possible. Parity gives necessary conditions. For existence, construct an example ([[constructive]]).",
+   "Forgetting that $0$ is even and negative numbers have parities too.",
+   "Overlooking useful facts like $a^2\\equiv a\\pmod2$ and $a+b\\equiv a-b\\pmod2$, which let you replace awkward expressions by simple ones.",
+   "Ignoring that a product of integers is even as soon as one factor is even."
+  ],
+  "variations": [
+   "**Counting pairs:** the handshake lemma is the degree-sum formula in graph theory (see [[graph-theory]]).",
+   "**Parity of a permutation:** every swap of two elements flips the sign of a permutation, so the parity of the number of swaps needed to reach a given arrangement is fixed.",
+   "**Mod 2 coloring:** squares of a board are colored by $(i+j)\\bmod2$ (see [[coloring]]).",
+   "**Parity plus size arguments:** an odd number of objects cannot be split into equal pairs, and a closed route alternating between two types has even length."
+  ]
+ },
+ {
+  "id": "pigeonhole",
+  "name": "Pigeonhole principle",
+  "group": "Combinatorics",
+  "related": [
+   "double-counting",
+   "modular-arithmetic",
+   "extremal",
+   "constructive"
+  ],
+  "examples": [
+   {
+    "title": "Five points in a square",
+    "problem": "Five points lie in a unit square (side length $1$, boundary included). Show that two of them are at distance at most $\\frac{\\sqrt2}{2}$.",
+    "steps": [
+     "The goal is a pair of points that are close. Close points should land in the same box, so the boxes should be small regions.",
+     "Cut the square into four squares of side $\\tfrac12$ by joining the midpoints of opposite sides.",
+     "Five points, four small squares: some small square contains two of the points. A point on a shared edge may be assigned to either square, since each point just needs one box.",
+     "The largest distance inside a square of side $\\tfrac12$ is its diagonal, $\\tfrac12\\sqrt2=\\frac{\\sqrt2}{2}$.",
+     "So those two points are at distance at most $\\frac{\\sqrt2}{2}$."
+    ]
+   },
+   {
+    "title": "Odd parts",
+    "problem": "Choose $n+1$ distinct numbers from $\\{1,2,\\dots,2n\\}$. Show that one of the chosen numbers divides another.",
+    "steps": [
+     "Every positive integer can be written uniquely as $2^a\\cdot m$ with $m$ odd. Call $m$ its odd part.",
+     "The odd parts of numbers in $\\{1,\\dots,2n\\}$ are odd numbers at most $2n$, so there are only $n$ possibilities: $1,3,\\dots,2n-1$. These are the boxes.",
+     "There are $n+1$ chosen numbers and $n$ boxes, so two chosen numbers $x\\ne y$ share the same odd part $m$.",
+     "Write $x=2^a m$ and $y=2^b m$. Since $x\\ne y$, $a\\ne b$. If $a<b$ then $x$ divides $y$, otherwise $y$ divides $x$."
+    ]
+   },
+   {
+    "title": "A block with sum divisible by $n$",
+    "problem": "Given integers $a_1,\\dots,a_n$, show that some nonempty block of consecutive terms $a_{i+1}+\\dots+a_j$ has sum divisible by $n$.",
+    "steps": [
+     "A block sum is a difference of two prefix sums. Define $S_0=0$ and $S_k=a_1+\\dots+a_k$.",
+     "The block sum $a_{i+1}+\\dots+a_j$ equals $S_j-S_i$, and it is divisible by $n$ exactly when $S_i\\equiv S_j\\pmod n$.",
+     "So the objects are $S_0,S_1,\\dots,S_n$, which is $n+1$ numbers. The boxes are the $n$ remainders mod $n$.",
+     "Two of them have the same remainder: $S_i\\equiv S_j$ with $i<j$. Then $a_{i+1}+\\dots+a_j$ is divisible by $n$, and the block is nonempty because $i<j$."
+    ]
+   }
+  ],
+  "what": "If more than $kn$ objects are placed into $n$ boxes, some box holds at least $k+1$ of them. The simplest case: $n+1$ objects in $n$ boxes force a box with two objects.\n\nIt works because a distribution that is \"too even\" cannot hold more objects than boxes times capacity. If every box held at most $k$, the total would be at most $kn$. The principle proves that something exists without saying which box, or which objects, it is.\n\nThe real work is choosing the objects and the boxes. The boxes encode the property you want two objects to share.",
+  "recognize": [
+   "The problem says \"show that some two (or $k$) of them have...\", or \"there exist two with...\", with no way to point at them.",
+   "You have more objects than natural categories: $n+1$ numbers, $5$ points, $13$ people.",
+   "You can sort objects into few classes by a remainder, a region, a color, a binary pattern, or the largest odd divisor.",
+   "The conclusion is about a difference, a ratio, or a distance being small or divisible by something."
+  ],
+  "mistakes": [
+   "Counting boxes wrong. Always list the boxes explicitly and count them. In the odd-parts example there are $n$ boxes, not $2n$.",
+   "Forgetting an object, like $S_0=0$ in the prefix sums. It supplies the extra object that makes $n+1$.",
+   "Boxes that don't enforce the property. Two points in one region must really be close, so check the maximum distance inside a box.",
+   "Treating the principle as giving a specific box. It does not say which box is crowded."
+  ],
+  "variations": [
+   "**Generalized form:** with $N$ objects in $n$ boxes, some box has at least $\\lceil N/n\\rceil$ objects.",
+   "**Averaging version:** the largest of $x_1,\\dots,x_n$ is at least their average, and the smallest is at most it. It is the same idea with numbers.",
+   "**Infinite version:** infinitely many objects in finitely many boxes puts infinitely many in one box.",
+   "**Ramsey flavor:** among any $6$ people, there are $3$ mutual friends or $3$ mutual strangers. Choose one person, and pigeonhole on their $5$ relationships (see [[casework]]).",
+   "**Area and length versions:** if regions inside a set have total area larger than the set, two overlap."
+  ]
+ },
+ {
+  "id": "polynomials",
+  "name": "Polynomials and Vieta",
+  "group": "Algebra",
+  "related": [
+   "functional-equations",
+   "symmetry",
+   "generating-functions",
+   "divisibility"
+  ],
+  "examples": [
+   {
+    "title": "Symmetric expressions via Vieta",
+    "problem": "Let $a,b,c$ be the roots of $x^3-2x^2+3x-4=0$. Find $a^2+b^2+c^2$.",
+    "steps": [
+     "By Vieta, $a+b+c=2$ and $ab+bc+ca=3$.",
+     "$a^2+b^2+c^2=(a+b+c)^2-2(ab+bc+ca)=4-6=-2$.",
+     "The roots are not all real here, which is why the sum of squares can be negative. The computation never needs to find the roots."
+    ]
+   },
+   {
+    "title": "Integer coefficients",
+    "problem": "Is there a polynomial $P$ with integer coefficients such that $P(7)=5$ and $P(15)=9$?",
+    "steps": [
+     "For integer coefficients, $a-b\\mid P(a)-P(b)$. (Because $a^k-b^k$ is divisible by $a-b$ for every $k$.)",
+     "Here $a-b=8$, and $P(15)-P(7)=4$.",
+     "$8\\nmid4$, so no such polynomial exists."
+    ]
+   },
+   {
+    "title": "Remainder by a quadratic",
+    "problem": "A polynomial $P$ leaves remainder $3$ when divided by $x-1$ and remainder $5$ when divided by $x-2$. What is the remainder when it is divided by $(x-1)(x-2)$?",
+    "steps": [
+     "The remainder has degree less than $2$: $R(x)=ax+b$, and $P(x)=(x-1)(x-2)Q(x)+ax+b$.",
+     "Substitute $x=1$: $P(1)=a+b=3$ (remainder theorem). Substitute $x=2$: $P(2)=2a+b=5$.",
+     "Subtracting gives $a=2$, then $b=1$.",
+     "The remainder is $2x+1$."
+    ]
+   }
+  ],
+  "what": "A polynomial is determined by its coefficients, its roots, or its values, and moving between these views is the main technique.\n\n- **Vieta's formulas:** if $x^3+px^2+qx+r$ has roots $a,b,c$, then $a+b+c=-p$, $ab+bc+ca=q$, $abc=-r$. The same pattern holds in every degree for monic polynomials (divide by the leading coefficient otherwise).\n- **Factor theorem:** $P(a)=0$ exactly when $(x-a)\\mid P(x)$. **Remainder theorem:** the remainder of $P(x)$ divided by $x-a$ is $P(a)$.\n- **Integer coefficients:** if $P$ has integer coefficients then $a-b\\mid P(a)-P(b)$ for integers $a,b$.\n- **Identity theorem:** two polynomials of degree at most $n$ that agree at $n+1$ points are equal.\n\nIt works because a polynomial of degree $n$ has at most $n$ roots, so a small amount of information fixes it, and symmetric functions of the roots can be read off the coefficients without finding the roots.",
+  "recognize": [
+   "You need a symmetric expression in the roots ($a^2+b^2+c^2$, $\\frac1a+\\frac1b$) of a given polynomial.",
+   "A polynomial with integer coefficients and values at certain integers.",
+   "A remainder on division by a polynomial, or a polynomial with prescribed values.",
+   "An identity that holds for infinitely many values (so it holds as polynomials)."
+  ],
+  "mistakes": [
+   "Sign errors in Vieta. Write the polynomial as $x^n-e_1x^{n-1}+e_2x^{n-2}-\\dots$ with $e_k$ the elementary symmetric sums.",
+   "Using $a-b\\mid P(a)-P(b)$ when coefficients are not integers.",
+   "Forgetting that roots may be complex or repeated (count with multiplicity).",
+   "Dividing by a polynomial that can be zero for some values."
+  ],
+  "variations": [
+   "**Newton's sums:** compute power sums $a^k+b^k+c^k$ recursively from the coefficients ([[recursion]]).",
+   "**Lagrange interpolation:** a polynomial of degree $\\le n$ with given values at $n+1$ points.",
+   "**Rational root theorem:** a root $\\frac pq$ (in lowest terms) of an integer polynomial has $p\\mid$ constant term, $q\\mid$ leading coefficient.",
+   "**Irreducibility:** Eisenstein's criterion.",
+   "**Roots of unity:** $x^n-1=\\prod_{k=0}^{n-1}(x-\\omega^k)$ with $\\omega=e^{2\\pi i/n}$ ([[complex-numbers]])."
+  ]
+ },
+ {
+  "id": "recursion",
+  "name": "Recurrences",
+  "group": "Algebra",
+  "related": [
+   "induction",
+   "generating-functions",
+   "telescoping",
+   "polynomials"
+  ],
+  "examples": [
+   {
+    "title": "Domino tilings",
+    "problem": "In how many ways can a $2\\times n$ board be tiled by $1\\times2$ dominoes?",
+    "steps": [
+     "Let $T_n$ be the number of tilings. Directly: $T_1=1$ (one vertical domino) and $T_2=2$ (two vertical or two horizontal).",
+     "Look at the leftmost column of a $2\\times n$ board. Either it is covered by a vertical domino, leaving a $2\\times(n-1)$ board: $T_{n-1}$ ways.",
+     "Or the top-left cell is covered by a horizontal domino. Then the bottom-left cell must also be covered by a horizontal domino (a vertical one would not fit), and two columns are used: $T_{n-2}$ ways.",
+     "These cases are exclusive and exhaustive, so $T_n=T_{n-1}+T_{n-2}$. These are Fibonacci numbers: $1,2,3,5,8,\\dots$."
+    ]
+   },
+   {
+    "title": "Regions cut by lines",
+    "problem": "$n$ lines in the plane, no two parallel and no three through one point, cut the plane into how many regions?",
+    "steps": [
+     "Let $R_n$ be the count; $R_0=1$.",
+     "Add the $n$th line. It crosses the previous $n-1$ lines at $n-1$ distinct points, which cut it into $n$ pieces.",
+     "Each piece splits one existing region into two, so the new line adds $n$ regions: $R_n=R_{n-1}+n$.",
+     "Therefore $R_n=1+(1+2+\\dots+n)=1+\\dfrac{n(n+1)}2$."
+    ]
+   },
+   {
+    "title": "Characteristic equation",
+    "problem": "A sequence has $a_0=2$, $a_1=5$ and $a_{n+2}=5a_{n+1}-6a_n$. Find $a_n$.",
+    "steps": [
+     "The characteristic equation is $t^2=5t-6$, i.e. $(t-2)(t-3)=0$, with roots $2$ and $3$.",
+     "So $a_n=A\\,2^n+B\\,3^n$.",
+     "From $a_0=2$: $A+B=2$. From $a_1=5$: $2A+3B=5$. Subtracting twice the first from the second: $B=1$, so $A=1$.",
+     "Hence $a_n=2^n+3^n$. Check: $a_2=5\\cdot5-6\\cdot2=13=4+9$. ✓"
+    ]
+   }
+  ],
+  "what": "A recurrence expresses the $n$th term of a sequence using earlier terms. To count objects recursively, express the count for size $n$ using counts for smaller sizes, by looking at how a size-$n$ object is built from smaller ones.\n\nFor a linear recurrence $a_{n+2}=pa_{n+1}+qa_n$, the **characteristic equation** $t^2=pt+q$ gives roots $r,s$. If $r\\ne s$ then $a_n=Ar^n+Bs^n$ with $A,B$ fixed by the first two terms. (If $r=s$, then $a_n=(A+Bn)r^n$.)\n\nIt works because a recurrence plus the starting terms determines the whole sequence. Solving a recurrence means finding a closed form, and proving that closed form usually takes one line of [[induction]].",
+  "recognize": [
+   "Counting tilings, strings, paths, or arrangements where the last piece splits the problem into smaller copies.",
+   "A sequence defined by $a_{n+1}=f(a_n)$ or in terms of two previous terms.",
+   "A quantity that changes by a simple rule when you add one more object (a line, a point, a person).",
+   "Small values $1,2,3,5,8,\\dots$ suggest a known sequence."
+  ],
+  "mistakes": [
+   "Wrong initial conditions or missing base cases, which shifts the whole sequence.",
+   "Cases that overlap or miss objects when deriving the recurrence. Describe every object exactly once.",
+   "Using the distinct-roots formula when the roots coincide.",
+   "Trusting a pattern guessed from a few terms without a proof."
+  ],
+  "variations": [
+   "**Generating functions:** turn the recurrence into an equation for a power series ([[generating-functions]]).",
+   "**Telescoping:** if $a_{n+1}-a_n$ is simple, sum it ([[telescoping]]).",
+   "**Divide and conquer:** $T(2n)=2T(n)+c$ type recurrences.",
+   "**Inhomogeneous recurrences:** $a_{n+1}=2a_n+1$ can be solved by shifting: $a_{n+1}+1=2(a_n+1)$.",
+   "**Invariant of a recurrence:** a combination of terms that stays constant ([[invariants]])."
+  ]
+ },
+ {
+  "id": "similar-triangles",
+  "name": "Similar triangles and power of a point",
+  "group": "Geometry",
+  "related": [
+   "angle-chasing",
+   "trigonometry",
+   "coordinates"
+  ],
+  "examples": [
+   {
+    "title": "Tangent and secant",
+    "problem": "From a point $P$ outside a circle, a tangent $PT$ touches the circle at $T$, and a secant through $P$ meets the circle at $A$ then $B$ ($A$ is nearer $P$). Show $PT^2=PA\\cdot PB$. Then find $AB$ if $PT=6$ and $PA=4$.",
+    "steps": [
+     "Triangles $PTA$ and $PBT$ share the angle at $P$.",
+     "By the tangent-chord angle, $\\angle PTA=\\angle PBT$ (both subtend chord $TA$).",
+     "So $\\triangle PTA\\sim\\triangle PBT$ (AA), and $\\dfrac{PT}{PB}=\\dfrac{PA}{PT}$, i.e. $PT^2=PA\\cdot PB$.",
+     "With $PT=6$ and $PA=4$: $36=4\\cdot PB$, so $PB=9$.",
+     "Since $A$ lies between $P$ and $B$, $AB=PB-PA=5$."
+    ]
+   },
+   {
+    "title": "Altitude of a right triangle",
+    "problem": "In right triangle $ABC$ (right angle at $C$) let $CH$ be the altitude to the hypotenuse, with $AH=p$ and $HB=q$. Show that $CH^2=pq$.",
+    "steps": [
+     "In right triangle $AHC$ the angles are $A$ at vertex $A$, $90^\\circ$ at $H$, and $90^\\circ-A$ at $C$.",
+     "In right triangle $CHB$ the angles are $B=90^\\circ-A$ at vertex $B$, $90^\\circ$ at $H$, and $A$ at $C$.",
+     "So $\\triangle AHC\\sim\\triangle CHB$ (with $A\\leftrightarrow C$, $H\\leftrightarrow H$, $C\\leftrightarrow B$). Corresponding sides give $\\dfrac{AH}{CH}=\\dfrac{CH}{HB}$, i.e. $\\dfrac p{CH}=\\dfrac{CH}q$.",
+     "Hence $CH^2=pq$."
+    ]
+   }
+  ],
+  "what": "Triangles are **similar** when their angles are equal; then corresponding sides are proportional. The criteria: AA (two equal angles), SAS (an equal included angle between two pairs of proportional sides), SSS (proportional sides).\n\nEqual ratios turn into equations: if $\\triangle XYZ\\sim\\triangle X'Y'Z'$ then $\\dfrac{XY}{X'Y'}=\\dfrac{YZ}{Y'Z'}=\\dfrac{XZ}{X'Z'}$.\n\n**Power of a point:** for a point $P$ and a circle, for any line through $P$ meeting the circle at $X$ and $Y$, the product $PX\\cdot PY$ is the same. If $P$ is outside and $PT$ is a tangent, $PT^2=PX\\cdot PY$.\n\nIt works because proportionality links lengths that are far apart in the figure. Similar triangles are often hidden in circles, parallel lines, and right triangles with an altitude.",
+  "recognize": [
+   "Parallel lines (equal corresponding angles).",
+   "A right triangle with an altitude to the hypotenuse.",
+   "Two lines through a point meeting a circle in a secant-secant or secant-tangent pattern.",
+   "A claim of the form $AB\\cdot CD=EF\\cdot GH$ (a product of lengths), which suggests two ratios."
+  ],
+  "mistakes": [
+   "Matching vertices in the wrong order. Write the similarity as $\\triangle ABC\\sim\\triangle DEF$ with correspondences, and read ratios from it.",
+   "Assuming similarity from one equal angle only.",
+   "Using power of a point with inside/outside confusion: for a point inside the circle, $PA\\cdot PB$ uses the two parts of the chord.",
+   "Forgetting that a tangent is a limit case of a secant."
+  ],
+  "variations": [
+   "**Homothety:** a scaling from a point maps one figure to a similar one.",
+   "**Ratios of areas:** areas of similar figures scale by the square of the ratio.",
+   "**Radical axis:** the set of points with equal power with respect to two non-concentric circles is a line.",
+   "**Menelaus and Ceva:** ratio conditions for collinearity and concurrency.",
+   "**Trigonometric form:** the law of sines is a similarity statement in disguise ([[trigonometry]])."
+  ]
+ },
+ {
+  "id": "symmetry",
+  "name": "Symmetry and WLOG",
+  "group": "Proof methods",
+  "related": [
+   "casework",
+   "am-gm",
+   "double-counting",
+   "functional-equations"
+  ],
+  "examples": [
+   {
+    "title": "WLOG ordering",
+    "problem": "Find all positive integers $a,b,c$ with $\\dfrac1a+\\dfrac1b+\\dfrac1c=1$.",
+    "steps": [
+     "Since the equation is symmetric, any solution can be reordered so that $a\\le b\\le c$. So we may assume this order and find all such triples. (Other orders are rearrangements.)",
+     "The smallest denominator gives the largest fraction, so $\\frac3a\\ge\\frac1a+\\frac1b+\\frac1c=1$, hence $a\\le3$.",
+     "$a=1$ is impossible, since $\\frac1b+\\frac1c>0$ would give a sum greater than $1$.",
+     "$a=2$: $\\frac1b+\\frac1c=\\frac12$ with $2\\le b\\le c$. Similarly $\\frac2b\\ge\\frac12$ gives $b\\le4$, and $b>2$ (otherwise $\\frac1c=0$). If $b=3$ then $c=6$. If $b=4$ then $c=4$.",
+     "$a=3$: $\\frac1b+\\frac1c=\\frac23$ with $b\\ge3$. Then $\\frac2b\\ge\\frac23$ gives $b\\le3$, so $b=3$ and $c=3$.",
+     "The solutions are $(2,3,6),\\ (2,4,4),\\ (3,3,3)$ and their permutations."
+    ]
+   },
+   {
+    "title": "Pairing terms",
+    "problem": "Evaluate $S=\\sum_{k=0}^{n}k\\binom nk$.",
+    "steps": [
+     "Use the symmetry $\\binom nk=\\binom n{n-k}$. Reindex the sum by $k\\mapsto n-k$: $S=\\sum_{k=0}^n(n-k)\\binom nk$.",
+     "Add the two expressions for $S$: $2S=\\sum_{k=0}^n\\big(k+(n-k)\\big)\\binom nk=n\\sum_{k=0}^n\\binom nk=n\\,2^n$.",
+     "So $S=n\\,2^{n-1}$."
+    ]
+   }
+  ],
+  "what": "When a problem treats several objects the same way (swapping $a$ and $b$ leaves the statement unchanged, or reflecting the figure gives the same figure), you can use that sameness in two ways:\n- **Without loss of generality (WLOG):** assume an ordering such as $a\\le b\\le c$. This is valid only if every other ordering is a relabeling of this one, so it loses nothing.\n- **Pairing:** pair each term with its mirror image, so that two copies of a sum can be added into something simple.\n\nIt works because symmetry removes redundancy. A problem with $6$ equivalent orderings needs only one of them, and a sum equal to its own mirror can be computed as half of their combined total.",
+  "recognize": [
+   "The statement is unchanged under swapping variables, such as $x+y+z$, $xyz$, or $\\frac1a+\\frac1b+\\frac1c$.",
+   "A geometric figure has a line or center of symmetry, or the answer must be symmetric.",
+   "A sum has terms $f(k)$ and $f(n-k)$ related to each other.",
+   "You need to bound all variables and an ordering would give you a bound on the smallest."
+  ],
+  "mistakes": [
+   "Using WLOG when the symmetry is not complete. Assuming $a\\le b$ is fine for a symmetric statement in $a,b$, but if the conditions treat $a$ and $b$ differently, ordering loses cases.",
+   "Ordering too much. After assuming $a\\le b\\le c$ you can no longer also assume another independent order condition among $a,b,c$.",
+   "Forgetting to rebuild all solutions at the end: the answer includes all permutations.",
+   "Assuming an expression is symmetric when only part of it is."
+  ],
+  "variations": [
+   "**Symmetric polynomials:** express things through $a+b+c$, $ab+bc+ca$, $abc$ (see [[polynomials]]).",
+   "**Geometric symmetry:** reflect a point over a line to turn a shortest-path problem into a straight line.",
+   "**Cyclic symmetry:** the statement is unchanged by $a\\to b\\to c\\to a$ but not by every swap. You may rotate so that the maximum is first, but not sort fully.",
+   "**Averaging over symmetry:** replace a quantity by its average over all relabelings (see [[am-gm]])."
+  ]
+ },
+ {
+  "id": "telescoping",
+  "name": "Telescoping",
+  "group": "Algebra",
+  "related": [
+   "recursion",
+   "generating-functions",
+   "induction"
+  ],
+  "examples": [
+   {
+    "title": "Partial fractions",
+    "problem": "Evaluate $\\displaystyle\\sum_{k=1}^{n}\\frac1{k(k+1)}$.",
+    "steps": [
+     "Split each term: $\\dfrac1{k(k+1)}=\\dfrac1k-\\dfrac1{k+1}$.",
+     "The sum is $\\left(1-\\tfrac12\\right)+\\left(\\tfrac12-\\tfrac13\\right)+\\dots+\\left(\\tfrac1n-\\tfrac1{n+1}\\right)$.",
+     "All middle terms cancel, leaving $1-\\dfrac1{n+1}=\\dfrac n{n+1}$."
+    ]
+   },
+   {
+    "title": "Factorials",
+    "problem": "Evaluate $\\displaystyle\\sum_{k=1}^{n}k\\cdot k!$.",
+    "steps": [
+     "Write $k\\cdot k!=\\big((k+1)-1\\big)\\,k!=(k+1)!-k!$.",
+     "The sum becomes $(2!-1!)+(3!-2!)+\\dots+\\big((n+1)!-n!\\big)$.",
+     "It telescopes to $(n+1)!-1!=(n+1)!-1$."
+    ]
+   },
+   {
+    "title": "A product",
+    "problem": "Evaluate $\\displaystyle\\prod_{k=2}^{n}\\left(1-\\frac1{k^2}\\right)$.",
+    "steps": [
+     "Factor: $1-\\dfrac1{k^2}=\\dfrac{k-1}{k}\\cdot\\dfrac{k+1}{k}$.",
+     "The product of the first factors is $\\dfrac12\\cdot\\dfrac23\\cdots\\dfrac{n-1}n=\\dfrac1n$.",
+     "The product of the second factors is $\\dfrac32\\cdot\\dfrac43\\cdots\\dfrac{n+1}n=\\dfrac{n+1}2$.",
+     "So the product is $\\dfrac{n+1}{2n}$. Check $n=2$: the product is $1-\\frac14=\\frac34$ and the formula gives $\\frac{3}{4}$. ✓"
+    ]
+   }
+  ],
+  "what": "A sum or product **telescopes** when each term can be written so that most pieces cancel with their neighbors. For a sum, write each term as a difference $a_k=b_{k+1}-b_k$; then\n$$\\sum_{k=1}^{n}a_k=b_{n+1}-b_1.$$\nFor a product, write each factor as a ratio $\\frac{c_{k+1}}{c_k}$; then the product is $\\frac{c_{n+1}}{c_1}$.\n\nIt works because a long sum of apparently unrelated terms collapses to its two ends. The skill is finding the decomposition, usually by partial fractions, rationalizing, or noticing a factorial identity.",
+  "recognize": [
+   "Sums of fractions with consecutive factors in the denominator, such as $\\frac1{k(k+1)}$.",
+   "Square roots, logarithms, or factorials where consecutive terms look alike.",
+   "Products of terms like $1-\\frac1{k^2}$ that factor into neighbors.",
+   "An answer that is expected to be short even though the sum has $n$ terms."
+  ],
+  "mistakes": [
+   "Cancelling wrongly: write out the first three and last three terms to see exactly what survives.",
+   "Losing the leftover terms. Sometimes two terms remain at each end, not one.",
+   "Forcing a telescoping decomposition that doesn't hold. Verify $a_k=b_{k+1}-b_k$ for a small $k$.",
+   "Index shifts: the sum equals $b_{n+1}-b_1$, not $b_n-b_1$."
+  ],
+  "variations": [
+   "**Rationalizing:** $\\dfrac1{\\sqrt k+\\sqrt{k+1}}=\\sqrt{k+1}-\\sqrt k$.",
+   "**Partial fractions with a gap:** $\\dfrac1{k(k+2)}=\\tfrac12\\left(\\tfrac1k-\\tfrac1{k+2}\\right)$, where two terms survive at each end.",
+   "**Trigonometric:** $2\\sin\\tfrac x2\\cos kx=\\sin\\left(k+\\tfrac12\\right)x-\\sin\\left(k-\\tfrac12\\right)x$.",
+   "**Telescoping inequalities:** bound $a_k\\le b_k-b_{k+1}$ and sum to bound the total ([[induction]] gives the same strengthening)."
+  ]
+ },
+ {
+  "id": "trigonometry",
+  "name": "Trigonometry in geometry",
+  "group": "Geometry",
+  "related": [
+   "coordinates",
+   "complex-numbers",
+   "angle-chasing",
+   "similar-triangles"
+  ],
+  "examples": [
+   {
+    "title": "Showing a triangle is isosceles",
+    "problem": "In triangle $ABC$ suppose $a\\cos B=b\\cos A$. Show that $CA=CB$.",
+    "steps": [
+     "By the law of sines, $a=2R\\sin A$ and $b=2R\\sin B$.",
+     "Substitute: $2R\\sin A\\cos B=2R\\sin B\\cos A$, so $\\sin A\\cos B-\\cos A\\sin B=0$, i.e. $\\sin(A-B)=0$.",
+     "Since $A$ and $B$ are angles of a triangle, $-180^\\circ<A-B<180^\\circ$, so $A-B=0$ and $A=B$.",
+     "Equal angles mean equal opposite sides: $a=b$, i.e. $CB=CA$."
+    ]
+   },
+   {
+    "title": "Angle bisector ratio",
+    "problem": "In triangle $ABC$ the bisector from $A$ meets $BC$ at $D$. Show that $\\dfrac{BD}{DC}=\\dfrac{AB}{AC}$.",
+    "steps": [
+     "Let $\\angle BAD=\\angle DAC=\\alpha$ and let $\\theta=\\angle ADB$, so $\\angle ADC=180^\\circ-\\theta$.",
+     "Law of sines in triangle $ABD$: $\\dfrac{BD}{\\sin\\alpha}=\\dfrac{AB}{\\sin\\theta}$, so $BD=\\dfrac{AB\\sin\\alpha}{\\sin\\theta}$.",
+     "Law of sines in triangle $ACD$: $\\dfrac{DC}{\\sin\\alpha}=\\dfrac{AC}{\\sin(180^\\circ-\\theta)}=\\dfrac{AC}{\\sin\\theta}$, so $DC=\\dfrac{AC\\sin\\alpha}{\\sin\\theta}$.",
+     "Dividing, $\\dfrac{BD}{DC}=\\dfrac{AB}{AC}$."
+    ]
+   },
+   {
+    "title": "A circumradius",
+    "problem": "Find the circumradius of the triangle with sides $13,14,15$.",
+    "steps": [
+     "Heron's formula: $s=21$, and $K=\\sqrt{21\\cdot8\\cdot7\\cdot6}=\\sqrt{7056}=84$.",
+     "Use $K=\\dfrac{abc}{4R}$: $R=\\dfrac{13\\cdot14\\cdot15}{4\\cdot84}=\\dfrac{2730}{336}=\\dfrac{65}8$."
+    ]
+   }
+  ],
+  "what": "Use trigonometric relations to turn angles into lengths and back. In a triangle with sides $a,b,c$, opposite angles $A,B,C$, circumradius $R$ and area $K$:\n- **Law of sines:** $\\dfrac a{\\sin A}=\\dfrac b{\\sin B}=\\dfrac c{\\sin C}=2R$.\n- **Law of cosines:** $c^2=a^2+b^2-2ab\\cos C$.\n- **Area:** $K=\\tfrac12ab\\sin C=\\dfrac{abc}{4R}$.\n- **Identities:** $\\sin(A\\pm B)$, $\\cos(A\\pm B)$, $\\sin2A=2\\sin A\\cos A$, $\\sin^2A+\\cos^2A=1$.\n\nIt works because the law of sines and cosines connect angles to side lengths, so a problem that mixes them becomes an equation in a few unknowns.",
+  "recognize": [
+   "A triangle given by sides and angles together.",
+   "Ratios of lengths governed by angles, like the angle bisector theorem.",
+   "Conditions such as $a\\cos B=b\\cos A$ that mix sides and angles.",
+   "A circle through the vertices (circumradius)."
+  ],
+  "mistakes": [
+   "Using the law of sines in the ambiguous case ($SSA$) without checking for two triangles.",
+   "Concluding $A=B$ from $\\sin A=\\sin B$ in general. For two angles of one triangle it does give $A=B$, because the other possibility $A+B=180^\\circ$ is impossible.",
+   "Degree/radian mix-ups.",
+   "Trying trigonometry when a clean synthetic argument exists. Check [[angle-chasing]] first, but do not hesitate to compute."
+  ],
+  "variations": [
+   "**Trigonometric Ceva:** for points $D,E,F$ on sides $BC,CA,AB$, the lines $AD,BE,CF$ are concurrent iff $\\dfrac{\\sin\\angle BAD}{\\sin\\angle DAC}\\cdot\\dfrac{\\sin\\angle CBE}{\\sin\\angle EBA}\\cdot\\dfrac{\\sin\\angle ACF}{\\sin\\angle FCB}=1$.",
+   "**Trigonometric identities in triangles:** $\\tan A+\\tan B+\\tan C=\\tan A\\tan B\\tan C$ when $A+B+C=180^\\circ$ and no angle is $90^\\circ$.",
+   "**Product-to-sum / telescoping:** for sums of sines and cosines ([[telescoping]]).",
+   "**Substitution:** replace variables by $\\sin$ or $\\tan$ to simplify an algebraic constraint."
+  ]
+ }
+]
