@@ -3,5 +3,5 @@
   "name": "math-olympiad",
   "compatibility_date": "2026-10-01",
   "assets": { "directory": "./dist" },
-  "routes": [{ "pattern": "math.olympiad.apps.vigneshrege.com", "custom_domain": true }]
+  "routes": [{ "pattern": "math.olympiad.apps.vighneshrege.com", "custom_domain": true }]
 }

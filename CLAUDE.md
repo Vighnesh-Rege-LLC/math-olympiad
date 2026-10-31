@@ -1,6 +1,6 @@
 # Math Olympiad
 
-Mobile-first static web app: math-olympiad flashcards + built-in technique textbook. Modeled on the user's chess tactics tutor. Free, non-commercial. Deploy: Cloudflare Workers static assets, math.olympiad.apps.vigneshrege.com, repo Vighnesh-Rege-LLC/math-olympiad.
+Mobile-first static web app: math-olympiad flashcards + built-in technique textbook. Modeled on the user's chess tactics tutor. Free, non-commercial. Deploy: Cloudflare Workers static assets, math.olympiad.apps.vighneshrege.com, repo Vighnesh-Rege-LLC/math-olympiad.
 
 ## Working style
 - Terse. No step-by-step narration. No feature bloat. No UI strings that explain features; orientation cues and one-time first-run cues only.
