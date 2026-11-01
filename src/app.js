@@ -1,6 +1,7 @@
 import { load, save } from './store.js';
 import { pickNext, applyRating, mastery } from './select.js';
 import { rich } from './render.js';
+import { mountPad } from './pad.js';
 
 const app = document.getElementById('app');
 const GROUPS = ['Proof methods', 'Combinatorics', 'Number theory', 'Algebra', 'Inequalities', 'Geometry'];
@@ -57,13 +58,51 @@ function source(p) {
   return `<div class="src">${[c, k].filter((x, i, a) => a.indexOf(x) === i).join(' · ')}</div>`;
 }
 
+function workFor(pid) {
+  S.w ||= {};
+  return (S.w[pid] ||= { s: [], l: [''], m: 'draw' });
+}
+let saveTimer = null;
+const saveSoon = () => {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => save(S), 300);
+};
+window.addEventListener('pagehide', () => save(S));
+
 function mountCard(p, { rev, play, onRev, onRate }) {
   const steps = [...p.hints, p.solution];
   const total = steps.length;
   const wrap = $('<div></div>');
   wrap.append($(`<div class="statement">${R(p.statement)}</div>`));
-  const stepsEl = $('<div class="steps"></div>');
-  wrap.append(stepsEl);
+  wrap.append(mountPad(workFor(p.id), {
+    settings: S,
+    onChange: (w) => {
+      w.at = Date.now();
+      saveSoon();
+    },
+    onSetting: saveSoon,
+  }));
+
+  const sheet = $(`<div class="sheet" data-open="false" hidden><button class="sheet-handle" aria-expanded="false" aria-label="Hints"><span class="grip"></span><span class="peek"></span></button><div class="sheet-body"><div class="steps"></div></div></div>`);
+  const stepsEl = sheet.querySelector('.steps');
+  const handle = sheet.querySelector('.sheet-handle');
+  const peek = sheet.querySelector('.peek');
+  const setOpen = (v) => {
+    sheet.dataset.open = String(v);
+    handle.setAttribute('aria-expanded', String(v));
+  };
+  handle.onclick = () => setOpen(sheet.dataset.open !== 'true');
+  const updatePeek = () => {
+    const last = stepsEl.lastElementChild;
+    sheet.hidden = !last;
+    if (!last) return;
+    const c = last.cloneNode(true);
+    c.querySelectorAll('.katex-mathml, .chips').forEach((n) => n.remove());
+    const head = c.querySelector('h3').textContent;
+    const text = (c.querySelector('.hint, .body') || c).textContent.replace(/\s+/g, ' ').trim();
+    peek.textContent = `${head} · ${text.slice(0, 90)}`;
+  };
+
   const bar = $('<div class="actions"><div class="row"></div></div>');
   const row = bar.querySelector('.row');
   let rating = false;
@@ -77,6 +116,7 @@ function mountCard(p, { rev, play, onRev, onRate }) {
     return el;
   };
   for (let i = 0; i < rev; i++) addStep(i);
+  updatePeek();
 
   const drawBar = () => {
     row.replaceChildren();
@@ -97,6 +137,8 @@ function mountCard(p, { rev, play, onRev, onRate }) {
         b.onclick = () => {
           const el = addStep(rev++);
           onRev(rev);
+          updatePeek();
+          setOpen(true);
           el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
           drawBar();
         };
@@ -110,7 +152,7 @@ function mountCard(p, { rev, play, onRev, onRate }) {
     }
   };
   drawBar();
-  return [wrap, bar];
+  return [wrap, bar, sheet];
 }
 
 // speedometer: four arcs across a half circle, needle on the active one
@@ -184,7 +226,7 @@ function viewProblems() {
     S.cur = { id: p.id, rev: 0 };
     save(S);
   }
-  const [card, bar] = mountCard(p, {
+  const [card, bar, sheet] = mountCard(p, {
     rev: S.cur.rev,
     play: true,
     onRev: (n) => {
@@ -203,7 +245,7 @@ function viewProblems() {
   frag.append(card);
   const cue = S.cue && S.cur.rev === 0 ? $('<p class="cue">Work it out on paper first.</p>') : null;
   if (cue) frag.append(cue);
-  frag.append(bar);
+  frag.append(sheet, bar);
   return frag;
 }
 
@@ -212,8 +254,8 @@ function viewReview(id) {
   const frag = document.createDocumentFragment();
   frag.append(head('Problem', '#/history'));
   if (!p) return frag.append($('<p class="empty">Not found.</p>')), frag;
-  const [card, bar] = mountCard(p, { rev: 0, play: false, onRev() {}, onRate() {} });
-  frag.append(card, bar);
+  const [card, bar, sheet] = mountCard(p, { rev: 0, play: false, onRev() {}, onRate() {} });
+  frag.append(card, sheet, bar);
   return frag;
 }
 
@@ -366,6 +408,7 @@ function render() {
 
 async function boot() {
   S = load();
+  for (const [id, w] of Object.entries(S.w || {})) if (!w.s?.length && !(w.l || []).some((x) => x)) delete S.w[id];
   data = await (await fetch('/data.json')).json();
   for (const t of data.techniques) {
     tech[t.id] = t;

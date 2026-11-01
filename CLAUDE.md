@@ -49,7 +49,7 @@ Mobile-first static web app: math-olympiad flashcards + built-in technique textb
 ## Status (resume here)
 - Live at https://math.olympiad.apps.vighneshrege.com (Cloudflare Workers, auto-deploys on push to `main`). Personal use for now.
 - Content: 28 technique chapters, problems in batches. Batch log, the batch procedure and open items are in `pipeline/BATCHES.md`. Writer instructions are in `pipeline/BATCH_BRIEF.md`.
-- UI (decided): dotted-notebook theme, grouped technique tiles with sticky-note pills, speedometer difficulty (Warm-up / Adaptive / Challenging / Olympiad), History from the clock icon, iPhone safe areas handled in `src/style.css`.
+- UI (decided): dotted-notebook theme, grouped technique tiles with sticky-note pills, speedometer difficulty (Warm-up / Adaptive / Challenging / Olympiad), History from the clock icon, iPhone safe areas handled in `src/style.css`. Working area (`src/pad.js`): one surface per problem with a Draw | Type switch; freehand ink (pen or finger, 'Pencil only' option) over typed math lines (MathLive, lazy-loaded from `/mathlive/`, pull-up math keyboard). Work is saved per problem in localStorage (`S.w`). Hints and the solution are in a bottom sheet over the pad.
 - Pending: reply from the MathNet maintainer about copyright-asserting contests; local-model benchmark when the new Mac arrives.
 - Final scale target changed: the plan was 1,500 problems; after batch 2 (212 problems live) the user chose to stop large batches. Add more later with `pipeline/BATCHES.md`.
 

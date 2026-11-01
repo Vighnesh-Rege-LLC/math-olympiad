@@ -23,6 +23,10 @@ for (const [pkg, files] of Object.entries({
   inter: ['500-normal', '600-normal', '700-normal'],
 })) for (const f of files) cpSync(`node_modules/@fontsource/${pkg}/files/${pkg}-latin-${f}.woff2`, join(out, `fonts/${pkg}-${f}.woff2`));
 
+mkdirSync(join(out, 'mathlive/fonts'), { recursive: true });
+cpSync('node_modules/mathlive/mathlive.min.mjs', join(out, 'mathlive/mathlive.js'));
+for (const f of readdirSync('node_modules/mathlive/fonts')) if (f.endsWith('.woff2')) cpSync(join('node_modules/mathlive/fonts', f), join(out, 'mathlive/fonts', f));
+
 const techniques = JSON.parse(readFileSync('data/techniques.json', 'utf8'));
 const problems = JSON.parse(readFileSync('data/problems.json', 'utf8'));
 writeFileSync(join(out, 'data.json'), JSON.stringify({ techniques, problems }));

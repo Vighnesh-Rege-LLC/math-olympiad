@@ -193,3 +193,90 @@ test('history: lists rated problems, filters, opens a problem, back', async ({ p
   await expect(page.locator('[data-knob]')).toBeVisible();
   expect(errors).toEqual([]);
 });
+
+const stored = (page) => page.evaluate(() => JSON.parse(localStorage.getItem('olympiad-tutor:v1')));
+const currentWork = async (page) => {
+  const s = await stored(page);
+  return s?.w?.[s.cur.id];
+};
+
+async function stroke(page, dx = 90, dy = 50) {
+  const box = await page.locator('canvas.ink').boundingBox();
+  await page.mouse.move(box.x + 30, box.y + 30);
+  await page.mouse.down();
+  await page.mouse.move(box.x + 30 + dx / 2, box.y + 30 + dy, { steps: 4 });
+  await page.mouse.move(box.x + 30 + dx, box.y + 30, { steps: 4 });
+  await page.mouse.up();
+}
+
+test('working area: draw, undo, clear, type math, persists across reload', async ({ page }) => {
+  const errors = watch(page);
+  await page.goto('/');
+  await expect(page.locator('canvas.ink')).toBeVisible();
+
+  await stroke(page);
+  await expect.poll(async () => (await currentWork(page))?.s.length).toBe(1);
+  await page.getByRole('button', { name: 'Undo' }).click();
+  await expect.poll(async () => (await currentWork(page))?.s.length).toBe(0);
+  await stroke(page);
+  await page.getByRole('button', { name: 'Clear pad' }).click();
+  await expect.poll(async () => (await currentWork(page))?.s.length).toBe(0);
+  await stroke(page, 120, 40);
+  await expect.poll(async () => (await currentWork(page))?.s.length).toBe(1);
+
+  await page.locator('[data-mode-btn="type"]').click();
+  await expect(page.locator('.lines[data-ready]')).toHaveCount(1);
+  const first = page.locator('math-field').first();
+  await expect(first).toBeVisible();
+  await first.evaluate((el) => el.focus());
+  await page.waitForFunction(() => document.querySelector('math-field').shadowRoot?.activeElement);
+  await page.keyboard.type('x^2+1');
+  await expect.poll(async () => (await currentWork(page))?.l[0]).toContain('x^2');
+  await page.keyboard.press('Enter');
+  await expect(page.locator('math-field')).toHaveCount(2);
+  await page.waitForFunction(() => document.querySelectorAll('math-field')[1]?.shadowRoot?.activeElement);
+  await page.keyboard.type('y');
+  await expect.poll(async () => (await currentWork(page))?.l).toEqual(expect.arrayContaining([expect.stringContaining('x^2')]));
+
+  await page.reload();
+  await expect(page.locator('math-field')).toHaveCount(2);
+  const w = await currentWork(page);
+  expect(w.s).toHaveLength(1);
+  expect(w.m).toBe('type');
+  expect(errors.filter((e) => !/virtual keyboard|ResizeObserver/i.test(e))).toEqual([]);
+});
+
+test('pencil-only setting is saved and the sheet shows hints over the pad', async ({ page }) => {
+  const errors = watch(page);
+  await page.goto('/');
+  await page.locator('[data-mode-btn="draw"]').click();
+  await page.locator('[data-act="penonly"]').click();
+  await expect(page.locator('[data-act="penonly"]')).toHaveAttribute('aria-pressed', 'true');
+  await expect.poll(async () => (await stored(page)).penOnly).toBe(true);
+  await page.locator('[data-hint]').click();
+  await expect(page.locator('.sheet')).toBeVisible();
+  await expect(page.locator('.sheet .step').first()).toBeVisible();
+  await page.locator('.sheet-handle').click();
+  await expect(page.locator('.sheet[data-open="false"] .peek')).toBeVisible();
+  await expect(page.locator('canvas.ink')).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
+test('typing works offline after the first visit', async ({ page, context }) => {
+  const errors = watch(page);
+  await page.goto('/');
+  await page.evaluate(() => navigator.serviceWorker.ready);
+  await page.reload();
+  await context.setOffline(true);
+  await page.reload();
+  await page.locator('[data-mode-btn="type"]').click();
+  await expect(page.locator('.lines[data-ready]')).toHaveCount(1);
+  const f = page.locator('math-field').first();
+  await expect(f).toBeVisible();
+  await f.evaluate((el) => el.focus());
+  await page.waitForFunction(() => document.querySelector('math-field').shadowRoot?.activeElement);
+  await page.keyboard.type('a+b');
+  await expect.poll(async () => (await currentWork(page))?.l[0]).toContain('a+b');
+  await context.setOffline(false);
+  expect(errors.filter((e) => !/virtual keyboard|ResizeObserver/i.test(e))).toEqual([]);
+});
