@@ -1,11 +1,13 @@
-// Shared working area: freehand ink drawn over typed math lines.
-// work = { s: strokes, l: latex lines, m: 'draw' | 'type' }; stroke = { c: colour index, w: width, p: [x, y, x, y, ...] }
+// Shared working area: freehand ink drawn over typed math lines, on a tall scrollable page.
+// One finger (or pen) draws, two fingers scroll. work = { s: strokes, l: latex lines, m: 'draw' | 'type' }
+// stroke = { c: colour index, w: width, p: [x, y, x, y, ...] } in surface coordinates.
 
 const PEN = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1-4L16.5 4.5a2 2 0 0 1 3 3L8 19z M14 7l3 3"/></svg>';
 const ERASER = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 20h11M5 15l8-9a2 2 0 0 1 3 0l3 3a2 2 0 0 1 0 3l-6 6H9z"/></svg>';
-const UNDO = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7L4 12l5 5M4 12h9a6 6 0 0 1 0 12"/></svg>';
+const UNDO = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7L4 12l5 5M4 12h10a6 6 0 0 1 0 12"/></svg>';
 const TRASH = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13"/></svg>';
 const KEYS = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10h.01M11 10h.01M15 10h.01M7 14h10"/></svg>';
+const PLUS = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';
 
 let mlPromise = null;
 function loadMathLive() {
@@ -23,7 +25,7 @@ const html = (s) => {
   return t.content.firstElementChild;
 };
 
-export function mountPad(work, { settings, onChange, onSetting }) {
+export function mountPad(work, { onChange }) {
   work.s ||= [];
   work.l ||= [''];
   work.m ||= 'draw';
@@ -33,24 +35,30 @@ export function mountPad(work, { settings, onChange, onSetting }) {
   let cur = null;
   let erasing = false;
   let built = false;
+  const touches = new Map(); // pointerId -> last y, for two-finger scrolling
+  let scrolling = false;
 
   const root = html(`<section class="work" data-mode="${work.m}">
     <div class="work-bar">
       <div class="seg" role="group" aria-label="Input mode">
-        <button data-mode-btn="draw" aria-pressed="${work.m === 'draw'}">${PEN}<span>Draw</span></button>
-        <button data-mode-btn="type" aria-pressed="${work.m === 'type'}">${KEYS}<span>Type</span></button>
+        <button data-mode-btn="draw" aria-label="Draw" aria-pressed="${work.m === 'draw'}">${PEN}</button>
+        <button data-mode-btn="type" aria-label="Type" aria-pressed="${work.m === 'type'}">${KEYS}</button>
       </div>
+      <span class="vr"></span>
       <div class="tools" role="toolbar" aria-label="Pad tools">
         <button class="tool" data-tool="pen" aria-label="Pen" aria-pressed="true">${PEN}</button>
         <button class="tool" data-tool="eraser" aria-label="Eraser" aria-pressed="false">${ERASER}</button>
-        <span class="dots"><button class="dot" data-color="0" aria-label="Ink" aria-pressed="true"></button><button class="dot" data-color="1" aria-label="Blue ink" aria-pressed="false"></button><button class="dot" data-color="2" aria-label="Red ink" aria-pressed="false"></button></span>
+        <button class="dot" data-color="0" aria-label="Ink" aria-pressed="true"></button>
+        <button class="dot" data-color="2" aria-label="Red ink" aria-pressed="false"></button>
+        <span class="grow"></span>
         <button class="tool" data-act="undo" aria-label="Undo">${UNDO}</button>
         <button class="tool" data-act="clear" aria-label="Clear pad">${TRASH}</button>
-        <button class="tool wide" data-act="penonly" aria-pressed="${!!settings.penOnly}">Pencil only</button>
       </div>
+      <button class="tool sticky-tool" data-act="addline" aria-label="Add line">${PLUS}</button>
     </div>
-    <div class="surface"><div class="lines"></div><canvas class="ink" aria-label="Scratch pad"></canvas></div>
+    <div class="scroller"><div class="surface"><div class="lines"></div><canvas class="ink" aria-label="Scratch pad"></canvas></div></div>
   </section>`);
+  const scroller = root.querySelector('.scroller');
   const surface = root.querySelector('.surface');
   const linesEl = root.querySelector('.lines');
   const canvas = root.querySelector('canvas');
@@ -85,7 +93,7 @@ export function mountPad(work, { settings, onChange, onSetting }) {
   }
   function resize() {
     const r = surface.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = Math.max(1, Math.round(r.width * dpr));
     canvas.height = Math.max(1, Math.round(r.height * dpr));
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -112,12 +120,29 @@ export function mountPad(work, { settings, onChange, onSetting }) {
       redraw();
     }
   };
-  const usable = (e) => !(settings.penOnly && e.pointerType === 'touch');
+  const cancelStroke = () => {
+    if (cur || erasing) {
+      cur = null;
+      erasing = false;
+      redraw();
+    }
+  };
 
   canvas.addEventListener('pointerdown', (e) => {
-    if (work.m !== 'draw' || !usable(e)) return;
+    if (work.m !== 'draw') return;
+    if (e.pointerType === 'touch') {
+      touches.set(e.pointerId, e.clientY);
+      if (touches.size >= 2) {
+        scrolling = true;
+        cancelStroke();
+        return;
+      }
+      if (scrolling) return;
+    }
     e.preventDefault();
-    canvas.setPointerCapture(e.pointerId);
+    try {
+      canvas.setPointerCapture(e.pointerId);
+    } catch {}
     const [x, y] = point(e);
     if (tool === 'eraser') {
       snap();
@@ -130,6 +155,12 @@ export function mountPad(work, { settings, onChange, onSetting }) {
     }
   });
   canvas.addEventListener('pointermove', (e) => {
+    if (e.pointerType === 'touch' && touches.has(e.pointerId) && scrolling) {
+      const dy = e.clientY - touches.get(e.pointerId);
+      touches.set(e.pointerId, e.clientY);
+      scroller.scrollTop -= dy / Math.max(1, touches.size);
+      return;
+    }
     if (!cur && !erasing) return;
     const evs = e.getCoalescedEvents ? e.getCoalescedEvents() : [e];
     for (const ev of evs.length ? evs : [e]) {
@@ -139,7 +170,11 @@ export function mountPad(work, { settings, onChange, onSetting }) {
     }
     if (cur) redraw();
   });
-  const end = () => {
+  const end = (e) => {
+    if (e.pointerType === 'touch') {
+      touches.delete(e.pointerId);
+      if (!touches.size) scrolling = false;
+    }
     if (cur) {
       snap();
       work.s = [...work.s, cur];
@@ -196,13 +231,12 @@ export function mountPad(work, { settings, onChange, onSetting }) {
     await customElements.whenDefined('math-field');
     await new Promise((r) => setTimeout(r, 120));
     linesEl.dataset.ready = '1';
-    const add = html('<button class="addline" type="button">+ Line</button>');
-    add.addEventListener('click', async () => {
-      const { MathfieldElement: M } = await loadMathLive();
-      addAfter(M, fields().length - 1);
-    });
-    linesEl.after(add);
   }
+  root.querySelector('[data-act="addline"]').addEventListener('click', async () => {
+    await build();
+    const { MathfieldElement } = await loadMathLive();
+    addAfter(MathfieldElement, fields().length - 1);
+  });
 
   // ---- mode, tools
   function setMode(m, focus) {
@@ -245,17 +279,6 @@ export function mountPad(work, { settings, onChange, onSetting }) {
     redraw();
     emit();
   });
-  const po = root.querySelector('[data-act="penonly"]');
-  const applyPenOnly = () => {
-    po.setAttribute('aria-pressed', String(!!settings.penOnly));
-    canvas.style.touchAction = settings.penOnly ? 'pan-y' : 'none';
-  };
-  po.addEventListener('click', () => {
-    settings.penOnly = !settings.penOnly;
-    applyPenOnly();
-    onSetting('penOnly', settings.penOnly);
-  });
-  applyPenOnly();
 
   if (work.m === 'type' || work.l.some((l) => l)) setMode(work.m, false);
   return root;

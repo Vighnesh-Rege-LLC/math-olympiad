@@ -9,6 +9,10 @@ const LEVELS = ['Warm-up', 'Adaptive', 'Challenging', 'Olympiad'];
 const LABELS = ['What is being asked', 'The technique', 'The key idea', 'The next step'];
 const BACK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>';
 const CLOCK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1M3.5 4.5v4h4M12 7.5V12l3 2"/></svg>';
+const BULB = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>';
+const CHECK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>';
+const WARN = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9 16H3zM12 10v4M12 17h.01"/></svg>';
+const LATER = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6v6l4 2M4 12a8 8 0 1 0 2.3-5.7"/></svg>';
 const CHEVRON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
 
 // glyph and short name shown on technique tiles
@@ -69,90 +73,166 @@ const saveSoon = () => {
 };
 window.addEventListener('pagehide', () => save(S));
 
-function mountCard(p, { rev, play, onRev, onRate }) {
+function stepEl(p, steps, i) {
+  const total = steps.length;
+  const last = i === total - 1;
+  const chips = i === 1 ? `<div class="chips">${p.techniques.map((id) => `<a href="#/t/${id}">${shortName(id)}</a>`).join('')}</div>` : '';
+  const body = last ? `<div class="body">${R(steps[i])}</div>${source(p)}` : `<div class="hint">${chips}${R(steps[i])}</div>`;
+  return $(`<div class="step ${last ? 'solution' : ''}"><h3>${label(i, total)}</h3>${body}</div>`);
+}
+
+// the problem screen: header with popovers, collapsible question, then the working area filling the rest
+function viewWork(p, { play, rev, onRev, onRate }) {
+  const frag = document.createDocumentFragment();
   const steps = [...p.hints, p.solution];
   const total = steps.length;
-  const wrap = $('<div></div>');
-  wrap.append($(`<div class="statement">${R(p.statement)}</div>`));
-  wrap.append(mountPad(workFor(p.id), {
-    settings: S,
+
+  const right = (play ? `<a class="iconbtn" href="#/history" aria-label="History">${CLOCK}</a>` : '')
+    + `<button class="iconbtn" data-act="hint" aria-label="Hint" aria-expanded="false">${BULB}</button>`
+    + (play ? `<button class="iconbtn solid" data-act="done" aria-label="Done" aria-expanded="false">${CHECK}</button>` : '');
+  const wrap = $('<div class="headwrap"></div>');
+  wrap.append(head('Problem', play ? null : '#/history', right));
+  const scrim = $('<div class="scrim" hidden></div>');
+  const hb = wrap.querySelector('[data-act="hint"]');
+  const db = wrap.querySelector('[data-act="done"]');
+
+  let dialPop = null;
+  let pill = null;
+  const hintPop = $('<div class="pop hintpop" role="dialog" aria-label="Hints" hidden><div class="pop-body"><div class="steps"></div></div><div class="pop-foot"><span class="count"></span><button class="sticky" data-more type="button">More hints</button></div></div>');
+  const donePop = play ? $(`<div class="pop donemenu" role="menu" aria-label="How did it go" hidden>
+    <button role="menuitem" class="got" data-rate="got">${CHECK}Got it</button>
+    <button role="menuitem" data-rate="later">${LATER}Show again later</button>
+    <button role="menuitem" data-rate="struggled">${WARN}Struggled</button></div>`) : null;
+  wrap.append(hintPop);
+  if (donePop) wrap.append(donePop);
+
+  const closeAll = () => {
+    hintPop.hidden = true;
+    if (donePop) donePop.hidden = true;
+    dialPop?.remove();
+    dialPop = null;
+    scrim.hidden = true;
+    hb.setAttribute('aria-expanded', 'false');
+    hb.classList.remove('on');
+    db?.setAttribute('aria-expanded', 'false');
+    pill?.setAttribute('aria-expanded', 'false');
+  };
+  scrim.onclick = closeAll;
+  const onKey = (e) => e.key === 'Escape' && closeAll();
+  document.addEventListener('keydown', onKey);
+  cleanup = () => document.removeEventListener('keydown', onKey);
+
+  // difficulty pill and speedometer (play only)
+  if (play) {
+    const k = S.knob ?? 1;
+    pill = $(`<button class="sticky" data-knob="${k}" aria-haspopup="dialog" aria-expanded="false" aria-label="Difficulty: ${LEVELS[k]}">${LEVELS[k]}${CHEVRON}</button>`);
+    wrap.querySelector('h1').after(pill);
+    const pick = (i) => {
+      S.knob = i;
+      save(S);
+      pill.dataset.knob = i;
+      pill.setAttribute('aria-label', `Difficulty: ${LEVELS[i]}`);
+      pill.firstChild.textContent = LEVELS[i];
+      const next = dial(i, pick);
+      dialPop.replaceWith(next);
+      dialPop = next;
+      setTimeout(closeAll, 350);
+    };
+    pill.onclick = () => {
+      if (dialPop) return closeAll();
+      closeAll();
+      dialPop = dial(S.knob ?? 1, pick);
+      wrap.append(dialPop);
+      scrim.hidden = false;
+      pill.setAttribute('aria-expanded', 'true');
+    };
+  }
+
+  // hints overlay
+  const stepsEl = hintPop.querySelector('.steps');
+  const more = hintPop.querySelector('[data-more]');
+  const count = hintPop.querySelector('.count');
+  let cue = null;
+  const foot = () => {
+    count.textContent = `${rev} of ${total}`;
+    more.hidden = rev >= total;
+    more.textContent = rev === total - 1 ? 'Full solution' : 'More hints';
+  };
+  hb.onclick = () => {
+    if (!hintPop.hidden) return closeAll();
+    closeAll();
+    if (rev === 0) {
+      rev = 1;
+      onRev(rev);
+      cue?.remove();
+    }
+    stepsEl.replaceChildren(...Array.from({ length: rev }, (_, i) => stepEl(p, steps, i)));
+    foot();
+    hintPop.hidden = false;
+    scrim.hidden = false;
+    hb.setAttribute('aria-expanded', 'true');
+    hb.classList.add('on');
+  };
+  more.onclick = () => {
+    const el = stepEl(p, steps, rev);
+    stepsEl.append(el);
+    rev += 1;
+    onRev(rev);
+    foot();
+    el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  };
+
+  // done menu
+  if (db) {
+    db.onclick = () => {
+      if (!donePop.hidden) return closeAll();
+      closeAll();
+      donePop.hidden = false;
+      scrim.hidden = false;
+      db.setAttribute('aria-expanded', 'true');
+    };
+    donePop.querySelectorAll('[data-rate]').forEach((b) => (b.onclick = () => onRate(b.dataset.rate, rev, total)));
+  }
+
+  // the question: capped height, compacts when the pad scrolls
+  const q = $(`<div class="qwrap" data-state="full"><div class="statement">${R(p.statement)}</div><button class="qtoggle" type="button" aria-label="Expand question" hidden>${CHEVRON}</button></div>`);
+  const qt = q.querySelector('.qtoggle');
+  const fit = () => {
+    const clipped = q.scrollHeight > q.clientHeight + 2;
+    q.classList.toggle('clipped', clipped);
+    qt.hidden = !clipped && q.dataset.state !== 'open';
+  };
+  qt.onclick = () => {
+    q.dataset.state = q.dataset.state === 'open' ? 'full' : 'open';
+    setTimeout(fit, 220);
+  };
+
+  const pad = mountPad(workFor(p.id), {
     onChange: (w) => {
       w.at = Date.now();
+      cue?.remove();
       saveSoon();
     },
-    onSetting: saveSoon,
-  }));
-
-  const sheet = $(`<div class="sheet" data-open="false" hidden><button class="sheet-handle" aria-expanded="false" aria-label="Hints"><span class="grip"></span><span class="peek"></span></button><div class="sheet-body"><div class="steps"></div></div></div>`);
-  const stepsEl = sheet.querySelector('.steps');
-  const handle = sheet.querySelector('.sheet-handle');
-  const peek = sheet.querySelector('.peek');
-  const setOpen = (v) => {
-    sheet.dataset.open = String(v);
-    handle.setAttribute('aria-expanded', String(v));
-  };
-  handle.onclick = () => setOpen(sheet.dataset.open !== 'true');
-  const updatePeek = () => {
-    const last = stepsEl.lastElementChild;
-    sheet.hidden = !last;
-    if (!last) return;
-    const c = last.cloneNode(true);
-    c.querySelectorAll('.katex-mathml, .chips').forEach((n) => n.remove());
-    const head = c.querySelector('h3').textContent;
-    const text = (c.querySelector('.hint, .body') || c).textContent.replace(/\s+/g, ' ').trim();
-    peek.textContent = `${head} · ${text.slice(0, 90)}`;
-  };
-
-  const bar = $('<div class="actions"><div class="row"></div></div>');
-  const row = bar.querySelector('.row');
-  let rating = false;
-
-  const addStep = (i) => {
-    const last = i === total - 1;
-    const chips = i === 1 ? `<div class="chips">${p.techniques.map((id) => `<a href="#/t/${id}">${shortName(id)}</a>`).join('')}</div>` : '';
-    const body = last ? `<div class="body">${R(steps[i])}</div>${source(p)}` : `<div class="hint">${chips}${R(steps[i])}</div>`;
-    const el = $(`<div class="step ${last ? 'solution' : ''}"><h3>${label(i, total)}</h3>${body}</div>`);
-    stepsEl.append(el);
-    return el;
-  };
-  for (let i = 0; i < rev; i++) addStep(i);
-  updatePeek();
-
-  const drawBar = () => {
-    row.replaceChildren();
-    if (play && (rating || rev >= total)) {
-      if (rev < total) {
-        const b = $('<button class="btn small" aria-label="Back to hints">‹</button>');
-        b.onclick = () => ((rating = false), drawBar());
-        row.append(b);
-      }
-      for (const [key, text, cls] of [['got', 'Got it', 'got'], ['later', 'Show again later', ''], ['struggled', 'Struggled', '']]) {
-        const b = $(`<button class="btn rate ${cls}" data-rate="${key}">${text}</button>`);
-        b.onclick = () => onRate(key, rev, total);
-        row.append(b);
-      }
-    } else {
-      if (rev < total) {
-        const b = $(`<button class="btn primary" data-hint>${rev === total - 1 ? 'Full solution' : 'Hint'}</button>`);
-        b.onclick = () => {
-          const el = addStep(rev++);
-          onRev(rev);
-          updatePeek();
-          setOpen(true);
-          el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-          drawBar();
-        };
-        row.append(b);
-      }
-      if (play) {
-        const d = $('<button class="btn" data-done>Done</button>');
-        d.onclick = () => ((rating = true), onRev(rev), drawBar());
-        row.append(d);
-      }
+  });
+  const sc = pad.querySelector('.scroller');
+  sc.addEventListener('scroll', () => {
+    if (sc.scrollTop > 40 && q.dataset.state !== 'compact') {
+      q.dataset.state = 'compact';
+      setTimeout(fit, 220);
+    } else if (sc.scrollTop < 4 && q.dataset.state === 'compact') {
+      q.dataset.state = 'full';
+      setTimeout(fit, 220);
     }
-  };
-  drawBar();
-  return [wrap, bar, sheet];
+  }, { passive: true });
+  if (play && S.cue && rev === 0) {
+    cue = $('<div class="cue">Work it out on paper first.</div>');
+    pad.querySelector('.surface').append(cue);
+  }
+  setTimeout(fit, 60);
+  window.addEventListener('resize', fit);
+
+  frag.append(scrim, wrap, q, pad);
+  return frag;
 }
 
 // speedometer: four arcs across a half circle, needle on the active one
@@ -175,65 +255,24 @@ function dial(k, onPick) {
 }
 
 function viewProblems() {
-  const frag = document.createDocumentFragment();
-  const k = S.knob ?? 1;
-  const pill = $(`<button class="sticky" data-knob="${k}" aria-haspopup="dialog" aria-expanded="false" aria-label="Difficulty: ${LEVELS[k]}">${LEVELS[k]}${CHEVRON}</button>`);
-  const wrap = $('<div class="headwrap"></div>');
-  wrap.append(head('Problem', null, `<a class="iconbtn" href="#/history" aria-label="History">${CLOCK}</a>`));
-  wrap.querySelector('h1').after(pill);
-  let pop = null;
-  const close = () => {
-    pop?.remove();
-    pop = null;
-    pill.setAttribute('aria-expanded', 'false');
-  };
-  const pick = (i) => {
-    S.knob = i;
-    save(S);
-    pill.dataset.knob = i;
-    pill.setAttribute('aria-label', `Difficulty: ${LEVELS[i]}`);
-    pill.firstChild.textContent = LEVELS[i];
-    const next = dial(i, pick);
-    pop.replaceWith(next);
-    pop = next;
-    setTimeout(close, 350);
-  };
-  const onDoc = (e) => {
-    if (pop && !pop.contains(e.target) && !pill.contains(e.target)) close();
-  };
-  const onKey = (e) => e.key === 'Escape' && pop && (close(), pill.focus());
-  document.addEventListener('click', onDoc);
-  document.addEventListener('keydown', onKey);
-  cleanup = () => {
-    document.removeEventListener('click', onDoc);
-    document.removeEventListener('keydown', onKey);
-  };
-  pill.onclick = () => {
-    if (pop) return close();
-    pop = dial(S.knob ?? 1, pick);
-    wrap.append(pop);
-    pill.setAttribute('aria-expanded', 'true');
-  };
-  frag.append(wrap);
-
   let p = S.cur && byId[S.cur.id] && S.p[S.cur.id]?.status !== 'retired' ? byId[S.cur.id] : null;
   if (!p) {
     p = pickNext(data.problems, S);
     if (!p) {
-      frag.append($('<p class="empty">Every problem is retired.<br><a href="#/techniques">Review techniques</a></p>'));
+      const frag = document.createDocumentFragment();
+      frag.append(head('Problem'), $('<p class="empty">Every problem is retired.<br><a href="#/techniques">Review techniques</a></p>'));
       return frag;
     }
     S.cur = { id: p.id, rev: 0 };
     save(S);
   }
-  const [card, bar, sheet] = mountCard(p, {
-    rev: S.cur.rev,
+  return viewWork(p, {
     play: true,
+    rev: S.cur.rev,
     onRev: (n) => {
       S.cur.rev = n;
       S.cue = false;
       save(S);
-      cue?.remove();
     },
     onRate: (rating, depth, total) => {
       applyRating(data.problems, S, p, rating, depth, total);
@@ -242,21 +281,16 @@ function viewProblems() {
       render();
     },
   });
-  frag.append(card);
-  const cue = S.cue && S.cur.rev === 0 ? $('<p class="cue">Work it out on paper first.</p>') : null;
-  if (cue) frag.append(cue);
-  frag.append(sheet, bar);
-  return frag;
 }
 
 function viewReview(id) {
   const p = byId[id];
-  const frag = document.createDocumentFragment();
-  frag.append(head('Problem', '#/history'));
-  if (!p) return frag.append($('<p class="empty">Not found.</p>')), frag;
-  const [card, bar, sheet] = mountCard(p, { rev: 0, play: false, onRev() {}, onRate() {} });
-  frag.append(card, sheet, bar);
-  return frag;
+  if (!p) {
+    const frag = document.createDocumentFragment();
+    frag.append(head('Problem', '#/history'), $('<p class="empty">Not found.</p>'));
+    return frag;
+  }
+  return viewWork(p, { play: false, rev: 0, onRev() {}, onRate() {} });
 }
 
 const dayLabel = (t) => {
@@ -398,6 +432,7 @@ function render() {
   else if (a === 'history') (view = viewHistory()), (tab = 'problems');
   else if (a === 'credits') view = viewCredits();
   else (view = viewProblems()), (tab = 'problems');
+  app.classList.toggle('fit', tab === 'problems' && a !== 'history');
   app.replaceChildren(view);
   document.querySelectorAll('#tabs a').forEach((el) => {
     if (el.dataset.tab === tab) el.setAttribute('aria-current', 'page');

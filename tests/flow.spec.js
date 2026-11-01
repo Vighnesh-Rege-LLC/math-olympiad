@@ -10,52 +10,97 @@ function watch(page) {
   page.on('pageerror', (e) => errors.push(String(e)));
   return errors;
 }
+const stored = (page) => page.evaluate(() => JSON.parse(localStorage.getItem('olympiad-tutor:v1')));
+const currentWork = async (page) => {
+  const s = await stored(page);
+  return s?.w?.[s.cur.id];
+};
+const openHints = async (page) => {
+  if (await page.locator('.hintpop').isHidden()) await page.locator('[data-act="hint"]').click();
+  await expect(page.locator('.hintpop')).toBeVisible();
+};
+const rate = async (page, key) => {
+  await page.locator('[data-act="done"]').click();
+  await page.locator(`.donemenu [data-rate="${key}"]`).click();
+};
+async function stroke(page, dx = 90, dy = 50) {
+  const box = await page.locator('canvas.ink').boundingBox();
+  await page.mouse.move(box.x + 30, box.y + 30);
+  await page.mouse.down();
+  await page.mouse.move(box.x + 30 + dx / 2, box.y + 30 + dy, { steps: 4 });
+  await page.mouse.move(box.x + 30 + dx, box.y + 30, { steps: 4 });
+  await page.mouse.up();
+}
 
-test('problem flow: hints, rating, retire, persistence', async ({ page }) => {
+test('problem flow: hints overlay, rating, retire, persistence', async ({ page }) => {
   const errors = watch(page);
   await page.goto('/');
   await expect(page.locator('.statement')).toBeVisible();
   await expect(page.locator('.cue')).toHaveText(/paper/);
-  await expect(page.locator('.statement .katex').first()).toBeVisible().catch(() => {});
   const first = await page.locator('.statement').innerText();
 
-  // the card shows no technique or difficulty before hint 2
-  await expect(page.locator('.statement a.tlink')).toHaveCount(0);
-  await page.locator('[data-hint]').click();
-  await expect(page.locator('.step h3').first()).toHaveText('What is being asked');
+  // nothing about technique or difficulty before the hints
+  await expect(page.locator('.statement a')).toHaveCount(0);
+  await page.locator('[data-act="hint"]').click();
+  await expect(page.locator('.hintpop .step h3').first()).toHaveText('What is being asked');
   await expect(page.locator('.cue')).toHaveCount(0);
-  await page.locator('[data-hint]').click();
-  await expect(page.locator('.step').nth(1).locator('.chips a').first()).toBeVisible();
-  const href = await page.locator('.step').nth(1).locator('.chips a').first().getAttribute('href');
+  await expect(page.locator('.hintpop .count')).toContainText('1 of');
+  await page.locator('[data-more]').click();
+  await expect(page.locator('.hintpop .step').nth(1).locator('.chips a').first()).toBeVisible();
+  const href = await page.locator('.hintpop .step').nth(1).locator('.chips a').first().getAttribute('href');
   expect(href).toMatch(/^#\/t\//);
 
-  // reveal everything
-  while (await page.locator('[data-hint]').count()) await page.locator('[data-hint]').click();
-  await expect(page.locator('.step h3').last()).toHaveText('Full solution');
-  await expect(page.locator('[data-rate]')).toHaveCount(3);
+  // reveal everything, close by tapping the bulb again
+  while (await page.locator('[data-more]').isVisible()) await page.locator('[data-more]').click();
+  await expect(page.locator('.hintpop .step h3').last()).toHaveText('Full solution');
   await expect(page.locator('.katex-error')).toHaveCount(0);
+  await page.locator('[data-act="hint"]').click();
+  await expect(page.locator('.hintpop')).toBeHidden();
 
-  await page.locator('[data-rate="got"]').click();
+  await page.locator('[data-act="done"]').click();
+  await expect(page.locator('.donemenu [data-rate]')).toHaveCount(3);
+  await page.locator('.donemenu [data-rate="got"]').click();
   await expect(page.locator('.statement')).toBeVisible();
   const second = await page.locator('.statement').innerText();
   expect(second).not.toBe(first);
 
-  // retired problem never returns after reload
   await page.reload();
-  const state = await page.evaluate(() => JSON.parse(localStorage.getItem('olympiad-tutor:v1')));
+  const state = await stored(page);
   expect(Object.values(state.p).filter((p) => p.status === 'retired')).toHaveLength(1);
   expect(await page.locator('.statement').innerText()).toBe(second);
   expect(errors).toEqual([]);
 });
 
-test('rate without opening the solution; struggled comes back sooner than later', async ({ page }) => {
+test('overlays close when anything outside them is tapped; one at a time', async ({ page }) => {
   const errors = watch(page);
   await page.goto('/');
-  await page.locator('[data-done]').click();
-  await page.locator('[data-rate="struggled"]').click();
-  await page.locator('[data-done]').click();
-  await page.locator('[data-rate="later"]').click();
-  const s = await page.evaluate(() => JSON.parse(localStorage.getItem('olympiad-tutor:v1')));
+  await page.locator('[data-act="hint"]').click();
+  await expect(page.locator('.hintpop')).toBeVisible();
+  await page.locator('.scrim').click({ position: { x: 20, y: 500 } });
+  await expect(page.locator('.hintpop')).toBeHidden();
+
+  await page.locator('[data-act="done"]').click();
+  await expect(page.locator('.donemenu')).toBeVisible();
+  await page.locator('[data-act="hint"]').click(); // opening another closes the first
+  await expect(page.locator('.donemenu')).toBeHidden();
+  await expect(page.locator('.hintpop')).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(page.locator('.hintpop')).toBeHidden();
+
+  await page.locator('[data-knob]').click();
+  await expect(page.locator('.dialpop')).toBeVisible();
+  await page.locator('.scrim').click({ position: { x: 20, y: 500 } });
+  await expect(page.locator('.dialpop')).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
+
+test('rate without opening the hints; struggled comes back sooner than later', async ({ page }) => {
+  const errors = watch(page);
+  await page.goto('/');
+  await rate(page, 'struggled');
+  await expect(page.locator('.statement')).toBeVisible();
+  await rate(page, 'later');
+  const s = await stored(page);
   const [a, b] = Object.values(s.p);
   expect(a.status).toBe('struggled');
   expect(b.status).toBe('later');
@@ -103,11 +148,12 @@ test('mastery appears after 5 problems on a technique; retired shows on its page
   await page.locator('.hist a').first().click();
   await expect(page.locator('.statement')).toBeVisible();
   await expect(page.locator('[data-rate]')).toHaveCount(0);
+  await expect(page.locator('[data-act="done"]')).toHaveCount(0);
   expect(errors).toEqual([]);
 });
 
 test('every technique page and problem renders (math, links) without errors', async ({ page }) => {
-  test.setTimeout(240000);
+  test.setTimeout(300000);
   const errors = watch(page);
   await page.goto('/');
   for (const t of techs) {
@@ -119,21 +165,22 @@ test('every technique page and problem renders (math, links) without errors', as
   }
   for (const p of data) {
     await page.goto(`/#/p/${p.id}`);
-    while (await page.locator('[data-hint]').count()) await page.locator('[data-hint]').click();
+    await page.locator('[data-act="hint"]').click();
+    while (await page.locator('[data-more]').isVisible()) await page.locator('[data-more]').click();
     expect(await page.locator('.katex-error').count(), p.id).toBe(0);
-    expect(await page.locator('.step').count(), p.id).toBe(p.hints.length + 1);
-    for (const href of await page.locator('a.tlink').evaluateAll((as) => as.map((a) => a.getAttribute('href')))) {
+    expect(await page.locator('.hintpop .step').count(), p.id).toBe(p.hints.length + 1);
+    for (const href of await page.locator('.hintpop a').evaluateAll((as) => as.map((a) => a.getAttribute('href')))) {
       expect(techs.some((t) => href === `#/t/${t.id}`), href).toBe(true);
     }
   }
   expect(errors).toEqual([]);
 });
 
-test('works offline after first load; layout fits; dark mode', async ({ page, context, browser }, info) => {
+test('works offline after first load; layout fits; dark mode', async ({ page, context }) => {
   const errors = watch(page);
   await page.goto('/');
   await page.evaluate(() => navigator.serviceWorker.ready);
-  await page.reload(); // now controlled by the service worker
+  await page.reload();
   await context.setOffline(true);
   await page.reload();
   await expect(page.locator('.statement')).toBeVisible();
@@ -173,14 +220,13 @@ test('difficulty dial: named levels, persists, shifts the next problem', async (
 test('history: lists rated problems, filters, opens a problem, back', async ({ page }) => {
   const errors = watch(page);
   await page.goto('/');
-  await page.locator('[data-done]').click();
-  await page.locator('[data-rate="got"]').click();
-  await page.locator('[data-done]').click();
-  await page.locator('[data-rate="struggled"]').click();
+  await rate(page, 'got');
+  await expect(page.locator('.statement')).toBeVisible();
+  await rate(page, 'struggled');
   await page.getByRole('link', { name: 'History' }).click();
   await expect(page.locator('h1')).toHaveText('History');
   await expect(page.locator('.hist li')).toHaveCount(2);
-  await expect(page.getByRole('heading', { name: 'Today' }).or(page.locator('.gh', { hasText: 'Today' }))).toBeVisible();
+  await expect(page.locator('.gh', { hasText: 'Today' })).toBeVisible();
   await page.locator('[data-filter="retired"]').click();
   await expect(page.locator('.hist li')).toHaveCount(1);
   await page.locator('[data-filter="back"]').click();
@@ -193,21 +239,6 @@ test('history: lists rated problems, filters, opens a problem, back', async ({ p
   await expect(page.locator('[data-knob]')).toBeVisible();
   expect(errors).toEqual([]);
 });
-
-const stored = (page) => page.evaluate(() => JSON.parse(localStorage.getItem('olympiad-tutor:v1')));
-const currentWork = async (page) => {
-  const s = await stored(page);
-  return s?.w?.[s.cur.id];
-};
-
-async function stroke(page, dx = 90, dy = 50) {
-  const box = await page.locator('canvas.ink').boundingBox();
-  await page.mouse.move(box.x + 30, box.y + 30);
-  await page.mouse.down();
-  await page.mouse.move(box.x + 30 + dx / 2, box.y + 30 + dy, { steps: 4 });
-  await page.mouse.move(box.x + 30 + dx, box.y + 30, { steps: 4 });
-  await page.mouse.up();
-}
 
 test('working area: draw, undo, clear, type math, persists across reload', async ({ page }) => {
   const errors = watch(page);
@@ -246,19 +277,58 @@ test('working area: draw, undo, clear, type math, persists across reload', async
   expect(errors.filter((e) => !/virtual keyboard|ResizeObserver/i.test(e))).toEqual([]);
 });
 
-test('pencil-only setting is saved and the sheet shows hints over the pad', async ({ page }) => {
+test('pad fills the space under the toolbar and the question compacts when the pad scrolls', async ({ page }) => {
   const errors = watch(page);
   await page.goto('/');
-  await page.locator('[data-mode-btn="draw"]').click();
-  await page.locator('[data-act="penonly"]').click();
-  await expect(page.locator('[data-act="penonly"]')).toHaveAttribute('aria-pressed', 'true');
-  await expect.poll(async () => (await stored(page)).penOnly).toBe(true);
-  await page.locator('[data-hint]').click();
-  await expect(page.locator('.sheet')).toBeVisible();
-  await expect(page.locator('.sheet .step').first()).toBeVisible();
-  await page.locator('.sheet-handle').click();
-  await expect(page.locator('.sheet[data-open="false"] .peek')).toBeVisible();
+  const sc = page.locator('.scroller');
+  await expect(sc).toBeVisible();
+  const vh = page.viewportSize().height;
+  const box = await sc.boundingBox();
+  const tabs = await page.locator('#tabs').boundingBox();
+  expect(box.y + box.height).toBeGreaterThan(tabs.y - 40); // pad runs down to the tab bar
+  expect(box.height).toBeGreaterThan(vh * 0.28);
+
+  const q = page.locator('.qwrap');
+  await expect(q).toHaveAttribute('data-state', 'full');
+  const before = (await q.boundingBox()).height;
+  await sc.evaluate((el) => (el.scrollTop = 200));
+  await expect(q).toHaveAttribute('data-state', 'compact');
+  await expect.poll(async () => (await q.boundingBox()).height).toBeLessThan(80);
+  await expect.poll(async () => (await sc.boundingBox()).height).toBeGreaterThan(box.height - 1);
+  await sc.evaluate((el) => (el.scrollTop = 0));
+  await expect(q).toHaveAttribute('data-state', 'full');
+  await expect.poll(async () => (await q.boundingBox()).height).toBeGreaterThanOrEqual(before - 1);
+  expect(errors).toEqual([]);
+});
+
+test('two fingers scroll the pad and do not draw; one finger draws', async ({ page }) => {
+  const errors = watch(page);
+  await page.goto('/');
   await expect(page.locator('canvas.ink')).toBeVisible();
+  const result = await page.evaluate(() => {
+    const canvas = document.querySelector('canvas.ink');
+    const sc = document.querySelector('.scroller');
+    const r = canvas.getBoundingClientRect();
+    const ev = (type, id, x, y) =>
+      canvas.dispatchEvent(new PointerEvent(type, { pointerId: id, pointerType: 'touch', clientX: x, clientY: y, bubbles: true, isPrimary: id === 1 }));
+    const x = r.left + 80;
+    const y = r.top + 120;
+    ev('pointerdown', 1, x, y);
+    ev('pointerdown', 2, x + 40, y);
+    ev('pointermove', 1, x, y - 60);
+    ev('pointermove', 2, x + 40, y - 60);
+    ev('pointerup', 1, x, y - 60);
+    ev('pointerup', 2, x + 40, y - 60);
+    const scrolled = sc.scrollTop;
+    // now one finger
+    ev('pointerdown', 3, x, y);
+    ev('pointermove', 3, x + 30, y + 20);
+    ev('pointermove', 3, x + 60, y);
+    ev('pointerup', 3, x + 60, y);
+    return { scrolled };
+  });
+  expect(result.scrolled).toBeGreaterThan(20);
+  await expect.poll(async () => (await currentWork(page))?.s.length).toBe(1);
   expect(errors).toEqual([]);
 });
 
