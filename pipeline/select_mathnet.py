@@ -20,7 +20,7 @@ for f in sorted(cache.glob("s*.parquet")):
             continue
         if re.search(r"[^\x00-\x7f‐-―‘-”]", p) or "![" in p or "![" in sols[0]:
             continue
-        if not (80 < len(p) < 700) or not (150 < len(sols[0]) < 2200):
+        if not (80 < len(p) < 1200) or not (150 < len(sols[0]) < 4500):
             continue
         topics = list(r["topics_flat"] or [])
         out.append({"id": r["id"], "country": r["country"], "competition": r["competition"], "type": r["problem_type"],

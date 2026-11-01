@@ -45,3 +45,11 @@ Mobile-first static web app: math-olympiad flashcards + built-in technique textb
 - `.venv/bin/python -I pipeline/check_techniques.py` / `verify_problems.py`: code checks of worked examples and answers.
 - `npm run build` (assembles `dist/`), `npm run serve` (http://localhost:4173), `npx playwright test`.
 - Content is authored as Markdown in `data/techniques/*.md` and `data/problems/*.md`; `data/*.json` are generated.
+
+## Status (resume here)
+- Live at https://math.olympiad.apps.vighneshrege.com (Cloudflare Workers, auto-deploys on push to `main`). Personal use for now.
+- Content: 28 technique chapters, problems in batches. Batch log, the batch procedure and open items are in `pipeline/BATCHES.md`. Writer instructions are in `pipeline/BATCH_BRIEF.md`.
+- UI (decided): dotted-notebook theme, grouped technique tiles with sticky-note pills, speedometer difficulty (Warm-up / Adaptive / Challenging / Olympiad), History from the clock icon, iPhone safe areas handled in `src/style.css`.
+- Pending: reply from the MathNet maintainer about copyright-asserting contests; local-model benchmark when the new Mac arrives.
+- Final scale target changed: the plan was 1,500 problems; after batch 2 (212 problems live) the user chose to stop large batches. Add more later with `pipeline/BATCHES.md`.
+

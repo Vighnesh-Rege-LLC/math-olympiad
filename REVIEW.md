@@ -1,100 +1,162 @@
 # Review sample
 
-40 problems drawn at random (seed 40) from 153. Check the statement, the hints, and above all the solution.
+40 problems drawn at random (seed 40) from 212. Check the statement, the hints, and above all the solution.
 
-## o01 · difficulty 1 · Pigeonhole principle, Modular arithmetic
-*original*
+## m109 · difficulty 8 · Similar triangles and power of a point, Complex numbers in geometry
+*40th Iranian Mathematical Olympiad (Iran), MathNet 07hp*
 
 **Statement**
 
-Show that among any six integers there are two whose difference is divisible by $5$.
+Let $ABC$ be a triangle with $\angle BAC\neq90^\circ$ and $AB\neq BC$. Let $T$ be the second intersection of the $A$-symmedian (the reflection of the median from $A$ in the bisector of angle $A$) with the circumcircle of $ABC$. Let $D\neq A$ be the point on line $AC$ with $BD=BA$. The tangent at $D$ to the circumcircle of $ADT$ meets the circumcircle of $DCT$ a second time at $K$. Prove that $\angle BKC=90^\circ$.
 
 **Hint 1: What is being asked**
 
-You are given any six integers. You must show that some two of them differ by a multiple of $5$.
+Show that $K$ lies on the circle with diameter $BC$.
 
 **Hint 2: The technique**
 
-Ask what you can sort the integers into so that two in the same class automatically have the required property.
+Chasing angles in the two circles through $D$ and $T$ produces a pair of directly similar triangles with common vertex $T$; that similarity pins down $K$, and coordinates on the circumcircle finish the computation.
 
 **Hint 3: The key idea**
 
-Divisibility of a difference by $5$ is about remainders. Two integers have a difference divisible by $5$ exactly when they leave the same remainder on division by $5$.
+Show that triangles $TKC$ and $TDA$ are directly similar (equal directed angles at $K,D$ and at $C,A$). So the spiral similarity with centre $T$ taking $A\mapsto C$ also takes $D\mapsto K$, and $K-C=\lambda(D-A)$ with $\lambda=\frac{C-T}{A-T}$.
 
 **Hint 4: The next step**
 
-How many different remainders are there on division by $5$? Compare that to the number of integers.
+Use complex numbers with the circumcircle as unit circle. Then $d=b+c-\frac{ac}b$, and you can check that $t=\frac{2bc-ab-ac}{b+c-2a}$ is on the unit circle and on the symmedian.
+
+**Hint 5: The next step**
+
+Compute $\lambda$ and $k$, and compare $|k-m|$ with $|c-m|$ where $m=\frac{b+c}2$.
 
 **Solution**
 
-Divide each of the six integers by $5$. There are only five possible remainders: $0,1,2,3,4$. These are the boxes.
+Directed angles $\measuredangle XYZ=\measuredangle(YX,YZ)$ are taken modulo $180^\circ$. Use complex coordinates with the circumcircle $\Gamma$ of $ABC$ the unit circle; lower-case letters are coordinates, $\bar z=1/z$ on $\Gamma$, and $m=\frac{b+c}2$ is the midpoint of $BC$. Since $\angle A\neq90^\circ$, $BC$ is not a diameter, so $b+c\neq0$.
 
-Six integers go into five boxes, so two of them, say $a$ and $b$, leave the same remainder $r$. Write $a=5s+r$ and $b=5t+r$. Then $a-b=5(s-t)$ is divisible by $5$. $\blacksquare$
+**Non-degeneracy.** $D$ is the reflection of $A$ in the foot of the perpendicular from $B$ to $AC$; $D\neq A$ as $\angle A\ne 90^\circ$, and $D\neq C$ as $BC\ne BA$. Line $AC$ meets $\Gamma$ only in $A,C$, so $D\notin\Gamma$ and $T\ne D$. The tangent at $D$ to circle $ADT$ is not line $AC$ (that line passes through $A$, a second point of the circle), so $K\neq C$; it does not pass through $T$, so $K\ne T$; and the circles $ADT$, $DCT$ are not tangent at $D$, since they share the second point $T$ and are distinct ($A,D,C$ are collinear). So $K$ is well defined and $K\notin\{C,D,T\}$.
+
+**Step 1: a spiral similarity.** In circle $DCTK$: $\measuredangle TKC=\measuredangle TDC=\measuredangle TDA$ (as $D,C,A$ are collinear), and $\measuredangle KCT=\measuredangle KDT$. By the tangent-chord angle in circle $ADT$, $\measuredangle KDT=\measuredangle DAT$. So triangles $KCT$ and $DAT$ have equal directed angles at corresponding vertices $K\leftrightarrow D$ and $C\leftrightarrow A$, hence are directly similar with $T\leftrightarrow T$. Equivalently, with $\lambda=\frac{c-t}{a-t}$ we have $c-t=\lambda(a-t)$ and $k-t=\lambda(d-t)$; subtracting,
+$$k=c+\lambda(d-a).$$
+
+**Step 2: coordinates of $D$ and $T$.** The foot of the perpendicular from $b$ to chord $ac$ is $\frac12\big(a+b+c-\frac{ac}b\big)$, so $d=b+c-\frac{ac}b$ and
+$$d-a=(b-a)+\frac{c(b-a)}b=\frac{(b-a)(b+c)}b .$$
+Let $t=\frac{2bc-ab-ac}{b+c-2a}$; the denominator is nonzero because $|b+c|<2$ for $b\neq c$. Then
+$$\bar t=\frac{\frac2{bc}-\frac1{ab}-\frac1{ac}}{\frac1b+\frac1c-\frac2a}=\frac{2a-b-c}{ab+ac-2bc}=\frac1t,$$
+so $t\in\Gamma$; and $t-a=\frac{2(a-b)(a-c)}{b+c-2a}\neq0$. Line $AX$ is the reflection of line $AY$ in the bisector of angle $A$ exactly when $\measuredangle(AB,AX)=\measuredangle(AY,AC)$, i.e. when $\frac{(x-a)(y-a)}{(b-a)(c-a)}$ is real. With $x=t$, $y=m$:
+$$\frac{(t-a)(m-a)}{(b-a)(c-a)}=\frac{\frac{2(a-b)(a-c)}{b+c-2a}\cdot\frac{b+c-2a}2}{(b-a)(c-a)}=1 .$$
+So $t$ lies on the $A$-symmedian and on $\Gamma$, and $t\ne a$: it is the point $T$.
+
+**Step 3: computing $k$.** $c-t=\frac{(c-a)(c-b)}{b+c-2a}$, so $\lambda=\frac{c-t}{a-t}=\frac{(c-a)(c-b)}{-2(a-b)(a-c)}=\frac{c-b}{2(a-b)}$. Hence
+$$k=c+\frac{c-b}{2(a-b)}\cdot\frac{(b-a)(b+c)}b=c+\frac{(b-c)(b+c)}{2b}=\frac{2bc+b^2-c^2}{2b}.$$
+Then $k-m=\frac{2bc+b^2-c^2-b^2-bc}{2b}=\frac{c(b-c)}{2b}$, so $|k-m|=\frac{|b-c|}2=MB=MC$.
+
+So $K$ lies on the circle with diameter $BC$. Finally $K\neq C$ (shown above) and $K\ne B$ (as $k=b$ would give $(b-c)^2=0$). By Thales' theorem, $\angle BKC=90^\circ$. $\blacksquare$
 
 ---
 
-## o32 · difficulty 4 · Polynomials and Vieta
+## o113 · difficulty 5 · Complex numbers in geometry
 *original*
 
 **Statement**
 
-A monic cubic polynomial $P$ satisfies $P(1)=1$, $P(2)=2$ and $P(3)=3$. Find $P(4)$.
+Let $A_1A_2\dots A_n$ be a regular $n$-gon inscribed in a circle of radius $1$ with centre $O$, and let $P$ be any point of the plane with $OP=r$. Prove that
+(a) if $n\ge3$, then $\displaystyle\sum_{k=1}^{n}PA_k^4=n\,(r^4+4r^2+1)$;
+(b) if $n\ge4$, then $\displaystyle\sum_{k=1}^{n}PA_k^6=n\,(r^6+9r^4+9r^2+1)$.
 
 **Hint 1: What is being asked**
 
-You know the leading coefficient and three values of the cubic. Find its value at $4$.
+Prove both formulas. In particular, the sums depend on $P$ only through its distance from the centre.
 
 **Hint 2: The technique**
 
-Use [[polynomials]]: consider the polynomial $P(x)-x$, whose roots you know.
+Put the figure in the complex plane, where a regular polygon has a very clean description and distances are easy to expand.
 
 **Hint 3: The key idea**
 
-What are the roots of $Q(x)=P(x)-x$?
+Take $O=0$, so the vertices are $w_k=\varepsilon\omega^k$ for $k=1,\dots,n$, where $\omega=e^{2\pi i/n}$ and $|\varepsilon|=1$, and $P=p$ with $|p|=r$. Show that $PA_k^2=r^2+1-s_k$ where $s_k=p\bar w_k+\bar p w_k$.
 
 **Hint 4: The next step**
 
-$Q$ is a monic cubic with three known roots, so it factors completely. Then evaluate at $4$.
+Which sums $\sum_k w_k^m$ vanish, and for which $m$? Compute $\sum_k s_k$, $\sum_k s_k^2$ (and later $\sum_k s_k^3$) by expanding, using $|w_k|=1$.
+
+**Hint 5: The next step**
+
+Then $\sum PA_k^4=\sum(r^2+1-s_k)^2$ and $\sum PA_k^6=\sum(r^2+1-s_k)^3$; expand and substitute.
 
 **Solution**
 
-Let $Q(x)=P(x)-x$. It is a monic cubic with $Q(1)=Q(2)=Q(3)=0$, so $Q(x)=(x-1)(x-2)(x-3)$. Therefore
-$$P(4)=4+Q(4)=4+3\cdot2\cdot1=\boxed{10}.$$
+Place the circle as the unit circle in the complex plane with $O=0$. Then $A_k$ corresponds to $w_k=\varepsilon\omega^k$ ($k=1,\dots,n$) with $\omega=e^{2\pi i/n}$ and $|\varepsilon|=1$, and $P$ corresponds to $p$ with $|p|=r$.
+
+**Root-of-unity sums.** If $n\nmid m$ then $\omega^m\ne1$, and $\sum_{k=1}^n\omega^{km}=\omega^m\frac{\omega^{nm}-1}{\omega^m-1}=0$. Hence $\sum_k w_k^m=\varepsilon^m\sum_k\omega^{km}=0$, and taking conjugates $\sum_k\bar w_k^{\,m}=0$ as well. For $n\ge3$ this applies to $m=1,2$; for $n\ge4$ also to $m=3$.
+
+**Squared distances.** Since $|w_k|=1$,
+$$PA_k^2=|p-w_k|^2=(p-w_k)(\bar p-\bar w_k)=r^2+1-s_k,\qquad s_k:=p\bar w_k+\bar p w_k.$$
+Put $u=r^2+1$. Now compute the power sums of $s_k$.
+
+- $\sum_k s_k=p\sum\bar w_k+\bar p\sum w_k=0$.
+- $s_k^2=p^2\bar w_k^2+2p\bar p\,w_k\bar w_k+\bar p^2w_k^2=p^2\bar w_k^2+2r^2+\bar p^2w_k^2$. Summing over $k$ and using $\sum w_k^2=\sum\bar w_k^2=0$ (valid for $n\ge3$) gives $\sum_k s_k^2=2nr^2$.
+- $s_k^3=p^3\bar w_k^3+3p^2\bar p\,\bar w_k^2w_k+3p\bar p^2\,\bar w_kw_k^2+\bar p^3w_k^3=p^3\bar w_k^3+\bar p^3w_k^3+3r^2s_k$, using $|w_k|=1$. For $n\ge4$, $\sum w_k^3=\sum\bar w_k^3=0$ and $\sum s_k=0$, so $\sum_k s_k^3=0$.
+
+**(a)** For $n\ge3$,
+$$\sum PA_k^4=\sum(u-s_k)^2=nu^2-2u\sum s_k+\sum s_k^2=n(r^2+1)^2+2nr^2=n(r^4+4r^2+1).$$
+
+**(b)** For $n\ge4$,
+$$\sum PA_k^6=\sum(u-s_k)^3=nu^3-3u^2\sum s_k+3u\sum s_k^2-\sum s_k^3=nu^3+6nur^2=nu\,(u^2+6r^2).$$
+Since $u^2+6r^2=r^4+8r^2+1$, this equals $n(r^2+1)(r^4+8r^2+1)=n(r^6+9r^4+9r^2+1)$. $\blacksquare$
+
+(Remark: the hypotheses are really used. For $n=3$ in (b) one has $\sum w_k^3=3\varepsilon^3\ne0$, and the sum then does depend on the direction of $P$.)
 
 ---
 
-## o18 · difficulty 4 · Double counting
+## o98 · difficulty 4 · Casework
 *original*
 
 **Statement**
 
-Prove that $\displaystyle\sum_{k=1}^{n}k\binom nk=n\,2^{n-1}$.
+Find the number of quadruples $(a,b,c,d)$ of positive integers with $a\le b\le c\le d$ such that
+$$\frac1a+\frac1b+\frac1c+\frac1d=1.$$
 
 **Hint 1: What is being asked**
 
-Prove the identity for every positive integer $n$.
+Count the non-decreasing quadruples of positive integers whose reciprocals add up to $1$.
 
 **Hint 2: The technique**
 
-Find a set that the left side counts in one way and the right side counts in another.
+Bound the smallest variable, then let each of its possible values open a smaller problem with fewer unknowns.
 
 **Hint 3: The key idea**
 
-Interpret $\binom nk$ as choosing a committee of $k$ people from $n$. What does multiplying by $k$ add?
+Since $a$ is the smallest, $1=\frac1a+\dots\le\frac4a$. Find the possible values of $a$, and rule out $a=1$.
 
 **Hint 4: The next step**
 
-Count pairs (committee, chair), where the chair is a member of the committee. Count by choosing the chair first.
+For each value of $a$, bound $b$ in the same way using the remaining sum $1-\frac1a$ shared by three fractions.
+
+**Hint 5: The next step**
+
+Once $a$ and $b$ are fixed you must solve $\frac1c+\frac1d=\frac pq$. Bound $c$ again and solve for $d$, or use a factoring trick when the right side is a unit fraction $\frac1k$, namely $(c-k)(d-k)=k^2$.
 
 **Solution**
 
-Count the pairs $(C,p)$ where $C$ is a nonempty committee chosen from $n$ people and $p$ is a member of $C$ (the chair).
+Since all four fractions are positive, $a\ge2$. Also $1\le\frac4a$ gives $a\le4$. We treat the cases $a=2,3,4$ and use repeatedly that for $x\le y$ with $\frac1x+\frac1y=s$ we have $\frac1x<s\le\frac2x$.
 
-**By committee size.** For committees of size $k$ there are $\binom nk$ committees and $k$ choices of chair, giving $\sum_{k=1}^nk\binom nk$ pairs.
+**Case $a=2$.** Then $\frac1b+\frac1c+\frac1d=\frac12$ with $b\ge2$. Since $\frac1b<\frac12$, $b\ge3$; and $\frac12\le\frac3b$ gives $b\le6$.
+- $b=3$: $\frac1c+\frac1d=\frac16$, with $c\ge7$ and $\frac16\le\frac2c$ so $c\le12$. Multiplying out, $(c-6)(d-6)=36$ with $1\le c-6\le d-6$. So $c-6\in\{1,2,3,4,6\}$ and $(c,d)=(7,42),(8,24),(9,18),(10,15),(12,12)$: $5$ solutions.
+- $b=4$: $\frac1c+\frac1d=\frac14$, $c\ge5$, and $(c-4)(d-4)=16$ with $1\le c-4\le d-4$: $c-4\in\{1,2,4\}$, $(c,d)=(5,20),(6,12),(8,8)$: $3$ solutions.
+- $b=5$: $\frac1c+\frac1d=\frac3{10}$ with $c\ge5$ and $\frac3{10}\le\frac2c$, so $c\le6$. $c=5$ gives $\frac1d=\frac1{10}$, $d=10$. $c=6$ gives $\frac1d=\frac3{10}-\frac16=\frac2{15}$, not a unit fraction. $1$ solution: $(2,5,5,10)$.
+- $b=6$: $\frac1c+\frac1d=\frac13$ with $c\ge6$ and $\frac13\le\frac2c$, so $c\le6$. $c=6$ gives $d=6$. $1$ solution: $(2,6,6,6)$.
 
-**By chair.** Choose the chair first: $n$ ways. The remaining $n-1$ people each join the committee or not: $2^{n-1}$ ways. This gives $n\,2^{n-1}$ pairs.
+That is $5+3+1+1=10$ solutions.
 
-Both counts give the same number of pairs. $\blacksquare$
+**Case $a=3$.** Then $\frac1b+\frac1c+\frac1d=\frac23$ with $b\ge3$ and $\frac23\le\frac3b$, so $b\le4$.
+- $b=3$: $\frac1c+\frac1d=\frac13$, $c\ge4$ (since $c=3$ would need $\frac1d=0$), and $(c-3)(d-3)=9$ with $1\le c-3\le d-3$: $(c,d)=(4,12),(6,6)$: $2$ solutions.
+- $b=4$: $\frac1c+\frac1d=\frac5{12}$ with $c\ge4$ and $\frac5{12}\le\frac2c$, so $c\le4$. $c=4$ gives $\frac1d=\frac5{12}-\frac14=\frac16$, $d=6$. $1$ solution: $(3,4,4,6)$.
+
+That is $3$ solutions.
+
+**Case $a=4$.** Then $b,c,d\ge4$, so $\frac1b+\frac1c+\frac1d\le\frac34$, with equality only for $b=c=d=4$. Since the sum must be $1-\frac14=\frac34$, we get exactly $(4,4,4,4)$: $1$ solution.
+
+Total: $10+3+1=\boxed{14}$.
 
 ---
 
@@ -213,6 +275,119 @@ Equality holds when $\frac x2=y$, i.e. $x=2y$; with $x+y=12$ this gives $y=4$, $
 
 ---
 
+## m19 · difficulty 6 · Cauchy–Schwarz and Titu's lemma, AM-GM and mean inequalities
+*2008 Shortlist JBMO (JBMO), MathNet 08l7*
+
+**Statement**
+
+Show that
+$$(x+y+z)\left(\frac1x+\frac1y+\frac1z\right)\ge4\left(\frac x{xy+1}+\frac y{yz+1}+\frac z{zx+1}\right)^2$$
+for all positive real numbers $x,y,z$.
+
+**Hint 1: What is being asked**
+
+Prove the inequality for all positive reals.
+
+**Hint 2: The technique**
+
+Use [[cauchy-schwarz]] to bound the left side from below by a perfect square, and [[am-gm]] to bound each fraction on the right.
+
+**Hint 3: The key idea**
+
+Find an expression whose square sits between the two sides. Try $\sqrt{x/y}+\sqrt{y/z}+\sqrt{z/x}$.
+
+**Hint 4: The next step**
+
+For the left side, apply Cauchy–Schwarz to $(\sqrt x,\sqrt y,\sqrt z)$ and $(1/\sqrt y,1/\sqrt z,1/\sqrt x)$.
+
+**Hint 5: The next step**
+
+For the right side show $\sqrt{x/y}\ge\frac{2x}{xy+1}$ by AM-GM.
+
+**Solution**
+
+Let $S=\sqrt{\frac xy}+\sqrt{\frac yz}+\sqrt{\frac zx}$.
+
+**Left $\ge S^2$.** By Cauchy–Schwarz with the vectors $(\sqrt x,\sqrt y,\sqrt z)$ and $\left(\frac1{\sqrt y},\frac1{\sqrt z},\frac1{\sqrt x}\right)$,
+$$(x+y+z)\left(\frac1y+\frac1z+\frac1x\right)\ge\left(\sqrt{\tfrac xy}+\sqrt{\tfrac yz}+\sqrt{\tfrac zx}\right)^2=S^2.$$
+**$S\ge$ the bracket.** AM-GM gives $xy+1\ge2\sqrt{xy}$, so
+$$\frac{2x}{xy+1}\le\frac{2x}{2\sqrt{xy}}=\sqrt{\frac xy}.$$
+Adding the three cyclic versions, $S\ge2\left(\frac x{xy+1}+\frac y{yz+1}+\frac z{zx+1}\right)$, and squaring (both sides positive) gives $S^2\ge4(\dots)^2$.
+
+Combining, the left side is at least $S^2\ge4\left(\frac x{xy+1}+\dots\right)^2$. $\blacksquare$
+
+---
+
+## m12 · difficulty 8 · Graph theory basics, Extremal principle
+*Romanian Master of Mathematics (Romania), MathNet 0c8t*
+
+**Statement**
+
+In a country there are $n$ airports and $n$ air companies operating return flights. Each company operates an odd number of flights forming a closed route. Prove that a traveller can complete a closed route consisting of an odd number of flights operated by pairwise distinct companies.
+
+**Hint 1: What is being asked**
+
+Each company's flights form an odd closed route (parallel flights of different companies count as different edges). Show that there is an odd closed route in which no two flights belong to the same company.
+
+**Hint 2: The technique**
+
+Translate to [[graph-theory]]: you have $n$ odd cycles on the same $n$ vertices and want an odd cycle with edges taken from different cycles. Use an [[extremal]] choice: a largest "rainbow" forest.
+
+**Hint 3: The key idea**
+
+Call a set of edges rainbow if no two come from the same company. Take a largest rainbow set of edges containing no cycle.
+
+**Hint 4: The next step**
+
+A forest on $n$ vertices has fewer than $n$ edges, so some company contributes no edge to it. Look at that company's odd cycle.
+
+**Hint 5: The next step**
+
+Show every edge of that cycle joins two vertices in the same tree of the forest, and use that trees are bipartite.
+
+**Solution**
+
+Each company's closed route is an odd cycle on the vertex set of $n$ airports. Call a set of edges *rainbow* if its edges come from different companies. Let $F$ be a rainbow set of edges with no cycle (a rainbow forest) of maximum size.
+
+$F$ has at most $n-1$ edges (it is a forest on $n$ vertices), and its edges come from distinct companies, so some company $C$ has no edge in $F$. Consider the odd cycle of $C$.
+
+No edge $e$ of this cycle joins two different components of $F$ (components include isolated vertices): otherwise $F\cup\{e\}$ would be a larger rainbow forest. So all vertices of the cycle lie in the same component of $F$, a tree $T$. A tree is bipartite: its vertices split into two parts with all tree edges between them. The cycle of $C$ has odd length, so it cannot be properly 2-colored by these parts; hence it has an edge $e$ whose endpoints are in the same part.
+
+The path in $T$ between the endpoints of $e$ has even length (same part), so together with $e$ it forms a cycle of odd length. Its edges are tree edges (from distinct companies) plus $e$ (from $C$, which has no edge in $F$). So it is an odd closed route with pairwise distinct companies. $\blacksquare$
+
+---
+
+## o30 · difficulty 5 · Expectation and probabilistic method
+*original*
+
+**Statement**
+
+A fair six-sided die is rolled three times. What is the expected number of distinct values that appear?
+
+**Hint 1: What is being asked**
+
+Find the average number of different faces seen in three rolls.
+
+**Hint 2: The technique**
+
+Use [[expectation]]: linearity of expectation with indicator variables, one per face.
+
+**Hint 3: The key idea**
+
+For each face value $v$, let $I_v=1$ if $v$ appears at least once. The number of distinct values is $\sum_vI_v$.
+
+**Hint 4: The next step**
+
+Compute $P(I_v=1)$ using the complement: $v$ never appears in three rolls. Then add over the six faces.
+
+**Solution**
+
+Let $I_v=1$ if value $v$ shows up at least once, else $0$. The number of distinct values is $\sum_{v=1}^6I_v$, so by linearity the expectation is $6\,P(I_1=1)$.
+
+The probability that $1$ never shows up is $\left(\frac56\right)^3=\frac{125}{216}$, so $P(I_1=1)=\frac{91}{216}$. The expected number is $6\cdot\frac{91}{216}=\boxed{\dfrac{91}{36}}$.
+
+---
+
 ## o39 · difficulty 3 · Invariants and monovariants
 *original*
 
@@ -291,6 +466,37 @@ Check: if $f(x)=x^3+c$, then $f(x+f(y))-f(x)=(x+f(y))^3+c-x^3-c=(x+f(y))^3-x^3$.
 
 ---
 
+## o20 · difficulty 4 · Extremal principle
+*original*
+
+**Statement**
+
+Let $S$ be a finite set of at least two points in the plane. Prove that it is impossible for every point of $S$ to be the midpoint of two other points of $S$.
+
+**Hint 1: What is being asked**
+
+You must show that in any finite set of points, some point is not the midpoint of two other points of the set.
+
+**Hint 2: The technique**
+
+Look at the point that is most extreme in some direction.
+
+**Hint 3: The key idea**
+
+Among the points of $S$, look at those with the largest $x$-coordinate. Pick the one with the largest $y$-coordinate among them.
+
+**Hint 4: The next step**
+
+Suppose this point $P$ is the midpoint of $Q$ and $R$, both in $S$ and different from $P$. Compare the coordinates of $Q$ and $R$ with those of $P$.
+
+**Solution**
+
+Among the points of $S$ take $P=(p,q)$ with the largest $x$-coordinate, and among those the largest $y$-coordinate. Suppose $P$ is the midpoint of two other points $Q=(x_1,y_1)$ and $R=(x_2,y_2)$ of $S$. Then $x_1+x_2=2p$ and $y_1+y_2=2q$.
+
+Since $x_1,x_2\le p$ and $x_1+x_2=2p$, we get $x_1=x_2=p$. Then $Q$ and $R$ have the same $x$-coordinate as $P$, so by the choice of $P$, $y_1,y_2\le q$. With $y_1+y_2=2q$ this gives $y_1=y_2=q$. So $Q=R=P$, contradicting that they are different from $P$. $\blacksquare$
+
+---
+
 ## o83 · difficulty 6 · Complex numbers in geometry
 *original*
 
@@ -363,44 +569,83 @@ where the $x^{12}$ term cannot contribute to $x^{10}$. The answer is $\boxed{146
 
 ---
 
-## m20 · difficulty 7 · Divisibility and gcd, Diophantine equations, Modular arithmetic
-*Saudi Arabian IMO Booklet (Saudi Arabia), MathNet 0dfz*
+## o15 · difficulty 3 · Induction
+*original*
 
 **Statement**
 
-Determine the smallest positive integer $a$ for which there exist a prime number $p$ and a positive integer $b\ge2$ such that
-$$\frac{a^p-a}p=b^2.$$
+Prove that $n!>2^n$ for every integer $n\ge4$.
 
 **Hint 1: What is being asked**
 
-Find the smallest positive $a$ for which $\frac{a^p-a}{p}$ is a square of an integer $b\ge2$ for some prime $p$.
+Factorials eventually outgrow powers of $2$. You must prove this from $n=4$ on.
 
 **Hint 2: The technique**
 
-Use [[divisibility]]: $a$ and $a^{p-1}-1$ are coprime and their product is $pb^2$. Treat $p=2$ and $p\ge3$ separately.
+Use [[induction]], starting at $n=4$ (not at $1$).
 
 **Hint 3: The key idea**
 
-For $p=2$ the equation is $a(a-1)=2b^2$. Search for the smallest solution with $b\ge2$.
+Check $n=4$ directly: compare $24$ with $16$.
 
 **Hint 4: The next step**
 
-For $p\ge3$ write $a(a^{p-1}-1)=pb^2$ with coprime factors on the left. Each factor is a square or $p$ times a square. Which factors can be squares?
-
-**Hint 5: The next step**
-
-Show that no $a\le8$ works for $p\ge3$: the only square candidates are $a=1$ (which gives $0$) and $a=4$.
+Assume $n!>2^n$. To get $(n+1)!$ multiply by $n+1$. Compare $n+1$ with $2$.
 
 **Solution**
 
-**$p=2$.** The equation is $a(a-1)=2b^2$ with $b\ge2$, so $a(a-1)\ge8$. Checking $a=2,\dots,8$ gives $a(a-1)/2=1,3,6,10,15,21,28$, none a square; and $a=9$ gives $36=6^2$, so $a=9$ works with $b=6$.
+**Base case.** $4!=24>16=2^4$.
 
-**$p\ge3$.** Suppose $a\le8$ works. Since $\gcd(a,a^{p-1}-1)=1$ and $a(a^{p-1}-1)=pb^2$, each of the two factors is a perfect square or $p$ times a perfect square, and $p$ divides exactly one of them.
+**Step.** Assume $n!>2^n$ for some $n\ge4$. Then
+$$(n+1)!=(n+1)\,n!>(n+1)\,2^n\ge2\cdot2^n=2^{n+1},$$
+because $n+1\ge5>2$. So the claim holds for $n+1$. $\blacksquare$
 
-- If $p\mid a$ then $a=ps^2$ and $a^{p-1}-1=t^2$, i.e. $(a^{(p-1)/2}-t)(a^{(p-1)/2}+t)=1$, forcing $a^{(p-1)/2}=1$, so $a=1$, but $a=ps^2\ge3$. Impossible.
-- If $p\nmid a$ then $a=s^2$ and $a^{p-1}-1=pt^2$. The square candidates $a\le8$ are $1$ and $4$; $a=1$ gives $0$, which is not $b^2$ with $b\ge2$. For $a=4$: $(2^{p-1}-1)(2^{p-1}+1)=pt^2$ with coprime factors; by Fermat $p\mid2^{p-1}-1$, so $2^{p-1}+1=c^2$ is a square. Then $(c-1)(c+1)=2^{p-1}$ forces $c-1=2$, $c+1=4$, $2^{p-1}=8$, $p=4$, not prime. Impossible.
+---
 
-So no $a\le8$ works, and the smallest is $\boxed{9}$.
+## m104 · difficulty 7 · Complex numbers in geometry
+*THE Fifteenth ROMANIAN MASTER OF MATHEMATICS (Romania), MathNet 0cd9*
+
+**Statement**
+
+Given a triangle $ABC$, let $H$ and $O$ be its orthocentre and circumcentre, respectively. Let $K$ be the midpoint of the segment $AH$. Let $\ell$ be any line through $O$, and let $P$ and $Q$ be the orthogonal projections of $B$ and $C$ onto $\ell$, respectively. Prove that $KP+KQ\ge BC$.
+
+**Hint 1: What is being asked**
+
+Show that the sum of the distances from the midpoint of $AH$ to the feet of the perpendiculars from $B$ and $C$ to any line through the circumcentre is at least $BC$.
+
+**Hint 2: The technique**
+
+Put the circumcircle as the unit circle in the complex plane; the orthocentre, the midpoint $K$ and the projections onto a line through the origin all have short formulas there.
+
+**Hint 3: The key idea**
+
+With $O=0$ and $|a|=|b|=|c|=1$, the orthocentre is $h=a+b+c$, so $k=a+\frac{b+c}2$. If $\ell$ has unit direction $u$, the projection of $z$ onto $\ell$ is $\frac12(z+u^2\bar z)$.
+
+**Hint 4: The next step**
+
+Compute $k-p$ and multiply by $b$ (which does not change the modulus). Do the same for $k-q$ with $c$.
+
+**Hint 5: The next step**
+
+You should get $KP=\frac12|2ab+bc-u^2|$ and $KQ=\frac12|2ac+bc-u^2|$. Now one application of the triangle inequality finishes.
+
+**Solution**
+
+Scale so that the circumradius is $1$ and use complex coordinates with $O=0$; lower-case letters denote coordinates, so $|a|=|b|=|c|=1$ and $\bar z=1/z$ for $z\in\{a,b,c\}$.
+
+**Orthocentre.** Let $h=a+b+c$. Then $h-a=b+c$ and
+$$\overline{\left(\frac{b+c}{b-c}\right)}=\frac{1/b+1/c}{1/b-1/c}=\frac{c+b}{c-b}=-\frac{b+c}{b-c},$$
+so $\frac{h-a}{b-c}$ is purely imaginary: either $h=a$ or $AH'\perp BC$ where $H'$ is the point $h$. Likewise for $B$ and $C$. If $h\notin\{a,b,c\}$, then $h$ lies on two altitudes, so $h$ is the orthocentre. If, say, $h=a$, then $b=-c$, $BC$ is a diameter, the angle at $A$ is right, and the orthocentre is $A=h$ again. So in all cases $H=h$, and
+$$k=\frac{a+h}2=a+\frac{b+c}2 .$$
+
+**Projections.** Let $u$ be a unit complex number in the direction of $\ell$. The projection of $z$ onto the line $\{tu:t\in\mathbb R\}$ is $u\operatorname{Re}(z\bar u)=\frac u2(z\bar u+\bar zu)=\frac12(z+u^2\bar z)$. Hence
+$$p=\frac12\Big(b+\frac{u^2}b\Big),\qquad q=\frac12\Big(c+\frac{u^2}c\Big).$$
+
+**Distances.** 
+$$k-p=a+\frac c2-\frac{u^2}{2b},\qquad\text{so}\qquad KP=|k-p|=|b|\,|k-p|=\frac12\left|2ab+bc-u^2\right|.$$
+Symmetrically $KQ=\frac12\left|2ac+bc-u^2\right|$. Put $w=bc-u^2$. By the triangle inequality,
+$$KP+KQ=\frac12\big(|2ab+w|+|2ac+w|\big)\ge\frac12\big|(2ab+w)-(2ac+w)\big|=|a|\,|b-c|=BC .$$
+This holds for every line $\ell$ through $O$. $\blacksquare$
 
 ---
 
@@ -447,38 +692,76 @@ These two intervals cover $[-2,s]$ provided $x-2\le s-x$, i.e. $2x\le s+2$. The 
 
 ---
 
-## o19 · difficulty 4 · Symmetry and WLOG, Casework
+## o99 · difficulty 4 · Symmetry and WLOG
 *original*
 
 **Statement**
 
-Find all triples of positive integers $(a,b,c)$ with $abc=a+b+c$.
+A round table has $2024$ chairs placed at equal distances around it. Alice and Bob take turns, Alice first. On a turn, a player seats a guest on an empty chair, subject to the rule that the chair must not be next to a chair that already has a guest (the two neighbours of a chair are the chairs immediately to its left and right). A player who cannot make a move loses. Which player has a winning strategy?
 
 **Hint 1: What is being asked**
 
-Find every ordered triple of positive integers whose product equals its sum.
+Decide who wins this game with best play from both sides, and describe the winning strategy.
 
 **Hint 2: The technique**
 
-The equation is unchanged when the variables are swapped, so use [[symmetry]]: assume an ordering of the variables.
+Think about what structure of the table one of the players could exploit.
 
 **Hint 3: The key idea**
 
-Assume $a\le b\le c$. Then $a+b+c\le3c$. What does that say about $ab$?
+Number the chairs $0,1,\dots,2023$ around the table. Which chair is exactly opposite chair $x$?
 
 **Hint 4: The next step**
 
-From $ab\le3$, list the possible $(a,b)$ and solve for $c$ in each case. At the end, include permutations.
+Suppose the player who moves second always answers by taking the chair opposite to the one the opponent just took. Show that this reply is always legal. What do you know about the guests seated before the opponent's move?
+
+**Hint 5: The next step**
+
+For legality you must check three things about the opposite chair $x'$: it is empty, it is not adjacent to an occupied chair, and it is not adjacent to the chair $x$ just taken.
 
 **Solution**
 
-By symmetry assume $a\le b\le c$. Then $abc=a+b+c\le3c$, so $ab\le3$. The pairs $(a,b)$ with $a\le b$ and $ab\le3$ are $(1,1),(1,2),(1,3)$.
+Number the chairs $0,1,\dots,2023$ around the table, with arithmetic modulo $2024$. For a chair $x$ let $x'=x+1012$ be the opposite chair. Then $(x')'=x$, and $x'$ is a neighbour of $y$ exactly when $x$ is a neighbour of $y'$ (shifting everything by $1012$ preserves neighbourhood).
 
-- $(1,1)$: $c=2+c$. Impossible.
-- $(1,2)$: $2c=3+c$, so $c=3$. Valid, since $2\le3$.
-- $(1,3)$: $3c=4+c$, so $c=2<b$. Not allowed.
+**Bob (the second player) wins.** His strategy: whenever Alice seats a guest on chair $x$, Bob seats a guest on $x'$.
 
-So the only ordered solution is $(1,2,3)$, and all triples are the $6$ permutations of $(1,2,3)$.
+We prove by induction that Bob can always do this legally. Before each of Alice's moves, the set $T$ of occupied chairs is *symmetric*: $y\in T\iff y'\in T$ (at the start $T=\emptyset$, and each round adds $x$ and $x'$ together). Suppose Alice legally takes $x$, so $x\notin T$ and neither neighbour of $x$ is in $T$. We check that $x'$ is legal for Bob, in the position $T\cup\{x\}$:
+- $x'$ is empty: $x'\ne x$ because $1012\not\equiv0\pmod{2024}$, and $x'\notin T$ since otherwise $x=(x')'\in T$ by symmetry.
+- $x'$ is not adjacent to a chair of $T$: if a neighbour $z$ of $x'$ were in $T$, then $z'\in T$ by symmetry, and $z'$ is a neighbour of $x$, contradicting the legality of Alice's move.
+- $x'$ is not adjacent to $x$: that would need $1012\equiv\pm1\pmod{2024}$, which is false.
+
+So Bob's reply is legal, and the occupied set is symmetric again. Every move of Alice is thus followed by a legal move of Bob. The game is finite (at most $2024$ guests), so it ends, and the player who cannot move must be Alice (Bob always has a move after Alice's). Hence Bob wins: $\boxed{\text{the second player (Bob)}}$.
+
+---
+
+## o13 · difficulty 3 · Polynomials and Vieta
+*original*
+
+**Statement**
+
+The quadratic $x^2-5x+k$ has two roots $r$ and $s$ with $r^2+s^2=13$. Find $k$.
+
+**Hint 1: What is being asked**
+
+Find the constant term $k$ so that the sum of the squares of the roots is $13$.
+
+**Hint 2: The technique**
+
+This uses [[polynomials|Vieta's formulas]], which relate the roots to the coefficients without finding the roots.
+
+**Hint 3: The key idea**
+
+Express $r+s$ and $rs$ using the coefficients of the quadratic.
+
+**Hint 4: The next step**
+
+Write $r^2+s^2$ in terms of $r+s$ and $rs$.
+
+**Solution**
+
+By Vieta, $r+s=5$ and $rs=k$. Then
+$$r^2+s^2=(r+s)^2-2rs=25-2k.$$
+Setting $25-2k=13$ gives $k=\boxed{6}$. (Check: $x^2-5x+6$ has roots $2,3$, and $4+9=13$.)
 
 ---
 
@@ -583,6 +866,45 @@ So the first player can always move and wins. Hence the starting player wins exa
 
 ---
 
+## m13 · difficulty 6 · Angle chasing and cyclic quadrilaterals
+*Estonian Mathematical Olympiad (Estonia), MathNet 05cw*
+
+**Statement**
+
+In an isosceles triangle $ABC$ with $AB=AC$, the bisector of the angle $BAC$ intersects $BC$ at $D$. The bisector of the angle $ABC$ intersects the perpendicular bisector of $AD$ at $E$. Prove that the bisector of the angle $ACB$ is perpendicular to $DE$.
+
+**Hint 1: What is being asked**
+
+Show that the line $DE$ meets the bisector from $C$ at a right angle.
+
+**Hint 2: The technique**
+
+First prove $A,B,D,E$ are concyclic, then chase angles at $D$ and at the incenter.
+
+**Hint 3: The key idea**
+
+In an isosceles triangle the bisector $AD$ is also an altitude, so $\angle ADB=90^\circ$. Which circle passes through $A,B,D$?
+
+**Hint 4: The next step**
+
+Let the bisector of $\angle ABC$ meet that circle again at $E'$. Show $E'A=E'D$, so $E'=E$.
+
+**Hint 5: The next step**
+
+Let $I$ be the incenter, on $AD$. Compute $\angle EDI$ using the circle and $\angle CID$ in the right triangle $CDI$, and add them.
+
+**Solution**
+
+Let $\gamma=\angle ABC=\angle ACB$. Since $AB=AC$, the bisector $AD$ is also the altitude, so $\angle ADB=90^\circ$ and $A,B,D$ lie on the circle $\omega$ with diameter $AB$. The incenter $I$ lies on $AD$.
+
+Let the bisector of $\angle ABC$ meet $\omega$ again at $E'$. Since $BE'$ bisects $\angle ABD$, the arcs $AE'$ and $E'D$ are equal, so $E'A=E'D$ and $E'$ is on the perpendicular bisector of $AD$. This line meets $BI$ in one point, so $E'=E$. Thus $ABDE$ is cyclic, with $E$ the midpoint of arc $AD$ not containing $B$, so $E$ and $C$ lie on the same side of $AD$.
+
+Now $\angle EDI=\angle EDA=\angle EBA=\frac\gamma2$ (inscribed angles on arc $EA$). In the right triangle $CDI$, $\angle DCI=\frac\gamma2$ because $CI$ bisects $\angle ACB$, so $\angle CID=90^\circ-\frac\gamma2$.
+
+Since $\angle IDC=90^\circ$ and $E$ is on the same side of $AD$ as $C$ with $\angle EDI=\frac\gamma2<90^\circ$, the ray $DE$ lies inside the right angle $IDC$, so it meets segment $IC$ at a point $X$. In triangle $DIX$ the angles at $D$ and $I$ are $\frac\gamma2$ and $90^\circ-\frac\gamma2$, so the angle at $X$ is $90^\circ$. Hence $CI\perp DE$. $\blacksquare$
+
+---
+
 ## o38 · difficulty 4 · Pigeonhole principle, Constructive arguments
 *original*
 
@@ -619,6 +941,72 @@ Hence any $12$ numbers contain two differing by $3$.
 **$11$ is attained.** Take $1,7,13,19$ from $A$, $2,8,14,20$ from $B$, and $3,9,15$ from $C$. Within a chain these are non-neighbours, and numbers in different chains have different remainders mod $3$, so no difference equals $3$. So an $11$-element subset without the property exists, and $n\ge12$.
 
 Therefore the answer is $\boxed{12}$.
+
+---
+
+## m07 · difficulty 6 · AM-GM and mean inequalities
+*Junior Balkan Mathematical Olympiad Shortlist (JBMO), MathNet 08mq*
+
+**Statement**
+
+Let $x_i>1$ for all $i\in\{1,2,\dots,2011\}$. Prove the inequality
+$$\sum_{i=1}^{2011}\frac{x_i^2}{x_{i+1}-1}\ge8044,$$
+where $x_{2012}=x_1$. When does equality hold?
+
+**Hint 1: What is being asked**
+
+Prove the cyclic inequality and find the equality case.
+
+**Hint 2: The technique**
+
+Use [[am-gm]] twice: once to bound each numerator from below by a multiple of $x_i-1$, and once on a cyclic product that telescopes to $1$.
+
+**Hint 3: The key idea**
+
+Compare $x_i^2$ with $4(x_i-1)$. What square is involved?
+
+**Hint 4: The next step**
+
+After that replacement, the sum has terms $\frac{x_i-1}{x_{i+1}-1}$. What is the product of all of them?
+
+**Solution**
+
+For every $i$, $(x_i-2)^2\ge0$ gives $x_i^2\ge4(x_i-1)$. All denominators are positive, so
+$$\sum\frac{x_i^2}{x_{i+1}-1}\ge4\sum_{i=1}^{2011}\frac{x_i-1}{x_{i+1}-1}.$$
+The $2011$ positive numbers $\frac{x_i-1}{x_{i+1}-1}$ have product $1$ (it telescopes around the cycle), so by AM-GM their sum is at least $2011$. Hence the original sum is at least $4\cdot2011=8044$.
+
+Equality needs $x_i=2$ for every $i$ (from the first step), and then every ratio is $1$, so the second step is also tight. Equality holds exactly when all $x_i=2$.
+
+---
+
+## o06 · difficulty 2 · AM-GM and mean inequalities
+*original*
+
+**Statement**
+
+For positive real $x$, what is the minimum value of $x+\dfrac9x$?
+
+**Hint 1: What is being asked**
+
+Over all positive $x$, find the smallest value that $x+\frac9x$ can take.
+
+**Hint 2: The technique**
+
+The two terms multiply to a constant.
+
+**Hint 3: The key idea**
+
+Apply the inequality "arithmetic mean $\ge$ geometric mean" to the two positive numbers $x$ and $\frac9x$.
+
+**Hint 4: The next step**
+
+Compute their product. Then find the $x$ at which the two terms are equal, and check that the bound is actually reached.
+
+**Solution**
+
+By AM-GM, $\dfrac{x+\frac9x}{2}\ge\sqrt{x\cdot\frac9x}=3$, so $x+\frac9x\ge6$.
+
+Equality holds when $x=\frac9x$, i.e. $x=3$, which is allowed. So the minimum is $\boxed{6}$.
 
 ---
 
@@ -752,6 +1140,45 @@ Let $\rho$ be the common circumradius and $O_1,O_2,O_3$ the circumcentres of $OB
 **Computing $R$.** By the law of cosines, $\cos B=\frac{8^2+5^2-7^2}{2\cdot8\cdot5}=\frac12$, so $B=60^\circ$ and $R=\frac{CA}{2\sin B}=\frac7{\sqrt3}=\frac{7\sqrt3}3$.
 
 **Existence.** The triangle is acute ($5^2+7^2>8^2$), so its orthocentre $H$ lies inside it. Since $\angle BHC=180^\circ-\angle A$, the circumradius of $HBC$ is $\frac{BC}{2\sin\angle BHC}=\frac{a}{2\sin A}=R$, and likewise for $HCA$ and $HAB$. So $O=H$ is such a point, and the common circumradius is $\boxed{\tfrac{7\sqrt3}{3}}$.
+
+---
+
+## m03 · difficulty 7 · Extremal principle, Graph theory basics, Pigeonhole principle
+*53. Bulgarian Mathematical Olympiad (Bulgaria), MathNet 032t*
+
+**Statement**
+
+Let $m\ge3$ and $n\ge2$ be integers. Prove that in a group of $N=mn-n+1$ people such that there are two familiar people among any $m$, there is a person who is familiar with $n$ people. Does the statement remain true if $N<mn-n+1$?
+
+**Hint 1: What is being asked**
+
+Among $N$ people, any $m$ contain an acquainted pair. Show someone knows at least $n$ people, and decide whether that still holds for smaller groups.
+
+**Hint 2: The technique**
+
+Model the group as a graph ([[graph-theory]]) and use an [[extremal]] choice: take the largest set of people who all pairwise do not know each other.
+
+**Hint 3: The key idea**
+
+The condition says there are never $m$ mutual strangers. Take a largest group of mutual strangers, of size $l\le m-1$.
+
+**Hint 4: The next step**
+
+By maximality, every outside person knows someone in the group. Count how many outside people the members of the group know in total, and use pigeonhole.
+
+**Hint 5: The next step**
+
+For the second question, try $m-1$ cliques of people who know exactly their own clique.
+
+**Solution**
+
+Take a largest set $S$ of people who pairwise do not know each other, with $|S|=l$. Among any $m$ people two know each other, so $l\le m-1$.
+
+By maximality of $S$, each of the other $N-l$ people knows at least one member of $S$ (otherwise we could add them). So the members of $S$ together know at least $N-l$ people outside $S$, and by pigeonhole one member knows at least $\frac{N-l}{l}=\frac Nl-1$ of them. Since $l\le m-1$,
+$$\frac Nl-1\ge\frac{mn-n+1}{m-1}-1=n-1+\frac1{m-1}>n-1.$$
+The number of people known is an integer greater than $n-1$, so it is at least $n$.
+
+**Smaller $N$: not true.** Let $N\le(m-1)n$. Split the people into $m-1$ groups of at most $n$ people each, where people know exactly those in their own group. Among any $m$ people two lie in the same group (pigeonhole), so they know each other. But everyone knows at most $n-1$ people. So the statement fails for $N\le(m-1)n=mn-n$, i.e. for every $N<mn-n+1$.
 
 ---
 
@@ -939,6 +1366,138 @@ So the solutions are $\boxed{p(x)=\alpha x^2+\beta x}$.
 
 ---
 
+## o95 · difficulty 5 · Coloring arguments, Constructive arguments
+*original*
+
+**Statement**
+
+Number the rows and columns of a $7\times7$ board $1,2,\dots,7$. Sixteen non-overlapping $1\times3$ tiles are placed on the board, each covering three cells in a row or three cells in a column, so that exactly one cell is left uncovered. Determine all cells that can be the uncovered cell.
+
+**Hint 1: What is being asked**
+
+Find every cell (row, column) of the board that can be the single uncovered cell in such a placement of sixteen tiles.
+
+**Hint 2: The technique**
+
+Colour the cells so that every tile covers a known pattern of colours, then compare with the colour counts of the board. You also need to show that each cell you allow really occurs.
+
+**Hint 3: The key idea**
+
+Colour the cell in row $i$ and column $j$ by the remainder of $i+j$ modulo $3$. What colours does one tile cover, horizontal or vertical?
+
+**Hint 4: The next step**
+
+Count how many cells of each colour the board has. Sixteen tiles cover equally many cells of each colour, so the uncovered cell has a colour that is determined by the counts.
+
+**Hint 5: The next step**
+
+Repeat with the remainder of $i-j$ modulo $3$ and combine the two conditions. Then show, with explicit tilings, that all the cells you found are possible. Symmetry reduces the number of tilings to draw.
+
+**Solution**
+
+Write $(i,j)$ for the cell in row $i$ and column $j$.
+
+**Necessary conditions.** A tile covers three consecutive cells in a row, whose values of $j$ are $j,j+1,j+2$, or three consecutive cells in a column. In either case the values of $i+j$ modulo $3$ are $0,1,2$ in some order, and so are the values of $i-j$ modulo $3$ (the difference changes by $\pm1$ at each cell along a row or a column). So each tile covers exactly one cell of each residue class of $i+j$ and one of each class of $i-j$. Sixteen tiles therefore cover exactly $16$ cells of each class, so the uncovered cell must lie in a class that contains $16+1=17$ cells of the board (and the other two classes must contain $16$).
+
+Count the board's classes. Among $1,\dots,7$ there are $3$ numbers $\equiv1\pmod 3$ ($1,4,7$), $2$ numbers $\equiv2$ ($2,5$) and $2$ numbers $\equiv0$ ($3,6$). The number of cells with $i+j\equiv0$ is $3\cdot2+2\cdot3+2\cdot2=16$ (residue pairs $(1,2),(2,1),(0,0)$). With $i+j\equiv1$: pairs $(1,0),(0,1),(2,2)$ give $6+6+4=16$. With $i+j\equiv2$: pairs $(1,1),(2,0),(0,2)$ give $9+4+4=17$. Hence the uncovered cell has $i+j\equiv2\pmod3$.
+
+Similarly for $i-j$: $i-j\equiv0$ comes from pairs $(1,1),(2,2),(0,0)$, giving $9+4+4=17$ cells; $i-j\equiv1$ comes from $(1,0),(2,1),(0,2)$, giving $6+6+4=16$; $i-j\equiv2$ comes from $(0,1),(1,2),(2,0)$, giving $6+6+4=16$. So the uncovered cell has $i\equiv j\pmod 3$.
+
+Adding, $2i\equiv i+j\equiv2$, so $i\equiv1$, and then $j\equiv1\pmod3$. Thus $i,j\in\{1,4,7\}$: at most nine cells are possible.
+
+**All nine occur.**
+- Uncovered $(1,b)$ with $b\in\{1,4,7\}$: in row $1$ the cells to the left of column $b$ and to the right of it form blocks of lengths $b-1$ and $7-b$, which are $0,6$ or $3,3$ or $6,0$; cover each block with horizontal tiles. Rows $2$ to $7$ form a $6\times7$ rectangle: in each column place two vertical tiles.
+- Uncovered $(7,b)$: the same picture reflected top to bottom. Uncovered $(a,1)$ and $(a,7)$: the same pictures with rows and columns exchanged. This gives eight cells $(1,1),(1,4),(1,7),(7,1),(7,4),(7,7),(4,1),(4,7)$.
+- Uncovered $(4,4)$: use four rectangles around the centre: rows $1$–$3$ by columns $1$–$4$ (four vertical tiles), rows $1$–$4$ by columns $5$–$7$ (four horizontal tiles), rows $5$–$7$ by columns $4$–$7$ (four vertical tiles), rows $4$–$7$ by columns $1$–$3$ (four horizontal tiles). They are disjoint, cover $48$ cells, and miss only $(4,4)$.
+
+So the possible uncovered cells are exactly the nine cells $(i,j)$ with $i,j\in\{1,4,7\}$.
+
+$\boxed{(i,j)\ \text{with}\ i,j\in\{1,4,7\}}$
+
+---
+
+## m23 · difficulty 4 · Cauchy–Schwarz and Titu's lemma
+*Estonian Mathematical Olympiad (Estonia), MathNet 05bw*
+
+**Statement**
+
+Anna, Berta and Carol make fruit drinks from syrup. Anna makes $a$ litres of drink by mixing water and syrup in the proportion of $a:1$. Berta makes $b$ litres of drink by mixing water and syrup in the proportion of $b:1$. Carol makes $c$ litres of drink by mixing water and syrup in the proportion of $c:1$. (It is not known if $a$, $b$ and $c$ are integers.) They make $6$ litres of drink in total. Prove that they use at most $2$ litres of syrup.
+
+**Hint 1: What is being asked**
+
+Translate to an inequality in $a,b,c$ with $a+b+c=6$ and prove it.
+
+**Hint 2: The technique**
+
+After translating, apply [[cauchy-schwarz]] (Titu's form) to the sum of reciprocals.
+
+**Hint 3: The key idea**
+
+In $a$ litres of drink with water : syrup $=a:1$, what fraction is syrup? So how much syrup is in Anna's drink?
+
+**Hint 4: The next step**
+
+You want $\sum\frac a{a+1}\le2$. Rewrite it using $\frac a{a+1}=1-\frac1{a+1}$.
+
+**Hint 5: The next step**
+
+Apply Titu's lemma to $\sum\frac1{a+1}$ with $\sum(a+1)=9$.
+
+**Solution**
+
+In Anna's drink the syrup is $\frac1{a+1}$ of the volume, so she uses $\frac a{a+1}$ litres of syrup; similarly for the others. We must show that $a+b+c=6$ with $a,b,c>0$ implies
+$$\frac a{a+1}+\frac b{b+1}+\frac c{c+1}\le2.$$
+Since $\frac a{a+1}=1-\frac1{a+1}$, this is equivalent to $\frac1{a+1}+\frac1{b+1}+\frac1{c+1}\ge1$. By Cauchy–Schwarz (Titu's lemma),
+$$\frac1{a+1}+\frac1{b+1}+\frac1{c+1}\ge\frac{(1+1+1)^2}{(a+1)+(b+1)+(c+1)}=\frac9{6+3}=1.\ \blacksquare$$
+
+---
+
+## o97 · difficulty 5 · Graph theory basics, Extremal principle
+*original*
+
+**Statement**
+
+A country has several cities, and some pairs of cities are joined by a direct two-way road (at most one road between two cities). Every city has direct roads to at least three other cities. Prove that one can start in some city, travel along a closed route that uses at least three different roads, visits an even number of different cities, never visits a city twice (except returning to the start), and comes back to the start.
+
+**Hint 1: What is being asked**
+
+Prove that the road network contains a cycle with an even number of cities (equivalently, an even number of roads).
+
+**Hint 2: The technique**
+
+Look at an extreme object in the network, such as a route that cannot be extended, and use what the degree condition says about its end.
+
+**Hint 3: The key idea**
+
+Take a route (a path without repeated cities) with as many cities as possible. Where can the neighbours of its first city lie?
+
+**Hint 4: The next step**
+
+The first city $v_0$ has at least three neighbours, all on the path $v_0,v_1,\dots,v_m$. Besides $v_1$ there are two more, $v_i$ and $v_j$ with $2\le i<j$. Each of them closes a cycle with the path.
+
+**Hint 5: The next step**
+
+There are three natural cycles using $v_0$, $v_i$, $v_j$. Compute their numbers of cities, and see what happens if all of them are odd.
+
+**Solution**
+
+Because there are finitely many cities, we can choose a longest path $v_0v_1\dots v_m$ (the cities $v_0,\dots,v_m$ are all different, consecutive ones are joined by roads, and $m$ is as large as possible).
+
+Every neighbour of $v_0$ lies on this path. Indeed, if $v_0$ had a neighbour $w$ outside the path, then $w v_0 v_1\dots v_m$ would be a longer path.
+
+The city $v_0$ has at least three neighbours, all among $v_1,\dots,v_m$. One of them is $v_1$ (it is joined to $v_0$ by the path), so at least two others exist; call them $v_i$ and $v_j$ with $2\le i<j\le m$.
+
+Consider these three closed routes:
+1. $v_0v_1\dots v_iv_0$, which visits $i+1$ cities ($i+1\ge3$);
+2. $v_0v_1\dots v_jv_0$, which visits $j+1$ cities;
+3. $v_0v_iv_{i+1}\dots v_jv_0$, which visits $(j-i+1)+1=j-i+2$ cities ($\ge3$ since $j>i$).
+
+Each is a cycle: the cities in each list are distinct and consecutive ones are joined (using the roads $v_0v_i$ and $v_0v_j$ for the closing steps).
+
+Suppose all three numbers of cities were odd. Then $i+1$ odd gives $i$ even, and $j+1$ odd gives $j$ even. But then $j-i+2$ is even, a contradiction. So at least one of the three cycles has an even number of cities. $\blacksquare$
+
+---
+
 ## m49 · difficulty 7 · Diophantine equations, Divisibility and gcd
 *20th Korean Mathematical Olympiad Final Round (South Korea), MathNet 0eu6*
 
@@ -984,579 +1543,100 @@ Swapping $x$ and $y$ gives the second family. (For $t=1$ both give $(1,1,3)$.)
 
 ---
 
-## m12 · difficulty 8 · Graph theory basics, Extremal principle
-*Romanian Master of Mathematics (Romania), MathNet 0c8t*
+## m86 · difficulty 7 · Invariants and monovariants, Constructive arguments
+*International Mathematical Olympiad (IMO), MathNet 06x0*
 
 **Statement**
 
-In a country there are $n$ airports and $n$ air companies operating return flights. Each company operates an odd number of flights forming a closed route. Prove that a traveller can complete a closed route consisting of an odd number of flights operated by pairwise distinct companies.
+Let $n$ be a positive integer. We start with $n$ piles of pebbles, each initially containing a single pebble. One can perform moves of the following form: choose two piles, take an equal number of pebbles from each pile and form a new pile out of these pebbles. For each positive integer $n$, find the smallest number of non-empty piles that one can obtain by performing a finite sequence of moves of this form.
 
 **Hint 1: What is being asked**
 
-Each company's flights form an odd closed route (parallel flights of different companies count as different edges). Show that there is an odd closed route in which no two flights belong to the same company.
+A move takes $c\ge1$ pebbles from each of two piles and puts these $2c$ pebbles into a new pile. Starting from $n$ single pebbles, find the fewest non-empty piles that can be reached.
 
 **Hint 2: The technique**
 
-Translate to [[graph-theory]]: you have $n$ odd cycles on the same $n$ vertices and want an odd cycle with edges taken from different cycles. Use an [[extremal]] choice: a largest "rainbow" forest.
+Small cases suggest the answer. For impossibility, look for a property of the whole configuration that moves can never create.
 
 **Hint 3: The key idea**
 
-Call a set of edges rainbow if no two come from the same company. Take a largest rainbow set of edges containing no cycle.
+If $n$ is a power of $2$, one pile is reachable by merging equal piles repeatedly.
 
 **Hint 4: The next step**
 
-A forest on $n$ vertices has fewer than $n$ edges, so some company contributes no edge to it. Look at that company's odd cycle.
+Let $m$ be an odd divisor of $n$ greater than $1$. Show that if every pile is divisible by $m$ after a move, then every pile was divisible by $m$ before it. Run this backwards from a single pile.
 
 **Hint 5: The next step**
 
-Show every edge of that cycle joins two vertices in the same tree of the forest, and use that trees are bipartite.
+For two piles when $2^N<n<2^{N+1}$: make a pile of $2^N$, then use it and pairs of pebbles to bring it down to $n-2^N$ while the removed pebbles regroup into another power of $2$.
 
 **Solution**
 
-Each company's closed route is an odd cycle on the vertex set of $n$ airports. Call a set of edges *rainbow* if its edges come from different companies. Let $F$ be a rainbow set of edges with no cycle (a rainbow forest) of maximum size.
+**Answer:** $1$ if $n$ is a power of $2$, and $2$ otherwise.
 
-$F$ has at most $n-1$ edges (it is a forest on $n$ vertices), and its edges come from distinct companies, so some company $C$ has no edge in $F$. Consider the odd cycle of $C$.
+The total number of pebbles never changes, so at least one non-empty pile always remains.
 
-No edge $e$ of this cycle joins two different components of $F$ (components include isolated vertices): otherwise $F\cup\{e\}$ would be a larger rainbow forest. So all vertices of the cycle lie in the same component of $F$, a tree $T$. A tree is bipartite: its vertices split into two parts with all tree edges between them. The cycle of $C$ has odd length, so it cannot be properly 2-colored by these parts; hence it has an edge $e$ whose endpoints are in the same part.
+**Powers of $2$.** From $2^N$ piles of size $2^j$, a move on two of them (with $c=2^j$) empties both and creates a pile of $2^{j+1}$. So $2^N$ single pebbles become $2^{N-1}$ piles of $2$, then $2^{N-2}$ piles of $4$, and so on, down to one pile of $2^N$. Hence for $n=2^N$ the answer is $1$.
 
-The path in $T$ between the endpoints of $e$ has even length (same part), so together with $e$ it forms a cycle of odd length. Its edges are tree edges (from distinct companies) plus $e$ (from $C$, which has no edge in $F$). So it is an odd closed route with pairwise distinct companies. $\blacksquare$
+**One pile is impossible otherwise.** Suppose $n$ is not a power of $2$, and let $m>1$ be an odd divisor of $n$. A move changes piles of sizes $a,b$ into $a-c,\ b-c$ and adds a pile $2c$ (a pile of size $0$ disappears; we may treat it as size $0$). Suppose every pile after the move is divisible by $m$. Then $m\mid2c$, and since $m$ is odd, $m\mid c$. Hence $m\mid(a-c)+c=a$ and $m\mid b$, and the untouched piles did not change. So every pile before the move was divisible by $m$ as well.
 
----
+If some sequence of moves ended with a single pile, that pile would have $n$ pebbles, divisible by $m$. Going backwards move by move, every earlier position would have all piles divisible by $m$, including the start, where all piles are $1$. This is false, so one pile cannot be reached.
 
-## o26 · difficulty 3 · Coordinate geometry
-*original*
+**Two piles are reachable.** Let $2^N<n<2^{N+1}$ (so $N\ge1$) and $r=n-2^N$, with $1\le r\le2^N-1$.
+1. Using $2^N$ of the single pebbles, build one pile $L$ of $2^N$ pebbles as above. There remain $r$ single pebbles.
+2. Take $1$ pebble from $L$ and $1$ from a single pebble: now $L=2^N-1$, there is one pile of $2$, and $r-1$ single pebbles.
+3. Repeat: take $1$ from $L$ and $1$ from the current pile of $2$, forming a new pile of $2$. Each repetition decreases $L$ by $1$ and turns the old pile of $2$ into a single pebble. Do this $2^N-1-r\ge0$ times. Then $L=r$, there is one pile of $2$, and $(r-1)+(2^N-1-r)=2^N-2$ single pebbles.
+4. Pair the $2^N-2$ single pebbles into $2^{N-1}-1$ piles of $2$. Together with the existing pile of $2$, we have $2^{N-1}$ piles of $2$, which merge into one pile of $2^N$.
 
-**Statement**
+We end with exactly two piles, of sizes $r$ and $2^N$.
 
-Points $A=(-1,0)$ and $B=(1,0)$ are given. Describe the set of all points $P$ in the plane with $PA^2+PB^2=10$.
-
-**Hint 1: What is being asked**
-
-Find the shape and equation of the set of points whose squared distances to $A$ and $B$ add up to $10$.
-
-**Hint 2: The technique**
-
-Use [[coordinates]]. Write $P=(x,y)$ and translate the condition into an equation.
-
-**Hint 3: The key idea**
-
-Write $PA^2$ and $PB^2$ with the distance formula in terms of $x$ and $y$.
-
-**Hint 4: The next step**
-
-Expand and simplify. Recognize the resulting equation.
-
-**Solution**
-
-Let $P=(x,y)$. Then $PA^2=(x+1)^2+y^2$ and $PB^2=(x-1)^2+y^2$. Adding,
-$$2x^2+2y^2+2=10\ \Longrightarrow\ x^2+y^2=4.$$
-The set is the circle with center $(0,0)$ and radius $2$.
+So the minimum is $\boxed{1}$ when $n$ is a power of $2$ and $\boxed{2}$ otherwise.
 
 ---
 
-## m31 · difficulty 8 · Induction, Graph theory basics
-*Team selection test for 23. BMO (Bulgaria), MathNet 0382*
+## m37 · difficulty 6 · Modular arithmetic, Diophantine equations
+*48th Austrian Mathematical Olympiad (Austria), MathNet 00lz*
 
 **Statement**
 
-After a volleyball tournament (every two teams played exactly once) with $n$ teams it turned out that for any two teams $A$ and $B$ such that $B$ wins over $A$, there exist a positive integer $t$ and teams $C_1,C_2,\dots,C_t$ such that $A$ wins over $C_1$, $C_1$ wins over $C_2$, $\dots$, $C_t$ wins over $B$. Prove that for any $k=3,4,\dots,n$ there exist $k$ teams $A_1,A_2,\dots,A_k$ such that $A_1$ wins over $A_2$, $A_2$ wins over $A_3$, $\dots$, $A_{k-1}$ wins over $A_k$ and $A_k$ wins over $A_1$.
+Find all pairs $(a,b)$ of non-negative integers such that
+$$2017^a=b^6-32b+1.$$
 
 **Hint 1: What is being asked**
 
-In a tournament where every team can reach every other team along a chain of wins, show that there are cycles of wins of every length from $3$ up to $n$.
+Determine all non-negative integers $a,b$ with $2017^a=b^6-32b+1$.
 
 **Hint 2: The technique**
 
-Use [[induction]] on the cycle length: from a cycle of length $k<n$, build one of length $k+1$ by looking at how an outside team plays against the cycle. Phrase everything as a directed graph ([[graph-theory]]).
+Reduce modulo a suitable power of $2$ ([[modular-arithmetic]]) to learn something about $a$, then compare sizes.
 
 **Hint 3: The key idea**
 
-For $k=3$: take a shortest cycle of wins and show it cannot have length $4$ or more by looking at a chord.
+Parity forces $b$ to be even. Write $b=2c$ and look at the equation modulo $64$.
 
 **Hint 4: The next step**
 
-Given a $k$-cycle and an outside team $U$ that beats some cycle team and loses to another, insert $U$ into the cycle.
+$2017\equiv33\pmod{64}$ and $33^2\equiv1\pmod{64}$. What does this say about $a$?
 
 **Hint 5: The next step**
 
-Otherwise every outside team beats the whole cycle or loses to the whole cycle. Use the chain condition to find a team $V$ of the second kind that beats a team $U$ of the first kind.
+For larger $b$, compare $b^6-32b+1$ with $(b^3)^2$ and $(b^3-1)^2$.
 
 **Solution**
 
-Draw an arrow $X\to Y$ when $X$ beats $Y$. Between two distinct teams there is exactly one arrow. The condition implies: for any distinct $X,Y$ there is a directed walk from $X$ to $Y$ (if $X\to Y$ directly; otherwise $Y\to X$ and the condition gives a walk $X\to C_1\to\dots\to C_t\to Y$).
+**Answer:** $\boxed{(a,b)=(0,0)\text{ and }(0,2)}$.
 
-**A $3$-cycle exists.** Take any game, say $B\to A$, and the walk $A\to C_1\to\dots\to C_t\to B$; with $B\to A$ it is a closed walk, which contains a directed cycle. Let $v_1\to v_2\to\dots\to v_L\to v_1$ be a shortest directed cycle; $L\ge3$ because two teams play only once. If $L\ge4$, look at the game between $v_1$ and $v_3$: if $v_3\to v_1$ then $v_1\to v_2\to v_3\to v_1$ is a shorter cycle; if $v_1\to v_3$ then $v_1\to v_3\to\dots\to v_L\to v_1$ is a shorter cycle. Either way we contradict minimality, so $L=3$.
+The left side is odd, so $b^6-32b$ is even, so $b$ is even: $b=2c$. Then $b^6-32b=64c^6-64c$, so $2017^a\equiv1\pmod{64}$. Now $2017=31\cdot64+33\equiv33$ and $33^2=1089=17\cdot64+1\equiv1\pmod{64}$, so $2017^a\equiv33$ for odd $a$ and $\equiv1$ for even $a$. Hence $a$ is even and $2017^a$ is a perfect square.
 
-**From $k$ to $k+1$ ($3\le k<n$).** Let $A_1\to A_2\to\dots\to A_k\to A_1$ be a cycle and $\mathcal C$ its set of teams.
+**$b\ge6$ (even, so $b>4$).** We have $b^6-32b+1<b^6=(b^3)^2$, and
+$$b^6-32b+1>(b^3-1)^2=b^6-2b^3+1\iff 2b^3>32b\iff b^2>16,$$
+which holds. So the right side lies strictly between consecutive squares and is not a square. No solutions.
 
-*Case 1: some outside team $U$ beats one team of $\mathcal C$ and loses to another.* Going around the cycle, the cycle teams are of two kinds (beating $U$ or losing to $U$) and both kinds occur, so there is an index $i$ with $A_i\to U$ and $U\to A_{i+1}$ (indices mod $k$). Then $A_1\to\dots\to A_i\to U\to A_{i+1}\to\dots\to A_k\to A_1$ is a cycle of length $k+1$.
+**Remaining even $b$:**
+- $b=0$: $2017^a=1$, so $a=0$.
+- $b=2$: $2017^a=64-64+1=1$, so $a=0$.
+- $b=4$: $2017^a=4096-128+1=3969$. But $2017<3969<2017^2$, so $3969$ is not a power of $2017$.
 
-*Case 2: every outside team beats all of $\mathcal C$ (set $S$) or loses to all of $\mathcal C$ (set $T$).* Since $k<n$, $S\cup T\ne\varnothing$.
-
-First, $S\ne\varnothing$. Otherwise take $V\in T$ and a walk from $V$ to $A_1$. Let $Q$ be the first team of the walk in $\mathcal C$ and $R$ the team just before it. Then $R\notin\mathcal C$, so $R\in T$, but $R\to Q$ contradicts that $T$-teams lose to all of $\mathcal C$.
-
-Now take $U_0\in S$ and a walk from $A_1$ to $U_0$. Let $U$ be the first team of the walk lying in $S$ and $V$ the team just before it, so $V\to U$. $V$ is not in $S$, and $V\notin\mathcal C$ because every team of $\mathcal C$ loses to $U$. Hence $V\in T$. Now
-$$U\to A_1\to A_2\to\dots\to A_{k-1}\to V\to U$$
-is a cycle: $U\to A_1$ as $U\in S$, $A_{k-1}\to V$ as $V\in T$, and $V\to U$. It has $k+1$ distinct teams.
-
-In both cases we get a cycle of length $k+1$. By induction there are cycles of every length $3,4,\dots,n$. $\blacksquare$
-
----
-
-## m15 · difficulty 4 · Casework, Extremal principle
-*56th Ukrainian National Mathematical Olympiad, Third Round (Ukraine), MathNet 0h7f*
-
-**Statement**
-
-$30$ children, boys and girls, formed a circle. It occurred that there is no child such that both its neighbors are boys. What is the least possible number of girls?
-
-**Hint 1: What is being asked**
-
-Find the smallest number of girls, given that no child has two boys as neighbors.
-
-**Hint 2: The technique**
-
-Use [[casework]] on the structure of the circle: look at the maximal blocks of consecutive boys and the blocks of girls between them.
-
-**Hint 3: The key idea**
-
-How long can a block of consecutive boys be? What if there are three boys in a row?
-
-**Hint 4: The next step**
-
-Between two blocks of boys, how many girls are needed so that no child sits between two boys?
-
-**Hint 5: The next step**
-
-If there are $k$ blocks of boys, how many boys and girls are there at most / at least? Then optimize.
-
-**Solution**
-
-Three boys in a row would make the middle boy have two boy neighbors, so every block of consecutive boys has size at most $2$. Two blocks of boys separated by exactly one girl would give that girl two boy neighbors, so any two consecutive blocks of boys are separated by at least $2$ girls.
-
-Suppose there are $k\ge1$ blocks of boys around the circle. Then there are also $k$ blocks of girls, each of size at least $2$, so $g\ge2k$ girls; and $b\le2k$ boys.
-
-If $g\le15$ then $b\ge15$, so $2k\ge b\ge15$ and $k\ge8$. But then $g\ge2k\ge16$, a contradiction. So $g\ge16$. (With no boys at all, $g=30$.)
-
-**Example with $16$ girls:** around the circle put seven blocks "boy, boy" alternating with girl blocks of sizes $2,2,2,2,2,2,4$. That is $14$ boys and $6\cdot2+4=16$ girls, and no child has two boy neighbors.
-
-The minimum is $\boxed{16}$.
-
----
-
-## m13 · difficulty 6 · Angle chasing and cyclic quadrilaterals
-*Estonian Mathematical Olympiad (Estonia), MathNet 05cw*
-
-**Statement**
-
-In an isosceles triangle $ABC$ with $AB=AC$, the bisector of the angle $BAC$ intersects $BC$ at $D$. The bisector of the angle $ABC$ intersects the perpendicular bisector of $AD$ at $E$. Prove that the bisector of the angle $ACB$ is perpendicular to $DE$.
-
-**Hint 1: What is being asked**
-
-Show that the line $DE$ meets the bisector from $C$ at a right angle.
-
-**Hint 2: The technique**
-
-First prove $A,B,D,E$ are concyclic, then chase angles at $D$ and at the incenter.
-
-**Hint 3: The key idea**
-
-In an isosceles triangle the bisector $AD$ is also an altitude, so $\angle ADB=90^\circ$. Which circle passes through $A,B,D$?
-
-**Hint 4: The next step**
-
-Let the bisector of $\angle ABC$ meet that circle again at $E'$. Show $E'A=E'D$, so $E'=E$.
-
-**Hint 5: The next step**
-
-Let $I$ be the incenter, on $AD$. Compute $\angle EDI$ using the circle and $\angle CID$ in the right triangle $CDI$, and add them.
-
-**Solution**
-
-Let $\gamma=\angle ABC=\angle ACB$. Since $AB=AC$, the bisector $AD$ is also the altitude, so $\angle ADB=90^\circ$ and $A,B,D$ lie on the circle $\omega$ with diameter $AB$. The incenter $I$ lies on $AD$.
-
-Let the bisector of $\angle ABC$ meet $\omega$ again at $E'$. Since $BE'$ bisects $\angle ABD$, the arcs $AE'$ and $E'D$ are equal, so $E'A=E'D$ and $E'$ is on the perpendicular bisector of $AD$. This line meets $BI$ in one point, so $E'=E$. Thus $ABDE$ is cyclic, with $E$ the midpoint of arc $AD$ not containing $B$, so $E$ and $C$ lie on the same side of $AD$.
-
-Now $\angle EDI=\angle EDA=\angle EBA=\frac\gamma2$ (inscribed angles on arc $EA$). In the right triangle $CDI$, $\angle DCI=\frac\gamma2$ because $CI$ bisects $\angle ACB$, so $\angle CID=90^\circ-\frac\gamma2$.
-
-Since $\angle IDC=90^\circ$ and $E$ is on the same side of $AD$ as $C$ with $\angle EDI=\frac\gamma2<90^\circ$, the ray $DE$ lies inside the right angle $IDC$, so it meets segment $IC$ at a point $X$. In triangle $DIX$ the angles at $D$ and $I$ are $\frac\gamma2$ and $90^\circ-\frac\gamma2$, so the angle at $X$ is $90^\circ$. Hence $CI\perp DE$. $\blacksquare$
-
----
-
-## m65 · difficulty 6 · Complex numbers in geometry
-*37th Iranian Mathematical Olympiad (Iran), MathNet 07fm*
-
-**Statement**
-
-Let $A_1,A_2,\dots,A_k$ be points on the unit circle. Prove that
-$$\sum_{1\le i<j\le k}d(A_i,A_j)^2\le k^2,$$
-where $d(A_i,A_j)$ denotes the distance between $A_i$ and $A_j$.
-
-**Hint 1: What is being asked**
-
-For $k$ points on a circle of radius $1$, show that the sum of the squared distances over all pairs is at most $k^2$.
-
-**Hint 2: The technique**
-
-Put the points in the complex plane as $z_i$ with $|z_i|=1$ and expand $|z_i-z_j|^2=(z_i-z_j)(\bar z_i-\bar z_j)$. The sum of the cross terms is controlled by $|z_1+\dots+z_k|^2$.
-
-**Hint 3: The key idea**
-
-$|z_i-z_j|^2=2-(\bar z_iz_j+z_i\bar z_j)$ when $|z_i|=|z_j|=1$.
-
-**Hint 4: The next step**
-
-Expand $\left|\sum z_i\right|^2=\left(\sum z_i\right)\left(\sum\bar z_i\right)$ and identify the cross terms.
-
-**Solution**
-
-Place the unit circle in the complex plane and let $A_i$ correspond to $z_i$ with $|z_i|=1$. Then $d(A_i,A_j)^2=|z_i-z_j|^2=(z_i-z_j)(\bar z_i-\bar z_j)=2-(\bar z_iz_j+z_i\bar z_j)$. Summing over $i<j$:
-$$\sum_{i<j}|z_i-z_j|^2=2\binom k2-\sum_{i\ne j}\bar z_iz_j,$$
-where the last sum is over ordered pairs. On the other hand,
-$$\Big|\sum_{i=1}^kz_i\Big|^2=\Big(\sum_iz_i\Big)\Big(\sum_j\bar z_j\Big)=\sum_i|z_i|^2+\sum_{i\ne j}\bar z_iz_j=k+\sum_{i\ne j}\bar z_iz_j.$$
-Therefore
-$$\sum_{i<j}d(A_i,A_j)^2=k(k-1)-\Big(\Big|\sum z_i\Big|^2-k\Big)=k^2-\Big|\sum_{i=1}^kz_i\Big|^2\le k^2.$$
-Equality holds exactly when $z_1+\dots+z_k=0$, i.e. when the centroid of the points is the centre of the circle. $\blacksquare$
-
----
-
-## m01 · difficulty 6 · Modular arithmetic, Constructive arguments
-*Baltic Way (Baltic Way), MathNet 017c*
-
-**Statement**
-
-Prove that there exists an integer which is divisible by $2010$ and whose decimal notation contains exactly two different digits.
-
-**Hint 1: What is being asked**
-
-You must produce (and justify) a multiple of $2010$ written with only two distinct digits.
-
-**Hint 2: The technique**
-
-A number made only of the digit $9$ is $10^k-1$, so look for a power of $10$ that is $1$ modulo something.
-
-**Hint 3: The key idea**
-
-Factor $2010=10\cdot201$. A multiple of $10$ ends in $0$. You want the rest to be built from a single repeated digit.
-
-**Hint 4: The next step**
-
-$201$ is coprime to $10$. Euler's theorem gives $k$ with $10^k\equiv1\pmod{201}$. What does that say about $10^k-1$?
-
-**Hint 5: The next step**
-
-Multiply $10^k-1$ by $10$ and read off its decimal digits.
-
-**Solution**
-
-Since $201=3\cdot67$ is coprime to $10$, Euler's theorem gives $10^{\varphi(201)}\equiv1\pmod{201}$, where $\varphi(201)=2\cdot66=132$. So $201\mid10^{132}-1$.
-
-Let $N=10\,(10^{132}-1)$. Then $2010=10\cdot201$ divides $N$. The number $10^{132}-1$ is $132$ nines, so $N$ is $132$ nines followed by a $0$. Its digits are exactly $9$ and $0$. $\blacksquare$
-
----
-
-## m04 · difficulty 5 · Similar triangles and power of a point
-*Baltic Way 2013 (Baltic Way), MathNet 01ai*
-
-**Statement**
-
-Let $ABC$ be a triangle, and let $X,Y,Z$ be points on $BC,CA,AB$ respectively. Suppose that $AX$, $BY$ and $CZ$ intersect in a point $P$. Prove that
-$$\frac{AP}{AX}+\frac{BP}{BY}+\frac{CP}{CZ}=2.$$
-
-**Hint 1: What is being asked**
-
-Three lines from the vertices meet at one point $P$ inside the triangle. Each ratio compares $AP$ with the full length $AX$ of the line from the vertex through $P$ to the opposite side. Show that the three ratios add to $2$.
-
-**Hint 2: The technique**
-
-Convert the segment ratios into ratios of areas: triangles on a common base have areas proportional to their heights, and the heights are in the ratio of segments along a line through the vertex ([[similar-triangles]]).
-
-**Hint 3: The key idea**
-
-Write $\frac{AP}{AX}=1-\frac{PX}{AX}$.
-
-**Hint 4: The next step**
-
-Triangles $PBC$ and $ABC$ share the base $BC$. Their heights above $BC$ are in the ratio $PX:AX$.
-
-**Solution**
-
-Write $\frac{AP}{AX}=1-\frac{PX}{AX}$. Triangles $PBC$ and $ABC$ have the same base $BC$, and their heights from $P$ and $A$ to $BC$ are in the ratio $PX:AX$ (because $A$, $P$, $X$ are collinear and $X$ is on $BC$). So
-$$\frac{PX}{AX}=\frac{[PBC]}{[ABC]}\quad\text{and}\quad\frac{AP}{AX}=1-\frac{[PBC]}{[ABC]}.$$
-Similarly $\frac{BP}{BY}=1-\frac{[PCA]}{[ABC]}$ and $\frac{CP}{CZ}=1-\frac{[PAB]}{[ABC]}$. Adding,
-$$\text{sum}=3-\frac{[PBC]+[PCA]+[PAB]}{[ABC]}=3-1=2.\ \blacksquare$$
-
----
-
-## m67 · difficulty 6 · Trigonometry in geometry
-*Nordic Mathematical Contest, NMC 7 (Nordic Mathematical Olympiad), MathNet 0a7l*
-
-**Statement**
-
-A hexagon is inscribed in a circle of radius $r$. Two of the sides of the hexagon have length $1$, two have length $2$ and two have length $3$. Show that $r$ satisfies the equation
-$$2r^3-7r-3=0.$$
-
-**Hint 1: What is being asked**
-
-A cyclic hexagon has sides $1,1,2,2,3,3$ in some order. Show that its circumradius $r$ is a root of $2r^3-7r-3$.
-
-**Hint 2: The technique**
-
-A chord of length $\ell$ cuts off an arc whose half-angle $\phi$ satisfies $\ell=2r\sin\phi$. The six arcs fill the circle, which gives one trigonometric relation among three half-angles.
-
-**Hint 3: The key idea**
-
-Let the arcs cut off by the sides have measures $2\phi_1,\dots,2\phi_6$ summing to $360^\circ$. Show that sides of equal length cut off equal arcs, all less than $180^\circ$.
-
-**Hint 4: The next step**
-
-With half-angles $\alpha,\beta,\gamma$ for lengths $1,2,3$ you get $\alpha+\beta+\gamma=90^\circ$. Then $\sin\gamma=\cos(\alpha+\beta)$.
-
-**Hint 5: The next step**
-
-Expand $\cos(\alpha+\beta)$, isolate the product of cosines and square.
-
-**Solution**
-
-The six vertices split the circle into six arcs (each not containing other vertices), with measures adding to $360^\circ$. A side cutting off an arc of measure $\theta\in(0^\circ,360^\circ)$ has length $2r\sin\frac\theta2$.
-
-**Equal sides cut off equal arcs.** Two sides of the same length $\ell$ cut off arcs $\theta,\theta'$ with $\sin\frac\theta2=\sin\frac{\theta'}2$, so $\theta'=\theta$ or $\theta'=360^\circ-\theta$. The second option would make these two arcs fill the whole circle, leaving nothing for the other four arcs; so $\theta'=\theta$. Hence the arcs are $2\alpha,2\alpha,2\beta,2\beta,2\gamma,2\gamma$ for the lengths $1,2,3$, with $4(\alpha+\beta+\gamma)=360^\circ$, i.e. $\alpha+\beta+\gamma=90^\circ$. All of $\alpha,\beta,\gamma$ lie in $(0^\circ,90^\circ)$ and
-$$\sin\alpha=\frac1{2r},\qquad\sin\beta=\frac1r,\qquad\sin\gamma=\frac3{2r}.$$
-**The equation.** Since $\gamma=90^\circ-(\alpha+\beta)$, $\sin\gamma=\cos(\alpha+\beta)=\cos\alpha\cos\beta-\sin\alpha\sin\beta$, so
-$$\cos\alpha\cos\beta=\frac3{2r}+\frac1{2r^2}=\frac{3r+1}{2r^2}.$$
-The cosines are positive, $\cos\alpha=\sqrt{1-\frac1{4r^2}}$ and $\cos\beta=\sqrt{1-\frac1{r^2}}$. Squaring and multiplying by $4r^4$:
-$$(4r^2-1)(r^2-1)=(3r+1)^2\iff4r^4-5r^2+1=9r^2+6r+1\iff2r(2r^3-7r-3)=0.$$
-As $r>0$, we get $2r^3-7r-3=0$. $\blacksquare$
-
----
-
-## o16 · difficulty 3 · Functional equations
-*original*
-
-**Statement**
-
-Does there exist a function $f:\mathbb R\to\mathbb R$ such that $f(x)+f(1-x)=x$ for every real $x$?
-
-**Hint 1: What is being asked**
-
-You must decide whether any function at all can satisfy this equation for all real $x$.
-
-**Hint 2: The technique**
-
-Try substituting a related value of $x$.
-
-**Hint 3: The key idea**
-
-The equation holds for every $x$, so it also holds when $x$ is replaced by $1-x$. Write that version down.
-
-**Hint 4: The next step**
-
-Compare the two equations. What happens to the left sides?
-
-**Solution**
-
-**No.** Suppose such an $f$ exists. Replacing $x$ by $1-x$ gives $f(1-x)+f(x)=1-x$. The left side is the same as in the original equation, so $x=1-x$ for every real $x$. But this fails for $x=0$. So no such function exists.
-
----
-
-## m02 · difficulty 5 · Double counting, Invariants and monovariants
-*Singapore Mathematical Olympiad (SMO) (Singapore), MathNet 0dsa*
-
-**Statement**
-
-Consider a polygon with $m+n$ sides where $m,n$ are positive integers. Colour $m$ of its vertices red and the remaining $n$ vertices blue. A side is given the number $2$ if both its end vertices are red, the number $\frac12$ if both its end vertices are blue and the number $1$ otherwise. Let the product of these numbers be $P$. Find the largest possible value of $P$.
-
-**Hint 1: What is being asked**
-
-Over all ways of coloring the vertices, find the largest value of the product of the edge numbers.
-
-**Hint 2: The technique**
-
-The answer turns out not to depend on the coloring. This is a [[double-counting]] problem: count red endpoints of edges in two ways.
-
-**Hint 3: The key idea**
-
-Write $P=2^{R-B}$, where $R$ is the number of red-red sides and $B$ the number of blue-blue sides. You need $R-B$.
-
-**Hint 4: The next step**
-
-Count pairs (vertex, side at that vertex) where the vertex is red. Each red vertex lies on exactly two sides.
-
-**Hint 5: The next step**
-
-Do the same for blue vertices, and subtract the two counts.
-
-**Solution**
-
-Let $R,B,M$ be the numbers of red-red, blue-blue and mixed sides. Then $P=2^{R}\cdot2^{-B}=2^{R-B}$.
-
-Count pairs (red vertex, side through it). Each of the $m$ red vertices lies on $2$ sides, so there are $2m$ such pairs. A red-red side contributes $2$ pairs and a mixed side $1$, so $2m=2R+M$. Similarly for blue vertices, $2n=2B+M$.
-
-Subtracting: $2(m-n)=2(R-B)$, so $R-B=m-n$ for every coloring. Hence $P=2^{m-n}$ always, and the largest value is $\boxed{2^{m-n}}$.
-
----
-
-## m44 · difficulty 6 · Extremal principle
-*XIII OBM (Brazil), MathNet 02er*
-
-**Statement**
-
-At a party every woman dances with at least one man, and no man dances with every woman. Show that there are men $M$ and $M'$ and women $W$ and $W'$ such that $M$ dances with $W$, $M'$ dances with $W'$, but $M$ does not dance with $W'$, and $M'$ does not dance with $W$.
-
-**Hint 1: What is being asked**
-
-Given that each woman has a partner and no man has danced with all women, find two men and two women forming the pattern: $M$–$W$ and $M'$–$W'$ dance, while $M$–$W'$ and $M'$–$W$ do not.
-
-**Hint 2: The technique**
-
-Choose $M$ by an [[extremal]] property and let the hypotheses produce the other three people.
-
-**Hint 3: The key idea**
-
-Let $M$ be a man who dances with the largest number of women.
-
-**Hint 4: The next step**
-
-Pick a woman $W'$ that $M$ does not dance with, and a partner $M'$ of $W'$.
-
-**Hint 5: The next step**
-
-If $M'$ danced with every partner of $M$, compare the numbers of partners.
-
-**Solution**
-
-There are women at the party (if there were none, any man would vacuously dance with every woman), and each of them dances with some man, so there are men too. Let $M$ be a man who dances with the maximum number of women.
-
-$M$ does not dance with every woman, so there is a woman $W'$ he does not dance with. $W'$ dances with some man $M'$, and $M'\ne M$.
-
-Suppose $M'$ danced with every woman who dances with $M$. Then $M'$ dances with all partners of $M$ and also with $W'$, who is not a partner of $M$, so $M'$ has more partners than $M$. This contradicts the choice of $M$. Hence there is a woman $W$ who dances with $M$ but not with $M'$.
-
-Now $M$ dances with $W$, $M'$ dances with $W'$, $M$ does not dance with $W'$, and $M'$ does not dance with $W$. $\blacksquare$
-
----
-
-## m64 · difficulty 8 · Generating functions, Polynomials and Vieta
-*Mongolian Mathematical Olympiad (Mongolia), MathNet 09eu*
-
-**Statement**
-
-For a finite set $A=\{a_1,a_2,\dots,a_n\}$ of positive integers let $A^*$ be the multiset $\{a_i+a_j\mid1\le i<j\le n\}$. For instance, if $A=\{1,2,3,4\}$ then $A^*=\{3,4,5,5,6,7\}$. Let $A$ and $B$ be two different sets of positive integers, each with at least two elements, such that $A^*=B^*$. Prove that $|A|=|B|$ and that this common size is a power of $2$.
-
-**Hint 1: What is being asked**
-
-Two different sets with at least two elements have the same multiset of pairwise sums. Show they have the same size, and that the size is a power of $2$.
-
-**Hint 2: The technique**
-
-Encode each set by $f(x)=\sum_{a\in A}x^a$. The pairwise sums are encoded by $\frac{f(x)^2-f(x^2)}2$, so the hypothesis becomes a polynomial identity. Then look at the order of vanishing at $x=1$.
-
-**Hint 3: The key idea**
-
-Show $\sum_{s\in A^*}x^s=\frac{f(x)^2-f(x^2)}2$, so $f(x)^2-g(x)^2=f(x^2)-g(x^2)$ where $g$ encodes $B$.
-
-**Hint 4: The next step**
-
-$f-g$ is a nonzero polynomial with $f(1)-g(1)=0$. Write $f(x)-g(x)=(x-1)^kh(x)$ with $h(1)\ne0$.
-
-**Hint 5: The next step**
-
-Factor $f(x^2)-g(x^2)$ the same way, cancel $(x-1)^k$, and set $x=1$.
-
-**Solution**
-
-Let $n=|A|$ and $m=|B|$. The multiset $A^*$ has $\binom n2$ elements and $B^*$ has $\binom m2$. Since $x\mapsto\binom x2$ is strictly increasing for integers $x\ge1$ and $n,m\ge2$, $A^*=B^*$ gives $n=m$.
-
-Let $f(x)=\sum_{a\in A}x^a$ and $g(x)=\sum_{b\in B}x^b$. Expanding the square,
-$$f(x)^2=\sum_{a\in A}x^{2a}+2\sum_{i<j}x^{a_i+a_j}=f(x^2)+2\sum_{s\in A^*}x^s,$$
-where the last sum counts multiplicities. The same holds for $B$, so $A^*=B^*$ gives $f(x)^2-f(x^2)=g(x)^2-g(x^2)$, i.e.
-$$\big(f(x)-g(x)\big)\big(f(x)+g(x)\big)=f(x^2)-g(x^2).\tag{1}$$
-Since $A\ne B$, the polynomial $f-g$ is not zero. Also $f(1)-g(1)=n-n=0$, so $x-1$ divides it. Write $f(x)-g(x)=(x-1)^kh(x)$ with $k\ge1$, $h$ a polynomial and $h(1)\ne0$. Replacing $x$ by $x^2$, $f(x^2)-g(x^2)=(x^2-1)^kh(x^2)=(x-1)^k(x+1)^kh(x^2)$. Substituting in (1) and cancelling the nonzero factor $(x-1)^k$ (polynomials over $\mathbb R$ have no zero divisors):
-$$h(x)\big(f(x)+g(x)\big)=(x+1)^kh(x^2).$$
-At $x=1$: $h(1)\cdot2n=2^kh(1)$, and since $h(1)\ne0$, $n=2^{k-1}$. So $|A|=|B|=2^{k-1}$ is a power of $2$ (and $k\ge2$ because $n\ge2$). $\blacksquare$
-
----
-
-## m45 · difficulty 7 · Double counting, Extremal principle
-*14th Turkish Mathematical Olympiad (Turkey), MathNet 0gmz*
-
-**Statement**
-
-Find the largest real number $t$ such that, in any school with $2006$ students and $14$ teachers where every student is acquainted with at least one teacher, a student and a teacher can be found such that they are acquainted with each other, and the ratio of the number of students who are acquainted with the teacher to the number of teachers who are acquainted with the student is at least $t$.
-
-**Hint 1: What is being asked**
-
-For each acquainted pair (teacher $i$, student $j$) form $a_i/b_j$, where $a_i$ is the number of students teacher $i$ knows and $b_j$ the number of teachers student $j$ knows. Find the largest $t$ such that some pair always reaches $t$.
-
-**Hint 2: The technique**
-
-Assume every acquainted pair has a small ratio and add up the resulting inequalities over all acquainted pairs; group the sum by teachers and by students ([[double-counting]]).
-
-**Hint 3: The key idea**
-
-The all-acquainted school shows $t\le2006/14$.
-
-**Hint 4: The next step**
-
-Suppose $a_i/b_j<2006/14$ for every acquainted pair, i.e. $\frac1{b_j}<\frac{2006}{14}\cdot\frac1{a_i}$.
-
-**Hint 5: The next step**
-
-Sum over all acquainted pairs: $\sum\frac1{b_j}=2006$, while $\sum\frac1{a_i}$ equals the number of teachers who know somebody.
-
-**Solution**
-
-**Answer:** $\boxed{t=\dfrac{2006}{14}=\dfrac{1003}7}$.
-
-Let $a_i$ be the number of students acquainted with teacher $i$ and $b_j$ the number of teachers acquainted with student $j$ ($b_j\ge1$). Let $E$ be the set of acquainted pairs $(i,j)$; it is nonempty.
-
-**$t$ cannot be larger.** If everybody knows everybody, every pair has ratio $2006/14$.
-
-**Some pair always reaches $2006/14$.** Suppose not: $a_i/b_j<\frac{2006}{14}$ for all $(i,j)\in E$. For $(i,j)\in E$ we have $a_i\ge1$, so this says $\frac1{b_j}<\frac{2006}{14}\cdot\frac1{a_i}$. Sum over $E$:
-- Grouping by students, $\sum_{(i,j)\in E}\frac1{b_j}=\sum_{j}b_j\cdot\frac1{b_j}=2006$.
-- Grouping by teachers, $\sum_{(i,j)\in E}\frac1{a_i}=\sum_{i:\,a_i\ge1}a_i\cdot\frac1{a_i}\le14$.
-
-So $2006<\frac{2006}{14}\cdot14=2006$, a contradiction. Hence in every school some acquainted pair has ratio at least $2006/14$, and the largest $t$ is $2006/14$.
-
----
-
-## o59 · difficulty 4 · Recurrences
-*original*
-
-**Statement**
-
-How many permutations $\sigma$ of $\{1,2,\dots,7\}$ have no fixed point, that is, $\sigma(i)\ne i$ for every $i$?
-
-**Hint 1: What is being asked**
-
-Count the arrangements of $1,\dots,7$ in which no number stays in its own position.
-
-**Hint 2: The technique**
-
-Let $D_n$ be the count for $n$ numbers. Decide where the last number goes and relate what remains to the smaller counts $D_{n-1}$ and $D_{n-2}$.
-
-**Hint 3: The key idea**
-
-Let $\sigma(n)=k$ with $k\ne n$ ($n-1$ choices). Split into two cases: $\sigma(k)=n$ or $\sigma(k)\ne n$.
-
-**Hint 4: The next step**
-
-In the first case, the other $n-2$ numbers form a smaller derangement. In the second, if $\sigma(j)=n$, redefine the value at $j$ to be $k$ and delete $n$. Show this gives a derangement of $n-1$ elements and that it is reversible.
-
-**Solution**
-
-Call such a permutation a derangement and let $D_n$ be the number of derangements of $\{1,\dots,n\}$. Clearly $D_1=0$ and $D_2=1$.
-
-**Claim:** $D_n=(n-1)(D_{n-1}+D_{n-2})$ for $n\ge3$.
-
-Let $\sigma$ be a derangement of $\{1,\dots,n\}$ and $k=\sigma(n)$; then $k\ne n$, giving $n-1$ choices of $k$. Fix $k$ and count the derangements with $\sigma(n)=k$.
-
-- *Case $\sigma(k)=n$.* Then $\sigma$ swaps $n$ and $k$, and on the remaining $n-2$ numbers it is a derangement of that set. Conversely any derangement of those $n-2$ numbers extends. So there are $D_{n-2}$ such $\sigma$.
-- *Case $\sigma(k)\ne n$.* Let $j$ be the element with $\sigma(j)=n$; then $j\ne n$ (as $\sigma(n)=k\ne n$) and $j\ne k$. Define $\sigma'$ on $\{1,\dots,n-1\}$ by $\sigma'(j)=k$ and $\sigma'(i)=\sigma(i)$ for $i\notin\{j,n\}$. The values of $\sigma$ on $\{1,\dots,n-1\}\setminus\{j\}$ are all numbers except $n$ and $k$ (the values $\sigma(j)=n$ and $\sigma(n)=k$ are the other two), so $\sigma'$ is a permutation of $\{1,\dots,n-1\}$, and it has no fixed point ($\sigma'(j)=k\ne j$). Conversely, given a derangement $\sigma'$ of $\{1,\dots,n-1\}$, put $j=\sigma'^{-1}(k)$ (note $j\ne k$), and define $\sigma(n)=k$, $\sigma(j)=n$, $\sigma(i)=\sigma'(i)$ otherwise: this is a derangement of $\{1,\dots,n\}$ with $\sigma(k)\ne n$, and the two constructions are inverse. So there are $D_{n-1}$ such $\sigma$.
-
-Adding the cases and multiplying by the $n-1$ choices of $k$ proves the claim.
-
-Now compute:
-$$D_3=2(1+0)=2,\quad D_4=3(2+1)=9,\quad D_5=4(9+2)=44,\quad D_6=5(44+9)=265,\quad D_7=6(265+44)=1854.$$
-The answer is $\boxed{1854}$.
+So the solutions are $(0,0)$ and $(0,2)$.
 
 ---

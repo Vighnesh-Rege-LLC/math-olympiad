@@ -2006,6 +2006,1297 @@
   }
  },
  {
+  "id": "m75",
+  "type": "answer",
+  "difficulty": 7,
+  "techniques": [
+   "extremal",
+   "graph-theory",
+   "double-counting"
+  ],
+  "statement": "Find the smallest real number $c$ with $0<c<1$ such that the following holds: every simple graph with $n\\ge3$ vertices that contains no triangle and in which every vertex has degree strictly greater than $cn$ is bipartite. (A graph is bipartite if its vertices can be coloured with two colours so that no edge joins two vertices of the same colour.)",
+  "hints": [
+   "Find the least $c$ for which \"triangle-free and minimum degree $>cn$\" always forces the graph to be bipartite, and prove that this $c$ works while every smaller value fails.",
+   "A graph that is not bipartite contains some odd cycle; choose one that is as special as possible and see how the rest of the graph can attach to it.",
+   "A small odd cycle shows that $c$ cannot be below $\\frac25$. For the other direction, suppose a triangle-free graph is not bipartite and take a shortest odd cycle $C$. What is its length at least?",
+   "Show that a vertex of $C$ has no neighbours on $C$ besides its two cycle neighbours, and that a vertex off $C$ has at most two neighbours on $C$ (three neighbours would cut out a shorter odd cycle).",
+   "Add up the degrees of the vertices of $C$ by counting, for every vertex of the graph, its neighbours on $C$."
+  ],
+  "solution": "**Answer:** $c=\\dfrac25$.\n\n**Values below $\\frac25$ fail.** The $5$-cycle has $n=5$ vertices, no triangle, and every degree equals $2=\\frac25n$. If $c<\\frac25$ then $2>cn$, but the $5$-cycle is not bipartite (an odd cycle cannot be $2$-coloured alternately). So no $c<\\frac25$ has the property.\n\n**$c=\\frac25$ works.** Let $G$ be a triangle-free graph on $n$ vertices which is not bipartite. We show some vertex has degree at most $\\frac{2n}5$.\n\nA graph with no odd cycle is bipartite (colour each connected component by the parity of the distance from a fixed vertex), so $G$ has an odd cycle. Let $C=v_1v_2\\dots v_m$ be an odd cycle of minimum length $m$. Since there are no triangles, $m\\ge5$.\n\n*Claim 1: a vertex $v_i$ of $C$ has exactly two neighbours on $C$, namely $v_{i-1}$ and $v_{i+1}$ (indices mod $m$).* Suppose there is a chord $v_iv_j$ with $v_i,v_j$ not consecutive on $C$. It splits $C$ into two paths of lengths $a,b\\ge2$ with $a+b=m$, and each path together with the chord is a cycle, of lengths $a+1$ and $b+1$. Their sum $m+2$ is odd, so one of them is odd, and its length is at most $m-2+1=m-1<m$. This contradicts the minimality of $m$.\n\n*Claim 2: a vertex $u$ not on $C$ has at most two neighbours on $C$.* Suppose $u$ is adjacent to three vertices of $C$. They cut $C$ into three arcs of lengths $p,q,r\\ge1$ with $p+q+r=m$. Each arc together with the two edges from $u$ to its endpoints is a cycle, of lengths $p+2$, $q+2$, $r+2$. An arc of length $1$ would give a triangle, so $p,q,r\\ge2$ and each of these cycles has length at least $4$. The three lengths add up to $m+6$, which is odd, so one of them, say $p+2$, is odd. Then $p+2=(m+6)-(q+2)-(r+2)\\le m+6-8=m-2$, an odd cycle shorter than $C$, a contradiction.\n\nFor a vertex $u$ let $d(u,C)$ be its number of neighbours on $C$. By the claims, $d(u,C)\\le2$ for every vertex $u$ of $G$. Counting the pairs $(v,u)$ with $v\\in C$ and $uv$ an edge in two ways,\n$$\\sum_{v\\in C}\\deg v=\\sum_{u\\in G}d(u,C)\\le2n.$$\nSo some $v\\in C$ has $\\deg v\\le\\frac{2n}m\\le\\frac{2n}5$.\n\nHence, if every degree is greater than $\\frac25n$, a triangle-free graph must be bipartite, and the smallest constant is $\\boxed{\\tfrac25}$.",
+  "source": {
+   "kind": "mathnet",
+   "country": "Mongolia",
+   "competition": "Mongolian Mathematical Olympiad Round 3",
+   "mathnet_id": "09jl"
+  }
+ },
+ {
+  "id": "m76",
+  "type": "answer",
+  "difficulty": 7,
+  "techniques": [
+   "graph-theory",
+   "induction",
+   "double-counting"
+  ],
+  "statement": "The country Dreamland consists of $2016$ cities. The airline Starways wants to establish some one-way flights between pairs of cities in such a way that each city has exactly one flight out of it. Find the smallest positive integer $k$ such that no matter how Starways establishes its flights, the cities can always be partitioned into $k$ groups so that from any city it is not possible to reach another city in the same group by using at most $28$ flights.",
+  "hints": [
+   "Each city has exactly one outgoing flight (to a different city). Find the least $k$ such that, for every such flight network, the cities can be split into $k$ groups with no city able to reach another city of its own group in $28$ or fewer flights.",
+   "The groups are the colour classes of a colouring of a suitable graph on the cities; bound how many colours that graph can require.",
+   "For the lower bound, find a flight network containing many cities that pairwise conflict.",
+   "For the upper bound: from a fixed city, the route is forced, so how many cities can it reach in at most $28$ flights? Use this to bound the number of conflicting pairs inside any set of cities.",
+   "Some city in any set has few conflicts inside that set. Remove it, colour the rest, and put it back."
+  ],
+  "solution": "**Answer:** $k=57$.\n\nCall two cities in *conflict* if one of them can reach the other using at most $28$ flights. We need the least $k$ such that the cities can always be split into $k$ groups with no two conflicting cities in the same group.\n\n**At least $57$ groups may be needed.** Let Starways arrange $57$ of the cities in a cycle $c_1\\to c_2\\to\\dots\\to c_{57}\\to c_1$, and let every other city fly to $c_1$. For two cycle cities $c_i,c_j$ ($i<j$), $c_i$ reaches $c_j$ in $j-i$ flights and $c_j$ reaches $c_i$ in $57-(j-i)$ flights. These two numbers add up to $57$, so one of them is at most $28$. Hence any two of the $57$ cycle cities conflict and must be in different groups, so $k\\ge57$.\n\n**$57$ groups always suffice.** Let $f(u)$ be the city reached from $u$ by its unique outgoing flight. Starting from $u$, every route is forced: after $t$ flights we are at $f^t(u)$. So the cities that $u$ can reach with at most $28$ flights are among $f(u),f^2(u),\\dots,f^{28}(u)$, which is at most $28$ cities.\n\n*Claim.* In any nonempty set $W$ of cities there is a city that conflicts with at most $56$ other cities of $W$.\n\nIndeed, for each conflicting pair inside $W$ pick one city of the pair that reaches the other within $28$ flights. Each city of $W$ is picked for at most $28$ pairs, so the number of conflicting pairs inside $W$ is at most $28|W|$. Every pair has two cities, so the sum over $x\\in W$ of the number of cities of $W$ conflicting with $x$ is at most $2\\cdot28|W|=56|W|$, and some $x$ has at most $56$.\n\nNow we show by induction on $|W|$ that every set $W$ of cities can be split into $57$ groups with no conflicts inside a group. For $|W|=1$ this is clear. For larger $W$, take $x$ from the claim, split $W\\setminus\\{x\\}$ into $57$ good groups by the induction hypothesis, and add $x$ to a group containing none of the at most $56$ cities conflicting with $x$. Such a group exists since there are $57$ groups. Applying this to all $2016$ cities finishes the proof.\n\nSo the smallest $k$ is $\\boxed{57}$.",
+  "source": {
+   "kind": "mathnet",
+   "country": "Asia Pacific Mathematics Olympiad (APMO)",
+   "competition": "APMO 2016",
+   "mathnet_id": "00hd"
+  }
+ },
+ {
+  "id": "m77",
+  "type": "answer",
+  "difficulty": 8,
+  "techniques": [
+   "graph-theory"
+  ],
+  "statement": "In a school having $n$ students any student has exactly $2023$ friends and if two students are not friends then they have exactly $2022$ common friends. Find all possible values of $n$.",
+  "hints": [
+   "Friendship is mutual. Every student has exactly $2023$ friends, and any two students who are not friends have exactly $2022$ common friends. Determine every $n$ for which such a school exists.",
+   "Reformulate the condition as a local property of a graph, and work out what that property forces around a single vertex.",
+   "Let $H$ be the graph of non-friendships and $m=n-1-2023$ its common degree. Count the common friends of two non-friends $u,v$ in terms of their common neighbours in $H$, and show that adjacent vertices of $H$ have exactly $m-2$ common neighbours in $H$.",
+   "Fix $u$ and look at its $m$ neighbours in $H$. Inside this set, each vertex is adjacent to all but exactly one of the others. What does this force about $m$? Treat $m=0$, $m=1$ and $m=2$ separately.",
+   "For $m\\ge4$, take two adjacent neighbours $v,w$ of $u$ and count their common neighbours in $H$: one is missing, and it must lie outside. Conclude that each component of $H$ is $K_{m+2}$ with a perfect matching removed."
+  ],
+  "solution": "**Answer:** $n\\in\\{2024,\\ 2026,\\ 2028,\\ 2696,\\ 4044\\}$.\n\nLet $G$ be the friendship graph and $H$ its complement (students joined in $H$ when they are not friends). Every vertex has degree $2023$ in $G$, so it has degree $m:=n-1-2023$ in $H$.\n\n**Translating the condition.** Let $u,v$ be adjacent in $H$, and let $\\lambda$ be their number of common neighbours in $H$. A vertex $x\\ne u,v$ is a common friend of $u$ and $v$ exactly when $x$ is in neither $N_H(u)$ nor $N_H(v)$. The sets $N_H(u)\\setminus\\{v\\}$ and $N_H(v)\\setminus\\{u\\}$ have $m-1$ elements each and $\\lambda$ in common, so their union has $2(m-1)-\\lambda$ elements, and $u,v$ have $(n-2)-2(m-1)+\\lambda=n-2m+\\lambda$ common friends. The condition says this equals $2022=n-m-2$, that is,\n$$\\lambda=m-2.$$\nSo the problem is equivalent to: **$H$ is $m$-regular on $n=m+2024$ vertices, and any two adjacent vertices of $H$ have exactly $m-2$ common neighbours.** (The steps above are reversible, so any such $H$ gives a valid school.)\n\n**$m=0$.** Then $G$ is the complete graph on $2024$ vertices and the condition is vacuous. So $n=2024$ works.\n\n**$m=1$.** Two adjacent vertices of $H$ would need $-1$ common neighbours. Impossible.\n\n**The neighbourhood of a vertex.** Let $m\\ge2$, fix $u$ and let $N=N_H(u)$, $|N|=m$. For $v\\in N$, the common neighbours of $u$ and $v$ lie in $N$, and there are $m-2$ of them. So inside $N$, every $v$ is adjacent to all but exactly one of the other $m-1$ vertices; call that vertex $v'$. Then $v''=v$, so $v\\mapsto v'$ pairs up the vertices of $N$. Hence $m$ is even, and $N$ induces $K_m$ minus a perfect matching. Besides $u$ and its $m-2$ neighbours in $N$, each $v\\in N$ has exactly one more neighbour, which lies outside $N\\cup\\{u\\}$; call it $x_v$.\n\n**$m=2$.** Then the condition only says that $H$ is $2$-regular with no triangle, i.e. a disjoint union of cycles of length at least $4$. For example, a single cycle of length $2026$ works, so $n=2026$ is possible.\n\n**$m\\ge4$.** Take $v,w\\in N$ adjacent (that is, $w\\ne v'$). Their common neighbours inside $N\\cup\\{u\\}$ are $u$ and the vertices of $N\\setminus\\{v,v',w,w'\\}$. These four vertices are distinct, because $w\\ne v'$, and $w'\\ne v$ since $w$ is adjacent to $v$. That gives $1+(m-4)=m-3$ common neighbours, so exactly one more common neighbour lies outside $N\\cup\\{u\\}$. The only outside neighbour of $v$ is $x_v$ and that of $w$ is $x_w$, so $x_v=x_w$. Since $K_m$ minus a perfect matching is connected for $m\\ge4$, all $x_v$ ($v\\in N$) are one vertex $x$. Then $x$ is adjacent to all $m$ vertices of $N$, so $N_H(x)=N$, and $x$ is not adjacent to $u$.\n\nThus the set $C=\\{u,x\\}\\cup N$ of $m+2$ vertices has no edges leaving it: $u$ and $x$ have all neighbours in $N$, and each $v\\in N$ has its neighbours $u,x$ and $m-2$ vertices of $N$. Inside $C$ the only missing edges are $ux$ and the pairs $vv'$. So every component of $H$ is $K_{m+2}$ minus a perfect matching. Conversely, such a graph works: it is $m$-regular, and two adjacent vertices $p,q$ are adjacent to everything in the component except $p,q$ and their two (distinct) partners, so they have $m+2-4=m-2$ common neighbours.\n\nSo for $m\\ge4$ the vertex count is $n=b(m+2)$ for some number $b$ of components, with $m$ even. Combining with $n=m+2024$:\n$$b(m+2)=m+2024\\iff(b-1)(m+2)=2022=2\\cdot3\\cdot337.$$\nHere $m+2$ is an even divisor of $2022$ with $m+2\\ge6$, so $m+2\\in\\{6,674,2022\\}$, giving $b-1=337,3,1$ and $n=6\\cdot338=2028$, $n=674\\cdot4=2696$, $n=2022\\cdot2=4044$.\n\nAltogether the possible values are $\\boxed{2024,\\ 2026,\\ 2028,\\ 2696,\\ 4044}$.",
+  "source": {
+   "kind": "mathnet",
+   "country": "Turkey",
+   "competition": "Team Selection Test for IMO 2023",
+   "mathnet_id": "0gtu"
+  }
+ },
+ {
+  "id": "m78",
+  "type": "answer",
+  "difficulty": 8,
+  "techniques": [
+   "double-counting",
+   "modular-arithmetic"
+  ],
+  "statement": "Find all positive integers $n$ for which the numbers in the set $S=\\{1,2,\\ldots,n\\}$ can be coloured red and blue so that the set $S\\times S\\times S$ contains exactly $2007$ ordered triples $(x,y,z)$ such that (i) $x,y,z$ have the same colour and (ii) $x+y+z$ is divisible by $n$.",
+  "hints": [
+   "Each of $1,\\dots,n$ is coloured red or blue. Find every $n$ for which some colouring has exactly $2007$ ordered triples $(x,y,z)$ of one colour with $n\\mid x+y+z$.",
+   "The one-coloured triples are hard to count directly. Count a related family of triples in two different ways.",
+   "Let $r$ and $b$ be the numbers of red and blue elements. How many ordered triples $(x,y,z)$ with $n\\mid x+y+z$ are there in total?",
+   "In a two-coloured triple, look at the three cyclic pairs $(x,y),(y,z),(z,x)$. Exactly one of them is (red, blue). How many triples does a given (red, blue) pair belong to in this way?",
+   "You should get $r^2-rb+b^2=2007=9\\cdot223$. Show $3\\mid r$ and $3\\mid b$, then bound the larger of $r/3$, $b/3$."
+  ],
+  "solution": "**Answer:** $n=69$ and $n=84$.\n\nFix a colouring, let $R,B$ be the red and blue sets, $r=|R|$, $b=|B|$, $r+b=n$. Call a triple *divisible* if $n\\mid x+y+z$.\n\n**Total.** For each pair $(x,y)\\in S\\times S$ exactly one $z\\in S$ makes $(x,y,z)$ divisible (the residues of $1,\\dots,n$ mod $n$ are all different). So there are $n^2$ divisible triples.\n\n**Two-coloured divisible triples.** In a two-coloured triple $(x,y,z)$, one colour appears twice and the other once. Going around the cycle $x\\to y\\to z\\to x$ the colour changes exactly twice, once from red to blue and once from blue to red. So exactly one of the pairs $(x,y),(y,z),(z,x)$ lies in $R\\times B$. Assign this pair to the triple.\n\nConversely, take $(x,y)\\in R\\times B$ and let $z$ be the element with $(x,y,z)$ divisible. The triples $(x,y,z)$, $(y,z,x)$, $(z,x,y)$ are divisible and two-coloured, and $(x,y)$ is assigned to each of them. They are three different ordered triples: for instance $(x,y,z)=(y,z,x)$ would force $x=y$, but $x$ is red and $y$ blue. Any triple to which $(x,y)$ is assigned has $(x,y)$ in one of its three cyclic positions, and the third entry is then forced to be $z$, so it is one of these three. Hence every pair of $R\\times B$ is assigned to exactly $3$ triples, and there are exactly $3rb$ two-coloured divisible triples.\n\nTherefore the number of one-coloured divisible triples is\n$$n^2-3rb=(r+b)^2-3rb=r^2-rb+b^2,$$\nwhich depends only on $r$ and $b$.\n\n**Solving $r^2-rb+b^2=2007$.** We have $2007=9\\cdot223$ with $223$ prime. From $(r+b)^2=2007+3rb$ we get $3\\mid(r+b)^2$, so $3\\mid r+b$ and $9\\mid(r+b)^2$. Then $9\\mid3rb$, so $3\\mid rb$; together with $3\\mid r+b$ this gives $3\\mid r$ and $3\\mid b$. Write $r=3s$, $b=3c$; then $s^2-sc+c^2=223$. By symmetry assume $s\\ge c\\ge0$.\n\n- Since $s^2-sc+c^2=s^2-c(s-c)\\le s^2$, we get $s^2\\ge223$, so $s\\ge15$.\n- Since $4(s^2-sc+c^2)=(2c-s)^2+3s^2\\ge3s^2$, we get $3s^2\\le892$, so $s\\le17$.\n\nFor $s=15$: $c^2-15c+2=0$ has discriminant $217$, not a square. For $s=16$: $c^2-16c+33=0$ has discriminant $124$, not a square. For $s=17$: $c^2-17c+66=(c-6)(c-11)=0$, so $c=6$ or $c=11$.\n\nSo $\\{r,b\\}=\\{51,18\\}$ or $\\{51,33\\}$, and $n=r+b\\in\\{69,84\\}$. Conversely, for $n=69$ colour any $51$ numbers red and the other $18$ blue, and for $n=84$ colour $51$ red and $33$ blue; by the formula each has exactly $51^2-51\\cdot18+18^2=2007$, respectively $51^2-51\\cdot33+33^2=2007$, one-coloured divisible triples.\n\nThe answer is $\\boxed{n=69\\text{ and }n=84}$.",
+  "source": {
+   "kind": "mathnet",
+   "country": "IMO",
+   "competition": "48th International Mathematical Olympiad Vietnam 2007 Shortlisted Problems with Solutions",
+   "mathnet_id": "06pe"
+  }
+ },
+ {
+  "id": "m79",
+  "type": "proof",
+  "difficulty": 7,
+  "techniques": [
+   "double-counting",
+   "cauchy-schwarz"
+  ],
+  "statement": "Let $A$ be a set with $|A|=225$. Suppose further that there are eleven subsets $A_1,\\dots,A_{11}$ of $A$ such that $|A_i|=45$ for $1\\le i\\le11$ and $|A_i\\cap A_j|=9$ for $1\\le i<j\\le11$. Prove that $|A_1\\cup A_2\\cup\\dots\\cup A_{11}|\\ge165$, and give an example for which equality holds.",
+  "hints": [
+   "Eleven sets of size $45$ pairwise meet in exactly $9$ elements. Show their union has at least $165$ elements, and construct sets where it has exactly $165$.",
+   "Count incidences between elements and sets in two ways, then compare the resulting sums with an inequality.",
+   "Let $x_a$ be the number of sets $A_i$ containing $a$. Compute $\\sum_a x_a$ and $\\sum_a\\binom{x_a}2$ from the data.",
+   "Only elements of the union have $x_a>0$. Which inequality relates $\\left(\\sum x_a\\right)^2$, $\\sum x_a^2$ and the number of nonzero terms?",
+   "For equality every element of the union lies in the same number of sets. Which number? Try indexing the elements by small subsets of $\\{1,\\dots,11\\}$."
+  ],
+  "solution": "For $a\\in A$ let $x_a$ be the number of indices $i$ with $a\\in A_i$, and let $U=A_1\\cup\\dots\\cup A_{11}$, $u=|U|$. Then $x_a\\ge1$ exactly for $a\\in U$.\n\n**Two counts.** Counting pairs $(a,i)$ with $a\\in A_i$ in two ways,\n$$\\sum_{a\\in U}x_a=\\sum_{i=1}^{11}|A_i|=11\\cdot45=495.$$\nCounting triples $(a,\\{i,j\\})$ with $i\\ne j$ and $a\\in A_i\\cap A_j$ in two ways (an element in $x_a$ sets lies in $\\binom{x_a}2$ such intersections),\n$$\\sum_{a\\in U}\\binom{x_a}2=\\sum_{i<j}|A_i\\cap A_j|=\\binom{11}2\\cdot9=495.$$\nHence $\\sum_{a\\in U}x_a^2=2\\cdot495+495=1485$.\n\n**The bound.** By the Cauchy–Schwarz inequality applied to the $u$ numbers $x_a$, $a\\in U$,\n$$495^2=\\Big(\\sum_{a\\in U}x_a\\Big)^2\\le u\\sum_{a\\in U}x_a^2=1485\\,u,$$\nso $u\\ge\\dfrac{495^2}{1485}=\\dfrac{495}{3}=165$.\n\n**Equality.** Equality in Cauchy–Schwarz needs all $x_a$ equal, to $1485/495=3$. So let every element of the union lie in exactly three sets. Let $U$ be the family of all $3$-element subsets of $\\{1,2,\\dots,11\\}$, so $|U|=\\binom{11}3=165$, and let $A=U\\cup E$ where $E$ is any set of $60$ further elements, so $|A|=225$. Put\n$$A_i=\\{T\\in U: i\\in T\\}.$$\nThen $|A_i|=\\binom{10}2=45$ (choose the other two members of $T$), $|A_i\\cap A_j|=\\binom91=9$ for $i\\ne j$ (choose the third member), and $A_1\\cup\\dots\\cup A_{11}=U$ has exactly $165$ elements. $\\blacksquare$",
+  "source": {
+   "kind": "mathnet",
+   "country": "United States",
+   "competition": "USAMO",
+   "mathnet_id": "0j80"
+  }
+ },
+ {
+  "id": "m80",
+  "type": "proof",
+  "difficulty": 8,
+  "techniques": [
+   "double-counting",
+   "parity"
+  ],
+  "statement": "Let $T$ be a finite set of positive integers greater than $1$. A subset $S$ of $T$ is called *good* if for every $t\\in T$ there exists some $s\\in S$ with $\\gcd(s,t)>1$. Prove that the number of good subsets of $T$ is odd.",
+  "hints": [
+   "Show that the number of subsets $S\\subseteq T$ such that every element of $T$ shares a common factor greater than $1$ with some element of $S$ is odd.",
+   "Only the parity of a count matters. Find a larger set whose size has the same parity as the number of good subsets, and whose size is easy to determine modulo $2$ by pairing its elements.",
+   "Consider the ordered pairs $(X,Y)$ of subsets of $T$ such that every element of $X$ is coprime to every element of $Y$.",
+   "Swapping $X$ and $Y$ pairs these up. Which pairs are fixed by the swap? (Recall every element of $T$ exceeds $1$.)",
+   "Now fix $X$ and count the possible $Y$. When is that number odd?"
+  ],
+  "solution": "Let $\\mathcal P$ be the set of ordered pairs $(X,Y)$ of subsets of $T$ such that $\\gcd(x,y)=1$ for all $x\\in X$, $y\\in Y$. We find the parity of $|\\mathcal P|$ in two ways.\n\n**First way: pairing.** The condition is symmetric in $X$ and $Y$, so $(X,Y)\\mapsto(Y,X)$ maps $\\mathcal P$ to itself, and doing it twice gives the identity. Its fixed points are the pairs $(X,X)\\in\\mathcal P$. If $X$ had an element $x$, then $\\gcd(x,x)=x>1$ would violate the condition, so the only fixed point is $(\\varnothing,\\varnothing)$. All other elements of $\\mathcal P$ split into pairs $\\{(X,Y),(Y,X)\\}$ with $X\\ne Y$. Hence $|\\mathcal P|$ is odd.\n\n**Second way: fix $X$.** For $X\\subseteq T$ let\n$$Z(X)=\\{t\\in T:\\gcd(t,x)=1\\text{ for all }x\\in X\\}.$$\nThen $(X,Y)\\in\\mathcal P$ exactly when $Y\\subseteq Z(X)$, so for fixed $X$ there are $2^{|Z(X)|}$ choices of $Y$. Therefore\n$$|\\mathcal P|=\\sum_{X\\subseteq T}2^{|Z(X)|}.$$\nA term is odd exactly when $Z(X)=\\varnothing$, and it is even otherwise. But $Z(X)=\\varnothing$ means that every $t\\in T$ has some $x\\in X$ with $\\gcd(t,x)>1$, i.e. $X$ is good. So\n$$|\\mathcal P|\\equiv\\#\\{\\text{good subsets of }T\\}\\pmod2.$$\n\nComparing the two ways, the number of good subsets is odd. $\\blacksquare$",
+  "source": {
+   "kind": "mathnet",
+   "country": "United States",
+   "competition": "Team Selection Test 2010",
+   "mathnet_id": "0j2i"
+  }
+ },
+ {
+  "id": "m81",
+  "type": "answer",
+  "difficulty": 7,
+  "techniques": [
+   "pigeonhole",
+   "graph-theory"
+  ],
+  "statement": "A tournament on $n$ vertices is obtained by joining every two of $n$ vertices by exactly one directed edge. The edges of a tournament are coloured so that no two edges of the same colour form a directed path of length $2$ (that is, there are no edges $u\\to v$ and $v\\to w$ of the same colour). For each $n\\ge2$, determine the smallest number of colours $f(n)$ for which some tournament on $n$ vertices admits such a colouring.",
+  "hints": [
+   "Over all tournaments on $n$ vertices, find the least number of colours needed so that no vertex has an incoming and an outgoing edge of the same colour.",
+   "Attach to each vertex some information read off from the colouring, and compare this information at the two ends of an edge.",
+   "Let $S(v)$ be the set of colours of the edges leaving $v$. If $u\\to v$ has colour $c$, what can you say about $c$ and the sets $S(u)$, $S(v)$?",
+   "Conclude that the $n$ sets $S(v)$ are pairwise different. This gives the lower bound $2^{f(n)}\\ge n$.",
+   "For the construction, use the tournament in which $i\\to j$ whenever $i>j$, on the vertices $0,1,\\dots,n-1$, and look at binary expansions."
+  ],
+  "solution": "**Answer:** $f(n)=\\lceil\\log_2n\\rceil$.\n\n**Lower bound.** Take any tournament on $n$ vertices with a valid colouring using $k$ colours. For a vertex $v$ let $S(v)$ be the set of colours of edges leaving $v$.\n\nLet $u\\to v$ be an edge with colour $c$. Then $c\\in S(u)$. If also $c\\in S(v)$, there would be an edge $v\\to w$ of colour $c$, and $u\\to v\\to w$ would be a path of two edges of colour $c$, which is forbidden. So $c\\notin S(v)$, and in particular $S(u)\\ne S(v)$.\n\nEvery two vertices are joined by an edge in some direction, so the $n$ sets $S(v)$ are pairwise different subsets of the $k$ colours. Hence $n\\le2^k$, i.e. $k\\ge\\lceil\\log_2n\\rceil$.\n\n**Construction.** Let $k=\\lceil\\log_2n\\rceil$, so $n\\le2^k$ and every integer $0\\le i\\le n-1$ has a binary expansion with digits in positions $0,1,\\dots,k-1$. Take the tournament on $\\{0,1,\\dots,n-1\\}$ with $i\\to j$ whenever $i>j$. For $i>j$, look at the highest binary position in which $i$ and $j$ differ; since $i>j$, there $i$ has digit $1$ and $j$ has digit $0$. Give the edge $i\\to j$ this position as its colour. This uses colours from $\\{0,\\dots,k-1\\}$.\n\nSuppose $i\\to j$ and $j\\to l$ both had colour $c$. From the first edge, $j$ has digit $0$ in position $c$, and from the second edge, $j$ has digit $1$ in position $c$, a contradiction. So the colouring is valid.\n\nTherefore $f(n)=\\boxed{\\lceil\\log_2n\\rceil}$.",
+  "source": {
+   "kind": "mathnet",
+   "country": "United States",
+   "competition": "TST",
+   "mathnet_id": "0hxm"
+  }
+ },
+ {
+  "id": "m82",
+  "type": "answer",
+  "difficulty": 6,
+  "techniques": [
+   "extremal",
+   "graph-theory"
+  ],
+  "statement": "Between any two cities of a country consisting of $2013$ cities a one-way flight is organized (in exactly one of the two directions), so that there is at least one departure from each city. Determine the maximal possible value of $k$ such that no matter how these flights are arranged, there are $k$ cities each of which can be reached from every other city by using at most two flights.",
+  "hints": [
+   "Every pair of the $2013$ cities has a flight in one direction, and every city has an outgoing flight. Find the largest $k$ such that there are always at least $k$ cities, each reachable from every other city in one or two flights.",
+   "To show that some city is reachable from everywhere, pick it to be extreme with respect to a suitable count, and turn a failure into a city that beats it in that count.",
+   "For an upper bound, build a network in which one city can only reach two other cities within two flights.",
+   "This is the textbook maximum-wins argument with the flights reversed; the real work is getting two more such cities.",
+   "To get a second and a third such city, repeat the argument, but maximize the number of incoming flights only among the cities that the previous city flies to."
+  ],
+  "solution": "**Answer:** $k=3$.\n\nWrite $X\\to Y$ if the flight between $X$ and $Y$ goes from $X$ to $Y$, and call a city *central* if it can be reached from every other city with at most two flights. Let $\\deg^-(X)$ be the number of flights arriving at $X$.\n\n**At most $3$ in general.** Take three cities with $A\\to B\\to C\\to A$, and let every other city fly to each of $A,B,C$ (flights among the other cities are arbitrary). Every city has a departure. The only flight out of $A$ goes to $B$, and the only flight out of $B$ goes to $C$. So with at most two flights $A$ reaches only $B$ and $C$, and no other city can be central. Hence $k\\le3$.\n\n**Always at least $3$.** *Lemma.* Let $U$ be either the set of all cities, or the set of cities $X$ with $Z\\to X$ for some fixed city $Z$, and assume $U\\neq\\varnothing$. If $A\\in U$ has the largest $\\deg^-$ among the cities of $U$, then $A$ is central.\n\n*Proof.* Let $X\\ne A$. If $X\\to A$ we are done, so let $A\\to X$.\n- If $X\\notin U$, then $U$ is the set of cities $Z$ flies to. Note $X\\ne Z$, since $Z\\to A$ while $A\\to X$. As $X\\notin U$, the flight between $X$ and $Z$ goes $X\\to Z$, and $X\\to Z\\to A$ works.\n- If $X\\in U$ and $X$ cannot reach $A$ in at most two flights, then for every $Y$ with $Y\\to A$ we must have $Y\\to X$ (otherwise $X\\to Y\\to A$). Also $A\\to X$. So $\\deg^-(X)\\ge\\deg^-(A)+1$, contradicting the choice of $A$ in $U$. $\\square$\n\nNow apply the lemma three times.\n1. Let $A_1$ have the largest $\\deg^-$ among all cities. It is central.\n2. Let $U_1$ be the set of cities $A_1$ flies to; it is nonempty because $A_1$ has a departure. Let $A_2\\in U_1$ have the largest $\\deg^-$ in $U_1$. It is central, and $A_2\\ne A_1$.\n3. Let $U_2$ be the set of cities $A_2$ flies to (nonempty), and $A_3\\in U_2$ with the largest $\\deg^-$ in $U_2$. It is central. $A_3\\ne A_2$, and $A_3\\ne A_1$ because $A_1\\to A_2$, so $A_1\\notin U_2$.\n\nSo there are always at least three central cities, and the answer is $\\boxed{3}$.",
+  "source": {
+   "kind": "mathnet",
+   "country": "Turkey",
+   "competition": "Team Selection Test for JBMO",
+   "mathnet_id": "0gqd"
+  }
+ },
+ {
+  "id": "m83",
+  "type": "answer",
+  "difficulty": 8,
+  "techniques": [
+   "graph-theory",
+   "double-counting"
+  ],
+  "statement": "Graphistan has $2011$ cities and Graph Air (GA) is running one-way flights between all pairs of these cities (for each pair, exactly one direction). Determine the maximum possible value of the integer $k$ such that no matter how these flights are arranged, it is possible to travel between any two cities in Graphistan riding only GA flights, as long as the absolute value of the difference between the number of flights originating and terminating at any city is not more than $k$.",
+  "hints": [
+   "Find the largest $k$ such that every orientation of the $2011$-city network in which each city has $|\\text{out}-\\text{in}|\\le k$ lets you get from any city to any other city.",
+   "Counting the flights inside a well-chosen set of cities in two ways forces that set to be large.",
+   "Since out-degree plus in-degree is $2010$, their difference is even. Translate $|\\text{out}-\\text{in}|\\le1005$ into a lower bound on both the out-degree and the in-degree.",
+   "Let $V_1$ be the set of cities reachable from $v_1$. Every flight leaving a city of $V_1$ ends in $V_1$. Count these flights. Do the same for the cities from which $v_2$ can be reached.",
+   "For $k=1006$, split the cities into a group of $1005$ and a group of $1006$, with all flights between the groups going one way, and balance the flights inside each group."
+  ],
+  "solution": "**Answer:** $k=1005$.\n\nEach city is joined to the $2010$ others, so $\\text{out}(v)+\\text{in}(v)=2010$ and $\\text{out}(v)-\\text{in}(v)=2010-2\\,\\text{in}(v)$ is even.\n\n**$k=1005$ works.** Since the difference is even, $|\\text{out}(v)-\\text{in}(v)|\\le1005$ means $|2010-2\\,\\text{in}(v)|\\le1004$, i.e. $503\\le\\text{in}(v)\\le1507$, and then also $\\text{out}(v)=2010-\\text{in}(v)\\ge503$. So every city has at least $503$ departing and at least $503$ arriving flights.\n\nFix cities $v_1\\ne v_2$. Let $V_1$ be the set of cities reachable from $v_1$ (including $v_1$). Every flight leaving a city of $V_1$ ends in $V_1$, otherwise its endpoint would be reachable too. So the flights leaving cities of $V_1$ are exactly the flights between two cities of $V_1$, and counting them in two ways,\n$$503\\,|V_1|\\le\\sum_{v\\in V_1}\\text{out}(v)=\\binom{|V_1|}2,$$\nhence $|V_1|-1\\ge1006$, i.e. $|V_1|\\ge1007$.\n\nSimilarly let $V_2$ be the set of cities from which $v_2$ can be reached (including $v_2$). Every flight arriving at a city of $V_2$ starts in $V_2$, so $503|V_2|\\le\\sum_{v\\in V_2}\\text{in}(v)=\\binom{|V_2|}2$, and $|V_2|\\ge1007$.\n\nAs $1007+1007>2011$, there is a city $w\\in V_1\\cap V_2$, and we can travel $v_1\\to\\dots\\to w\\to\\dots\\to v_2$.\n\n**$k=1006$ fails.** Split the cities into $X=\\{x_0,\\dots,x_{1004}\\}$ and $Y=\\{y_0,\\dots,y_{1005}\\}$, with indices taken modulo $1005$ and $1006$ respectively.\n- Inside $X$: $x_i\\to x_{i+d}$ for $d=1,\\dots,502$. Since $1005=2\\cdot502+1$, every pair is covered exactly once, and each $x_i$ has $502$ departures and $502$ arrivals inside $X$.\n- Inside $Y$: $y_i\\to y_{i+d}$ for $d=1,\\dots,502$, and for the $503$ \"opposite\" pairs $\\{y_i,y_{i+503}\\}$ with $0\\le i\\le502$, fly $y_i\\to y_{i+503}$. Every pair is covered exactly once. Inside $Y$, $y_0,\\dots,y_{502}$ have $503$ departures and $502$ arrivals, and the others $502$ departures and $503$ arrivals.\n- Every flight between $X$ and $Y$ goes from $X$ to $Y$.\n\nThen each $x_i$ has $502+1006=1508$ departures and $502$ arrivals, difference $1006$. Each $y_j$ has $503$ or $502$ departures and $1005+502$ or $1005+503$ arrivals, difference $1004$ or $1006$. So every difference is at most $1006$, but no city of $X$ can be reached from $Y$.\n\nHence the maximum is $\\boxed{1005}$.",
+  "source": {
+   "kind": "mathnet",
+   "country": "Turkey",
+   "competition": "Team Selection Test for IMO 2011",
+   "mathnet_id": "0gpe"
+  }
+ },
+ {
+  "id": "m84",
+  "type": "proof",
+  "difficulty": 8,
+  "techniques": [
+   "invariants",
+   "induction"
+  ],
+  "statement": "There are $n$ students standing in a circle, one behind the other, all facing the same way around the circle. The students have heights $h_1<h_2<\\dots<h_n$. If a student with height $h_k$ is standing directly behind a student with height $h_{k-2}$ or less, the two students are permitted to switch places. Prove that it is not possible to make more than $\\binom n3$ such switches before reaching a position in which no further switches are possible.",
+  "hints": [
+   "A switch lets a student move forward past the student directly ahead, provided that student is at least two places lower in the height order. Show that every sequence of switches has length at most $\\binom n3$.",
+   "Find a property of the arrangement of a few students that a single switch can change only in restricted ways.",
+   "Call the students $1,\\dots,n$ by height rank. Two students whose ranks differ by $1$ never switch. For $i<j$ let $s(i,j)$ be the number of switches between $i$ and $j$; aim for $s(i,j)\\le j-i-1$.",
+   "Look at the cyclic order (clockwise or counterclockwise) of the three students $i$, $j-1$, $j$. Which switches can reverse it?",
+   "Just before every switch of $i$ and $j$, student $j$ is directly behind $i$, so the cyclic order of $i,j-1,j$ is the same each time. Deduce that a switch of $i$ with $j-1$ must happen between two switches of $i$ with $j$."
+  ],
+  "solution": "Refer to the student of height $h_k$ as student $k$. Say \"$a$ is directly behind $b$\" when $b$ is the next student in the facing direction. A switch between students $j$ and $i$ (with $j\\ge i+2$) happens when $j$ is directly behind $i$, and afterwards $i$ is directly behind $j$.\n\n**Orientation of a triple.** For three students $a,b,c$, walk around the circle in the facing direction starting at $a$. Either $b$ comes before $c$ or after it; call this the orientation of the ordered triple $(a,b,c)$. A switch exchanges two neighbours $p,q$ and changes no other position. If the triple contains at most one of $p,q$, its orientation does not change, because that student only moves past a student outside the triple. If the triple contains both $p$ and $q$, its orientation is reversed: seen from the third member, $p$ and $q$ are met in the opposite order after the switch.\n\n**Claim.** For $1\\le i<j\\le n$, students $i$ and $j$ switch at most $j-i-1$ times in total.\n\nWe use induction on $j-i$. If $j=i+1$ they never switch, since a switch requires height ranks at least $2$ apart. Let $j\\ge i+2$ and look at the triple $(j,i,j-1)$. Just before any switch of $i$ and $j$, student $j$ is directly behind $i$, so walking forward from $j$ we meet $i$ immediately and $j-1$ later. Thus at the moment just before every $(i,j)$-switch the triple $(j,i,j-1)$ has the same orientation, and the switch itself reverses it. So between two consecutive $(i,j)$-switches the orientation must be reversed again by another switch involving two members of the triple. Students $j-1$ and $j$ never switch. So that switch is between $i$ and $j-1$.\n\nHence between any two consecutive switches of $i$ and $j$ there is at least one switch of $i$ and $j-1$, which gives $s(i,j)\\le s(i,j-1)+1$. By the induction hypothesis $s(i,j-1)\\le j-i-2$, so $s(i,j)\\le j-i-1$.\n\n**Total.** Every switch is between two students, so the total number of switches is at most\n$$\\sum_{1\\le i<j\\le n}(j-i-1).$$\nThe term $j-i-1$ is the number of $l$ with $i<l<j$, so the sum counts the triples $i<l<j$, and it equals $\\binom n3$. $\\blacksquare$",
+  "source": {
+   "kind": "mathnet",
+   "country": "United States",
+   "competition": "USAMO 2010",
+   "mathnet_id": "0j02"
+  }
+ },
+ {
+  "id": "m85",
+  "type": "answer",
+  "difficulty": 8,
+  "techniques": [
+   "constructive",
+   "extremal"
+  ],
+  "statement": "In the plane, $2013$ red points and $2014$ blue points are marked so that no three of the marked points are collinear. One needs to draw $k$ lines not passing through the marked points and dividing the plane into several regions. The goal is to do it in such a way that no region contains points of both colours. Find the minimal value of $k$ such that the goal is attainable for every possible configuration of $4027$ points.",
+  "hints": [
+   "Find the least $k$ such that, whatever the positions of the points (no three collinear), some $k$ lines avoiding the points leave no region with both a red and a blue point.",
+   "Two parts: a configuration that forces many lines, and an explicit recipe that works for every configuration.",
+   "For the lower bound, put the points on a circle with the colours alternating. How many sides of the resulting polygon join points of different colours, and how many of these sides can one line cross?",
+   "For any two points $A,B$ of the same colour, two lines parallel to $AB$, very close to it on either side, cut out a strip containing no marked point except $A$ and $B$.",
+   "Pairing uses two lines per pair, so one point of an odd colour class is left over. Look at the convex hull of all the points: either it has a red vertex, or two neighbouring blue vertices."
+  ],
+  "solution": "**Answer:** $k=2013$.\n\nTwo points lie in the same region exactly when no line has them on opposite sides, and a line has two points on opposite sides exactly when it crosses the segment joining them. So the goal is that every red point and every blue point are separated by at least one line.\n\n**At least $2013$ lines may be needed.** Place the $4027$ points on a circle so that the colours alternate as much as possible: going around, red and blue alternate except for one place where two blue points are neighbours. The convex $4027$-gon with these vertices has $4026$ sides joining points of different colours. The two ends of such a side must be separated, so each such side must be crossed by some line. A line meets the boundary of a convex polygon in at most two points, so it crosses at most two sides. Hence at least $4026/2=2013$ lines are needed.\n\n**$2013$ lines always suffice.**\n\n*Strip lemma.* For two marked points $A,B$ there are two lines, not through marked points, such that the open strip between them contains $A$ and $B$ and no other marked point. Indeed, no other marked point lies on line $AB$, so the smallest distance $\\delta$ from another marked point to line $AB$ is positive. Take the two lines parallel to $AB$ at distance $\\delta/2$ on either side.\n\n*Cutting off a hull vertex.* If $P$ is a vertex of the convex hull of all marked points, there is a line through $P$ with all other marked points strictly on one side. Moving it slightly towards them gives a line, through no marked point, with only $P$ on one side.\n\nNow take the convex hull of all $4027$ points. They are not all collinear, so the hull is a polygon with at least three vertices.\n\n*Case 1: some hull vertex $R$ is red.* Draw one line cutting off $R$ alone. Split the other $2012$ red points into $1006$ pairs and draw the two strip lines for each pair. That is $1+2\\cdot1006=2013$ lines.\n\n*Case 2: all hull vertices are blue.* Take two adjacent hull vertices $B_1,B_2$. All other points lie strictly on one side of line $B_1B_2$ (no three collinear), so a line parallel to $B_1B_2$ and close enough to it has only $B_1,B_2$ on one side. Split the other $2012$ blue points into $1006$ pairs and draw two strip lines for each pair. Again $2013$ lines.\n\n*Why this works.* In Case 1, take a red point $X$ and a blue point $Y$. If $X=R$, the first line separates them. Otherwise $X$ lies in the strip of its pair, which contains no other marked point, so $Y$ is outside the strip and one of the two strip lines separates $X$ from $Y$. Case 2 is the same with the colours exchanged: the blue points $B_1,B_2$ are cut off from all red points by the first line, and every other blue point sits in a strip with no red point. So no region contains two colours.\n\nTherefore the minimal $k$ is $\\boxed{2013}$.",
+  "source": {
+   "kind": "mathnet",
+   "country": "IMO",
+   "competition": "International Mathematical Olympiad Shortlisted Problems",
+   "mathnet_id": "06se"
+  }
+ },
+ {
+  "id": "m86",
+  "type": "answer",
+  "difficulty": 7,
+  "techniques": [
+   "invariants",
+   "constructive"
+  ],
+  "statement": "Let $n$ be a positive integer. We start with $n$ piles of pebbles, each initially containing a single pebble. One can perform moves of the following form: choose two piles, take an equal number of pebbles from each pile and form a new pile out of these pebbles. For each positive integer $n$, find the smallest number of non-empty piles that one can obtain by performing a finite sequence of moves of this form.",
+  "hints": [
+   "A move takes $c\\ge1$ pebbles from each of two piles and puts these $2c$ pebbles into a new pile. Starting from $n$ single pebbles, find the fewest non-empty piles that can be reached.",
+   "Small cases suggest the answer. For impossibility, look for a property of the whole configuration that moves can never create.",
+   "If $n$ is a power of $2$, one pile is reachable by merging equal piles repeatedly.",
+   "Let $m$ be an odd divisor of $n$ greater than $1$. Show that if every pile is divisible by $m$ after a move, then every pile was divisible by $m$ before it. Run this backwards from a single pile.",
+   "For two piles when $2^N<n<2^{N+1}$: make a pile of $2^N$, then use it and pairs of pebbles to bring it down to $n-2^N$ while the removed pebbles regroup into another power of $2$."
+  ],
+  "solution": "**Answer:** $1$ if $n$ is a power of $2$, and $2$ otherwise.\n\nThe total number of pebbles never changes, so at least one non-empty pile always remains.\n\n**Powers of $2$.** From $2^N$ piles of size $2^j$, a move on two of them (with $c=2^j$) empties both and creates a pile of $2^{j+1}$. So $2^N$ single pebbles become $2^{N-1}$ piles of $2$, then $2^{N-2}$ piles of $4$, and so on, down to one pile of $2^N$. Hence for $n=2^N$ the answer is $1$.\n\n**One pile is impossible otherwise.** Suppose $n$ is not a power of $2$, and let $m>1$ be an odd divisor of $n$. A move changes piles of sizes $a,b$ into $a-c,\\ b-c$ and adds a pile $2c$ (a pile of size $0$ disappears; we may treat it as size $0$). Suppose every pile after the move is divisible by $m$. Then $m\\mid2c$, and since $m$ is odd, $m\\mid c$. Hence $m\\mid(a-c)+c=a$ and $m\\mid b$, and the untouched piles did not change. So every pile before the move was divisible by $m$ as well.\n\nIf some sequence of moves ended with a single pile, that pile would have $n$ pebbles, divisible by $m$. Going backwards move by move, every earlier position would have all piles divisible by $m$, including the start, where all piles are $1$. This is false, so one pile cannot be reached.\n\n**Two piles are reachable.** Let $2^N<n<2^{N+1}$ (so $N\\ge1$) and $r=n-2^N$, with $1\\le r\\le2^N-1$.\n1. Using $2^N$ of the single pebbles, build one pile $L$ of $2^N$ pebbles as above. There remain $r$ single pebbles.\n2. Take $1$ pebble from $L$ and $1$ from a single pebble: now $L=2^N-1$, there is one pile of $2$, and $r-1$ single pebbles.\n3. Repeat: take $1$ from $L$ and $1$ from the current pile of $2$, forming a new pile of $2$. Each repetition decreases $L$ by $1$ and turns the old pile of $2$ into a single pebble. Do this $2^N-1-r\\ge0$ times. Then $L=r$, there is one pile of $2$, and $(r-1)+(2^N-1-r)=2^N-2$ single pebbles.\n4. Pair the $2^N-2$ single pebbles into $2^{N-1}-1$ piles of $2$. Together with the existing pile of $2$, we have $2^{N-1}$ piles of $2$, which merge into one pile of $2^N$.\n\nWe end with exactly two piles, of sizes $r$ and $2^N$.\n\nSo the minimum is $\\boxed{1}$ when $n$ is a power of $2$ and $\\boxed{2}$ otherwise.",
+  "source": {
+   "kind": "mathnet",
+   "country": "IMO",
+   "competition": "International Mathematical Olympiad",
+   "mathnet_id": "06x0"
+  }
+ },
+ {
+  "id": "m87",
+  "type": "proof",
+  "difficulty": 9,
+  "techniques": [
+   "descent",
+   "modular-arithmetic"
+  ],
+  "statement": "Let $a$ and $b$ be positive integers. Show that if $4ab-1$ divides $(4a^2-1)^2$, then $a=b$.",
+  "hints": [
+   "Prove that the divisibility $4ab-1\\mid(4a^2-1)^2$ for positive integers $a,b$ forces $a=b$.",
+   "Rewrite the divisibility in a more symmetric form; then a smallest counterexample can be made smaller.",
+   "Work modulo $4ab-1$, where $4ab\\equiv1$. Multiply $(4a^2-1)$ by $b$ and simplify. Show the condition is equivalent to $4ab-1\\mid(a-b)^2$.",
+   "Write $(a-b)^2=k(4ab-1)$ with $k\\ge1$ and view it as a quadratic equation in $a$ with $b,k$ fixed. Among all solutions with $a\\ne b$ for this $k$, take one with $a+b$ smallest, $a>b$.",
+   "The other root is $a'=(b^2+k)/a$. Show that it is a positive integer, that $a'\\ne b$, and that $a'<a$."
+  ],
+  "solution": "**Step 1: a symmetric form.** Let $N=4ab-1$. Then $\\gcd(b,N)=1$, since a common divisor of $b$ and $4ab-1$ divides $1$. Modulo $N$ we have $4ab\\equiv1$, so\n$$b(4a^2-1)=a\\cdot4ab-b\\equiv a-b\\pmod N,$$\nhence $b^2(4a^2-1)^2\\equiv(a-b)^2\\pmod N$. As $\\gcd(b^2,N)=1$, we get\n$$N\\mid(4a^2-1)^2\\iff N\\mid(a-b)^2.$$\nThe right-hand condition is symmetric in $a$ and $b$.\n\n**Step 2: descent.** Suppose there are positive integers $a\\ne b$ with $4ab-1\\mid(a-b)^2$. Then $(a-b)^2=k(4ab-1)$ for a positive integer $k$ (positive since $a\\ne b$). Fix this $k$ and, among all pairs of distinct positive integers $(a,b)$ satisfying\n$$(a-b)^2=k(4ab-1),\\qquad(\\ast)$$\nchoose one with $a+b$ as small as possible. By symmetry of $(\\ast)$ we may assume $a>b$.\n\nExpanding, $(\\ast)$ reads\n$$a^2-(2b+4kb)\\,a+(b^2+k)=0.$$\nSo $a$ is a root of $x^2-(2b+4kb)x+(b^2+k)$. The other root is\n$$a'=(2b+4kb)-a=\\frac{b^2+k}{a}.$$\nThe first expression shows $a'$ is an integer, and the second shows $a'>0$. The pair $(a',b)$ also satisfies $(\\ast)$, since it is the same equation with $a$ replaced by the other root.\n\n- $a'\\ne b$: otherwise $(\\ast)$ for $(a',b)$ would give $0=k(4b^2-1)>0$.\n- $a'<a$: this is equivalent to $b^2+k<a^2$. From $(\\ast)$, $k=\\dfrac{(a-b)^2}{4ab-1}$. Since $a>b\\ge1$, we have $4ab-1\\ge4a-1>a-b$, so $k<\\dfrac{(a-b)^2}{a-b}=a-b\\le a^2-b^2$, i.e. $b^2+k<a^2$.\n\nThus $(a',b)$ is a pair of distinct positive integers satisfying $(\\ast)$ with $a'+b<a+b$, contradicting the minimality. Hence no such pair exists.\n\nSo $4ab-1\\mid(a-b)^2$ forces $a=b$, and by Step 1 so does $4ab-1\\mid(4a^2-1)^2$. $\\blacksquare$",
+  "source": {
+   "kind": "mathnet",
+   "country": "China",
+   "competition": "International Mathematical Olympiad",
+   "mathnet_id": "03u9"
+  }
+ },
+ {
+  "id": "m88",
+  "type": "answer",
+  "difficulty": 9,
+  "techniques": [
+   "descent",
+   "modular-arithmetic"
+  ],
+  "statement": "Find all pairs of positive integers $(m,n)$ such that $mn-1$ divides $(n^2-n+1)^2$.",
+  "hints": [
+   "Determine every pair of positive integers $m,n$ for which $(n^2-n+1)^2$ is a multiple of $mn-1$.",
+   "Rewrite the divisibility in a more symmetric form; then solutions can be shrunk until they reach a few small ones.",
+   "Modulo $mn-1$, multiply $n^2-n+1$ by $m$. Show that the condition is equivalent to $mn-1\\mid(m+n-1)^2$.",
+   "Write $(m+n-1)^2=k(mn-1)$. Show $k\\ge3$, with $k=3$ only for $m=n=2$. With $n$ and $k$ fixed this is a quadratic in $m$; let $m'$ be its other root.",
+   "If $m\\ge n\\ge2$ and $m'\\ge n$, expand $(m-n)(m'-n)\\ge0$ using Vieta's formulas to get $k\\le3$. So otherwise $(n,m')$ is a smaller solution. Find where the descent stops, and climb back up."
+  ],
+  "solution": "**Answer:** $(m,n)=(2,2)$, and the pairs with $\\{m,n\\}=\\{t^2+1,\\,(t+1)^2+1\\}$ for an integer $t\\ge0$ (that is, $(1,2),(2,1),(2,5),(5,2),(5,10),(10,5),\\dots$).\n\nNote $(1,1)$ is not a solution ($0$ divides nothing nonzero), so $mn-1\\ge1$ below.\n\n**Step 1: symmetric form.** Since $\\gcd(m,mn-1)=1$ and $mn\\equiv1\\pmod{mn-1}$,\n$$m(n^2-n+1)=mn\\cdot n-mn+m\\equiv n-1+m\\pmod{mn-1}.$$\nSo $m^2(n^2-n+1)^2\\equiv(m+n-1)^2$, and as $m^2$ is coprime to $mn-1$,\n$$mn-1\\mid(n^2-n+1)^2\\iff mn-1\\mid(m+n-1)^2.$$\nSo we must find all $(m,n)\\ne(1,1)$ with\n$$(m+n-1)^2=k(mn-1)\\qquad(\\ast)$$\nfor a positive integer $k$. This condition is symmetric in $m,n$.\n\n**Step 2: $k\\ge3$, with equality only at $(2,2)$.** With $s=m+n$,\n$$(m+n-1)^2-3(mn-1)=m^2-mn+n^2-2s+4\\ge\\frac{s^2}4-2s+4=\\Big(\\frac s2-2\\Big)^2\\ge0,$$\nusing $m^2-mn+n^2=\\frac{(m+n)^2+3(m-n)^2}4\\ge\\frac{s^2}4$. So $k\\ge3$, and $k=3$ forces $m=n$ and $s=4$, i.e. $(m,n)=(2,2)$. Indeed $(2,2)$ works: $3\\mid9$.\n\n**Step 3: the jump.** Fix a solution $(m,n)$ of $(\\ast)$ with quotient $k$. As an equation in $m$, $(\\ast)$ reads\n$$m^2-(kn-2n+2)\\,m+(n-1)^2+k=0.$$\nIts other root is $m'=kn-2n+2-m=\\dfrac{(n-1)^2+k}{m}$, a positive integer, and $(m',n)$ satisfies $(\\ast)$ with the same $k$.\n\n*Claim.* If $m\\ge n\\ge2$ and $(m,n)\\ne(2,2)$, then $m'<n$.\n\nSuppose instead $m'\\ge n$. Then $(m-n)(m'-n)\\ge0$, i.e. $mm'-n(m+m')+n^2\\ge0$. By Vieta's formulas this is\n$$(n-1)^2+k-n(kn-2n+2)+n^2\\ge0\\iff(2n-1)^2\\ge k(n^2-1).$$\nFor $n\\ge2$ we have $(2n-1)^2<4(n^2-1)$, so $k<4$ and therefore $k=3$. By Step 2, $(m,n)=(2,2)$, a contradiction.\n\n**Step 4: the case $n=1$.** If $n=1$ then $(\\ast)$ is $m^2=k(m-1)$ with $m\\ge2$, so $m-1\\mid m^2\\equiv1\\pmod{m-1}$, hence $m=2$, giving $(2,1)$ (with $k=4$).\n\n**Step 5: all solutions.** We show by strong induction on $m+n$ that every solution other than $(2,2)$ has $\\{m,n\\}=\\{t^2+1,(t+1)^2+1\\}$ for some $t\\ge0$. By symmetry let $m\\ge n$. If $n=1$, Step 4 gives $(2,1)$, which is the case $t=0$. Let $n\\ge2$ and $(m,n)\\ne(2,2)$. By the claim, $(n,m')$ is a solution with $m'<n\\le m$, so it has a smaller sum.\n\nIt is not $(2,2)$: then its quotient would be $3$, so $(m,n)$ would also have $k=3$ and be $(2,2)$ by Step 2. Hence by induction $\\{n,m'\\}=\\{t^2+1,(t+1)^2+1\\}$, and these pairs have $k=4$, because\n$$(t^2+1)\\big((t+1)^2+1\\big)-1=(t^2+t+1)^2\\quad\\text{and}\\quad t^2+1+(t+1)^2+1-1=2(t^2+t+1).$$\nSo $k=4$ for $(m,n)$ too. Since $n>m'$, $n=(t+1)^2+1$, so write $n=v^2+1$ with $v=t+1\\ge1$. For $k=4$ the quadratic in Step 3 is\n$$x^2-(2v^2+4)x+v^4+4=0,$$\nwhose roots are $v^2+2\\pm2v$, i.e. $(v-1)^2+1$ and $(v+1)^2+1$. The numbers $m$ and $m'$ are the two roots, so $m$ is $(v-1)^2+1$ or $(v+1)^2+1$, and $\\{m,n\\}$ is again of the form $\\{u^2+1,(u+1)^2+1\\}$. This completes the induction.\n\n**Check.** The identity above shows $(m+n-1)^2=4(mn-1)$ for $\\{m,n\\}=\\{t^2+1,(t+1)^2+1\\}$, so these pairs satisfy $(\\ast)$, and $(2,2)$ does as well. By Step 1 they are exactly the solutions:\n$$\\boxed{(m,n)=(2,2)\\ \\text{ or }\\ \\{m,n\\}=\\{t^2+1,\\,(t+1)^2+1\\},\\ t\\ge0.}$$",
+  "source": {
+   "kind": "mathnet",
+   "country": "United States",
+   "competition": "Team Selection Test 2009",
+   "mathnet_id": "0ix6"
+  }
+ },
+ {
+  "id": "m89",
+  "type": "answer",
+  "difficulty": 7,
+  "techniques": [
+   "constructive"
+  ],
+  "statement": "Determine if there exists an infinite sequence of positive integers $a_1,a_2,a_3,\\ldots$ such that\n(i) each positive integer occurs exactly once in the sequence, and\n(ii) each positive integer occurs exactly once in the sequence $|a_1-a_2|,\\ |a_2-a_3|,\\ \\ldots,\\ |a_k-a_{k+1}|,\\ \\ldots$",
+  "hints": [
+   "Decide whether the positive integers can be listed, each exactly once, so that the gaps between consecutive terms also list every positive integer exactly once.",
+   "Build the sequence step by step, keeping both lists free of repeats, and make sure every number eventually gets its turn. Very large terms give you room.",
+   "Keep a finite sequence with distinct terms and distinct gaps. Let $M$ be its largest term; every gap so far is at most $M-1$.",
+   "To add the smallest missing term $x$, first append a huge number and then $x$. To add the smallest missing gap $y$, append a huge number $A$ and then $A+y$. Check that no repeats arise.",
+   "Alternate the two kinds of extension. Why does every positive integer eventually appear in both lists?"
+  ],
+  "solution": "**Answer:** yes, such a sequence exists.\n\nWe build it in stages. At every stage we have a finite sequence $a_1,\\dots,a_N$ of distinct positive integers whose gaps $|a_i-a_{i+1}|$ ($1\\le i<N$) are also distinct. Let $M$ be its largest term. All terms lie in $[1,M]$, so every gap is at most $M-1$. Start with the one-term sequence $a_1=1$.\n\n**Extension V (adds a missing term).** Let $x$ be the smallest positive integer that is not a term; then $x\\le M+1$. Put $A=2M+2$ and append $A$, then $x$. The two new terms are new: $A>M$, $x$ was missing, and $x\\le M+1<A$. The two new gaps are $A-a_N\\ge A-M=M+2$ and $A-x\\ge2M+2-(M+1)=M+1$. Both exceed every old gap (which are $\\le M-1$), and they differ from each other because $a_N\\ne x$.\n\n**Extension D (adds a missing gap).** Let $y$ be the smallest positive integer that is not a gap. Since $M$ is not a gap, $y\\le M$. Put $A=2M+2$ and append $A$, then $A+y$. The new terms $A<A+y$ both exceed $M$, so they are new. The new gaps are $A-a_N\\ge M+2$ and $y$. The first exceeds all old gaps, $y$ is not an old gap by choice, and $y\\le M<A-a_N$.\n\nIn both cases the extended sequence again has distinct terms and distinct gaps. Now alternate: V, D, V, D, … forever. This defines an infinite sequence in which no term and no gap repeats (any repeat would already show up in some finite stage).\n\n**Every number appears.** Let $x_r$ be the smallest missing term before the $r$-th application of V. That application adds $x_r$, and terms are never removed, so $x_{r+1}>x_r$. A strictly increasing sequence of positive integers is unbounded, so for every positive integer $v$ some $x_r>v$, which means $v$ is a term by then. In the same way the smallest missing gaps $y_r$ before the applications of D strictly increase, so every positive integer becomes a gap.\n\nSo both (i) and (ii) hold, and the answer is $\\boxed{\\text{yes}}$.",
+  "source": {
+   "kind": "mathnet",
+   "country": "Saudi Arabia",
+   "competition": "Selection tests for the International Mathematical Olympiad 2013",
+   "mathnet_id": "0d33"
+  }
+ },
+ {
+  "id": "m100",
+  "type": "proof",
+  "difficulty": 7,
+  "techniques": [
+   "complex-numbers",
+   "trigonometry"
+  ],
+  "statement": "Let $ABCDE$ be a convex pentagon whose vertices lie on a circle with centre $O$, with $AB=BC=CD$. Suppose that the centroid of its five vertices (the point $G$ with $\\vec{OG}=\\frac15(\\vec{OA}+\\vec{OB}+\\vec{OC}+\\vec{OD}+\\vec{OE})$) coincides with $O$. Prove that $ABCDE$ is a regular pentagon.",
+  "hints": [
+   "A convex cyclic pentagon has three consecutive equal sides, and the average of its vertices is the centre of the circle. Show that the pentagon is regular.",
+   "Put the circle as the unit circle in the complex plane, so that equal chords become multiplication by a fixed unit complex number.",
+   "Equal chords cut off equal arcs here, so $b=aw$, $c=aw^2$, $d=aw^3$ for some $w=e^{i\\theta}$ with $0<\\theta<\\frac{2\\pi}3$. The centroid condition then expresses $e$ in terms of $a$ and $w$.",
+   "Factor $1+w+w^2+w^3=(1+w)(1+w^2)$ and write each factor as a real number times a unit complex number. The condition $|e|=1$ becomes a trigonometric equation in $\\theta$.",
+   "Split according to the sign of $\\cos\\theta$. In one case $E$ lands in the wrong place on the circle; in the other, the equation has exactly one solution."
+  ],
+  "solution": "Place the circle as the unit circle with $O=0$, and (reflecting if necessary) assume $A,B,C,D,E$ appear counterclockwise in this order, as they do for a convex inscribed pentagon. Let the counterclockwise arcs $AB,BC,CD,DE,EA$ (each containing no other vertex) have measures $\\alpha_1,\\dots,\\alpha_5>0$ with sum $2\\pi$.\n\n**Equal arcs.** A chord subtending an arc of measure $\\varphi\\in(0,2\\pi)$ has length $2\\sin(\\varphi/2)$, and $2\\sin(\\varphi/2)=2\\sin(\\psi/2)$ with $\\varphi,\\psi\\in(0,2\\pi)$ forces $\\psi=\\varphi$ or $\\psi=2\\pi-\\varphi$. If $\\alpha_2=2\\pi-\\alpha_1$, then $\\alpha_1+\\alpha_2=2\\pi$ and the other arcs would be $0$, impossible. So $AB=BC$ gives $\\alpha_1=\\alpha_2$, and likewise $\\alpha_2=\\alpha_3$. Call this common value $\\theta$; since $3\\theta<2\\pi$, we have $0<\\theta<\\frac{2\\pi}3$.\n\nWith $w=e^{i\\theta}$ and $a$ the coordinate of $A$, we get $b=aw$, $c=aw^2$, $d=aw^3$, and $e$ lies on the counterclockwise arc from $d$ to $a$, i.e. $e=ae^{i\\varphi}$ with $3\\theta<\\varphi<2\\pi$.\n\n**The centroid condition.** $a+b+c+d+e=0$ gives\n$$e=-a(1+w+w^2+w^3)=-a(1+w)(1+w^2).$$\nNow $1+w=e^{i\\theta/2}(e^{-i\\theta/2}+e^{i\\theta/2})=2\\cos\\frac\\theta2\\,e^{i\\theta/2}$ and similarly $1+w^2=2\\cos\\theta\\,e^{i\\theta}$. Hence\n$$e=-a\\,e^{3i\\theta/2}\\cdot4\\cos\\frac\\theta2\\cos\\theta .$$\nSince $0<\\frac\\theta2<\\frac\\pi3$, $\\cos\\frac\\theta2>0$. Taking absolute values, $|e|=|a|=1$ gives $4\\cos\\frac\\theta2\\,|\\cos\\theta|=1$; in particular $\\cos\\theta\\neq0$.\n\n**Case $\\cos\\theta<0$.** Then $4\\cos\\frac\\theta2\\cos\\theta=-1$ and $e=ae^{3i\\theta/2}$. But $\\theta<\\frac{3\\theta}2<2\\theta$, so $E$ lies strictly inside the arc from $B$ to $C$, contradicting $3\\theta<\\varphi<2\\pi$ (note $\\frac{3\\theta}{2}<2\\pi$, so this is the actual position of $E$). This case is impossible.\n\n**Case $\\cos\\theta>0$,** i.e. $0<\\theta<\\frac\\pi2$. The function $g(\\theta)=4\\cos\\frac\\theta2\\cos\\theta$ is a product of two positive strictly decreasing functions on $(0,\\frac\\pi2)$, so it is strictly decreasing and the equation $g(\\theta)=1$ has at most one solution there. And $\\theta=\\frac{2\\pi}5$ is a solution: multiplying $\\cos36^\\circ\\cos72^\\circ$ by $\\sin36^\\circ$,\n$$\\sin36^\\circ\\cos36^\\circ\\cos72^\\circ=\\tfrac12\\sin72^\\circ\\cos72^\\circ=\\tfrac14\\sin144^\\circ=\\tfrac14\\sin36^\\circ,$$\nso $\\cos36^\\circ\\cos72^\\circ=\\frac14$ and $g(\\frac{2\\pi}5)=1$. Hence $\\theta=\\frac{2\\pi}5$.\n\nThen $e=-a\\,e^{3\\pi i/5}=a\\,e^{i(3\\pi/5+\\pi)}=a\\,e^{8\\pi i/5}=aw^4$ (this is consistent with $3\\theta<\\frac{8\\pi}5<2\\pi$). So the vertices are $a,aw,aw^2,aw^3,aw^4$ with $w=e^{2\\pi i/5}$: all five arcs equal $\\frac{2\\pi}5$, and $ABCDE$ is a regular pentagon. $\\blacksquare$",
+  "source": {
+   "kind": "mathnet",
+   "country": "Romania",
+   "competition": "74th Romanian Mathematical Olympiad",
+   "mathnet_id": "0cgm"
+  }
+ },
+ {
+  "id": "m101",
+  "type": "answer",
+  "difficulty": 7,
+  "techniques": [
+   "generating-functions",
+   "complex-numbers"
+  ],
+  "statement": "How many subsets $A$ of $\\{1,2,\\dots,2009\\}$ (the empty set included, with sum $0$) have the property that the sum of the elements of $A$ is divisible by $2009$? Note that $2009=7^2\\cdot41$.",
+  "hints": [
+   "Count the subsets of $\\{1,\\dots,2009\\}$ whose element sum is a multiple of $2009$.",
+   "Encode every subset by a monomial in a product of binomials, then extract the exponents divisible by $2009$ by averaging over roots of unity.",
+   "In $f(x)=\\prod_{j=1}^{2009}(1+x^j)$ the coefficient of $x^s$ counts subsets with sum $s$. With $\\varepsilon=e^{2\\pi i/2009}$, the answer is $\\frac1{2009}\\sum_{k=0}^{2008}f(\\varepsilon^k)$.",
+   "If $\\eta=\\varepsilon^k$ is a primitive $m$-th root of unity, then $\\eta^1,\\dots,\\eta^{2009}$ run through all $m$-th roots of unity, each $2009/m$ times. Evaluate $\\prod_{\\zeta^m=1}(1+\\zeta)$ using $x^m-1=\\prod(x-\\zeta)$.",
+   "Count how many $k$ give a primitive $m$-th root for each divisor $m$ of $2009$."
+  ],
+  "solution": "Let $n=2009$, $\\varepsilon=e^{2\\pi i/n}$ and $f(x)=\\prod_{j=1}^{n}(1+x^j)=\\sum_s c_sx^s$. Expanding the product, each subset $A$ contributes the monomial $x^{\\sum A}$, so $c_s$ is the number of subsets with sum $s$, and we want $N=\\sum_{n\\mid s}c_s$.\n\n**Filter.** For an integer $s$, $\\sum_{k=0}^{n-1}\\varepsilon^{ks}$ equals $n$ if $n\\mid s$ and $\\frac{\\varepsilon^{ns}-1}{\\varepsilon^s-1}=0$ otherwise. Hence\n$$\\sum_{k=0}^{n-1}f(\\varepsilon^k)=\\sum_s c_s\\sum_{k=0}^{n-1}\\varepsilon^{ks}=nN .$$\n\n**Evaluating $f(\\varepsilon^k)$.** Let $g=\\gcd(k,n)$ and $m=n/g$. Then $\\eta=\\varepsilon^k$ is a primitive $m$-th root of unity, so $\\eta^j$ depends only on $j\\bmod m$, and as $j$ runs over $1,\\dots,n$ the residue $j\\bmod m$ takes each value exactly $g$ times. The powers $\\eta^0,\\dots,\\eta^{m-1}$ are exactly the $m$ distinct $m$-th roots of unity, so\n$$f(\\eta)=\\Big(\\prod_{\\zeta^m=1}(1+\\zeta)\\Big)^g .$$\nFrom $x^m-1=\\prod_{\\zeta^m=1}(x-\\zeta)$ at $x=-1$: $(-1)^m-1=(-1)^m\\prod(1+\\zeta)$. Since $n$ is odd, so is $m$, and this reads $-2=-\\prod(1+\\zeta)$, i.e. $\\prod(1+\\zeta)=2$. Hence $f(\\varepsilon^k)=2^{g}=2^{n/m}$.\n\n**Counting.** For a divisor $m$ of $n$, the $k\\in\\{0,\\dots,n-1\\}$ with $n/\\gcd(k,n)=m$ are $k=(n/m)t$ with $0\\le t<m$ and $\\gcd(t,m)=1$; there are $\\varphi(m)$ of them. Therefore\n$$N=\\frac1n\\sum_{m\\mid n}\\varphi(m)\\,2^{n/m}.$$\nFor $n=2009$ the divisors are $1,7,49,41,287,2009$ with $\\varphi$ equal to $1,6,42,40,240,1680$, so\n$$N=\\boxed{\\dfrac{2^{2009}+6\\cdot2^{287}+40\\cdot2^{49}+42\\cdot2^{41}+240\\cdot2^{7}+3360}{2009}}.$$",
+  "source": {
+   "kind": "mathnet",
+   "country": "Mongolia",
+   "competition": "45th Mongolian Mathematical Olympiad",
+   "mathnet_id": "099r"
+  }
+ },
+ {
+  "id": "m102",
+  "type": "answer",
+  "difficulty": 8,
+  "techniques": [
+   "generating-functions",
+   "constructive"
+  ],
+  "statement": "Let $S=\\{1,\\dots,100\\}$, and for every positive integer $n$ define\n$$T_n=\\{(a_1,\\dots,a_n)\\in S^n\\mid a_1+\\dots+a_n\\equiv0\\pmod{100}\\}.$$\nDetermine which $n$ have the following property: if we colour any $75$ elements of $S$ red, then at least half of the $n$-tuples in $T_n$ have an even number of coordinates with red elements.",
+  "hints": [
+   "For which $n$ is it true that, whichever $75$ of the numbers $1,\\dots,100$ are red, the $n$-tuples with sum divisible by $100$ having an even number of red entries are at least as many as those having an odd number?",
+   "Give each element a sign according to its colour and form a polynomial whose $n$-th power records signed tuples by their sum; the tuples with sum divisible by $100$ are then picked out with $100$-th roots of unity.",
+   "Let $R(x)$ and $B(x)$ be the sums of $x^s$ over red and over non-red $s$. In $(B(x)-R(x))^n$ each tuple appears with sign $(-1)^{\\#\\text{red}}$. So (even) $-$ (odd) in $T_n$ equals $\\frac1{100}\\sum_{\\omega^{100}=1}(B(\\omega)-R(\\omega))^n$.",
+   "For $\\omega\\neq1$, $B(\\omega)+R(\\omega)=\\sum_{s=1}^{100}\\omega^s=0$. Rewrite the sum using only $B$, and recognise $\\frac1{100}\\sum_\\omega B(\\omega)^n$ as a count.",
+   "For odd $n$ you need a colouring where no $n$-tuple of non-red numbers has sum divisible by $100$. Think modulo $4$."
+  ],
+  "solution": "**Answer:** exactly the $\\boxed{\\text{even } n}$.\n\nFix a colouring with $75$ red and $25$ blue (non-red) elements. Let $R(x)=\\sum_{s\\text{ red}}x^s$, $B(x)=\\sum_{s\\text{ blue}}x^s$ and $P(x)=B(x)-R(x)$. Expanding,\n$$P(x)^n=\\sum_{(a_1,\\dots,a_n)\\in S^n}(-1)^{r(a)}x^{a_1+\\dots+a_n},$$\nwhere $r(a)$ is the number of red coordinates. Let $X$ and $Y$ be the numbers of tuples in $T_n$ with an even, respectively odd, number of red coordinates. With $\\omega$ running over the $100$-th roots of unity, $\\frac1{100}\\sum_\\omega\\omega^m$ is $1$ if $100\\mid m$ and $0$ otherwise, so\n$$X-Y=\\frac1{100}\\sum_{\\omega^{100}=1}P(\\omega)^n .$$\nFor $\\omega=1$: $P(1)=25-75=-50$. For $\\omega\\neq1$: $B(\\omega)+R(\\omega)=\\sum_{s=1}^{100}\\omega^s=0$, so $P(\\omega)=2B(\\omega)$. Therefore\n$$X-Y=\\frac1{100}\\Big[(-50)^n+\\sum_{\\omega\\ne1}2^nB(\\omega)^n\\Big]=\\frac{(-50)^n-50^n}{100}+2^n Z,\\qquad Z=\\frac1{100}\\sum_{\\omega^{100}=1}B(\\omega)^n,$$\nwhere we added and subtracted the $\\omega=1$ term $2^nB(1)^n=2^n25^n=50^n$. By the same filter, $Z$ is the number of tuples in $T_n$ all of whose coordinates are blue, so $Z\\ge0$.\n\n**$n$ even.** Then $(-50)^n-50^n=0$, so $X-Y=2^nZ\\ge0$, i.e. $X\\ge Y$ for every colouring: at least half of $T_n$ has an even number of red coordinates.\n\n**$n$ odd.** Colour blue the $25$ numbers $1,5,9,\\dots,97$ (those $\\equiv1\\pmod4$) and the other $75$ red. A blue $n$-tuple has sum $\\equiv n\\not\\equiv0\\pmod4$, so it is never in $T_n$, and $Z=0$. Then $X-Y=\\frac{-2\\cdot50^n}{100}=-50^{n-1}<0$, so fewer than half of the tuples in $T_n$ have an even number of red coordinates, and the property fails.",
+  "source": {
+   "kind": "mathnet",
+   "country": "United States",
+   "competition": "USA TSTST",
+   "mathnet_id": "0k5h"
+  }
+ },
+ {
+  "id": "m103",
+  "type": "answer",
+  "difficulty": 7,
+  "techniques": [
+   "recursion"
+  ],
+  "statement": "One day, one alien comes to the Earth. Every day, each alien on the Earth does exactly one of four things, each with probability $\\frac14$: (1) destroys himself, (2) splits into two aliens, (3) splits into three aliens, (4) does nothing. A newly created alien also acts in this way, starting on the next day, and all aliens act independently of each other and of the past. Find the probability that eventually there is no alien on the Earth.",
+  "hints": [
+   "Starting from one alien that each day dies, becomes $2$, becomes $3$ or stays, each with probability $\\frac14$, independently, find the probability that the aliens eventually die out.",
+   "Condition on what the first alien does on the first day. Independence turns the probability for several aliens into a power of the probability for one.",
+   "Let $p_n$ be the probability that all aliens are gone by the end of day $n$. Conditioning on day $1$ gives $p_{n+1}=\\frac14\\big(1+p_n+p_n^2+p_n^3\\big)$, with $p_0=0$.",
+   "The answer is $\\lim p_n$. Any limit must be a fixed point of $f(t)=\\frac14(1+t+t^2+t^3)$; factor $f(t)-t$.",
+   "The fixed points are $1$ and $-1\\pm\\sqrt2$. Show by induction that $p_n$ never exceeds the smallest nonnegative one."
+  ],
+  "solution": "Let $E_n$ be the event that no alien is left at the end of day $n$, and $p_n=P(E_n)$, so $p_0=0$. Once the population is $0$ it stays $0$, so $E_1\\subseteq E_2\\subseteq\\cdots$, and the event \"eventually no alien\" is $E=\\bigcup_nE_n$. By continuity of probability along an increasing union, $P(E)=\\lim_{n\\to\\infty}p_n$.\n\n**Recursion.** Condition on what the original alien does on day $1$. If he destroys himself, $E_{n+1}$ holds. Otherwise he leaves $k\\in\\{1,2,3\\}$ aliens, each of which starts an independent family behaving exactly like the original one; $E_{n+1}$ holds exactly when each of these $k$ families has died out within the next $n$ days, which has probability $p_n^k$. Hence\n$$p_{n+1}=f(p_n),\\qquad f(t)=\\tfrac14\\left(1+t+t^2+t^3\\right).$$\n\n**Fixed points.** $4(f(t)-t)=t^3+t^2-3t+1=(t-1)(t^2+2t-1)$, with roots $1$ and $-1\\pm\\sqrt2$. Let $q=\\sqrt2-1\\approx0.414$, the only root in $[0,1)$.\n\n**Bounds.** $f$ is increasing on $[0,\\infty)$. We show $0\\le p_n\\le p_{n+1}\\le q$ for all $n$ by induction. For $n=0$: $p_0=0\\le p_1=\\frac14\\le q$. If $p_{n-1}\\le p_n\\le q$, then applying the increasing $f$ gives $p_n\\le p_{n+1}\\le f(q)=q$.\n\nSo $(p_n)$ is increasing and bounded by $q$, hence converges to some $L\\in[\\frac14,q]$. Since $f$ is continuous, $L=\\lim p_{n+1}=f(L)$, so $L$ is a fixed point of $f$ in $[\\frac14,q]$. The only one is $q$. Therefore the probability that the aliens eventually die out is\n$$P(E)=\\boxed{\\sqrt2-1}.$$\n\n(Remark: the equation $c=f(c)$ for $c=P(E)$ alone also has the root $c=1$; the bound $p_n\\le q$ is what excludes it.)",
+  "source": {
+   "kind": "mathnet",
+   "country": "Hong Kong",
+   "competition": "1997-2023 IMO HK TST",
+   "mathnet_id": "06ip"
+  }
+ },
+ {
+  "id": "m104",
+  "type": "proof",
+  "difficulty": 7,
+  "techniques": [
+   "complex-numbers"
+  ],
+  "statement": "Given a triangle $ABC$, let $H$ and $O$ be its orthocentre and circumcentre, respectively. Let $K$ be the midpoint of the segment $AH$. Let $\\ell$ be any line through $O$, and let $P$ and $Q$ be the orthogonal projections of $B$ and $C$ onto $\\ell$, respectively. Prove that $KP+KQ\\ge BC$.",
+  "hints": [
+   "Show that the sum of the distances from the midpoint of $AH$ to the feet of the perpendiculars from $B$ and $C$ to any line through the circumcentre is at least $BC$.",
+   "Put the circumcircle as the unit circle in the complex plane; the orthocentre, the midpoint $K$ and the projections onto a line through the origin all have short formulas there.",
+   "With $O=0$ and $|a|=|b|=|c|=1$, the orthocentre is $h=a+b+c$, so $k=a+\\frac{b+c}2$. If $\\ell$ has unit direction $u$, the projection of $z$ onto $\\ell$ is $\\frac12(z+u^2\\bar z)$.",
+   "Compute $k-p$ and multiply by $b$ (which does not change the modulus). Do the same for $k-q$ with $c$.",
+   "You should get $KP=\\frac12|2ab+bc-u^2|$ and $KQ=\\frac12|2ac+bc-u^2|$. Now one application of the triangle inequality finishes."
+  ],
+  "solution": "Scale so that the circumradius is $1$ and use complex coordinates with $O=0$; lower-case letters denote coordinates, so $|a|=|b|=|c|=1$ and $\\bar z=1/z$ for $z\\in\\{a,b,c\\}$.\n\n**Orthocentre.** Let $h=a+b+c$. Then $h-a=b+c$ and\n$$\\overline{\\left(\\frac{b+c}{b-c}\\right)}=\\frac{1/b+1/c}{1/b-1/c}=\\frac{c+b}{c-b}=-\\frac{b+c}{b-c},$$\nso $\\frac{h-a}{b-c}$ is purely imaginary: either $h=a$ or $AH'\\perp BC$ where $H'$ is the point $h$. Likewise for $B$ and $C$. If $h\\notin\\{a,b,c\\}$, then $h$ lies on two altitudes, so $h$ is the orthocentre. If, say, $h=a$, then $b=-c$, $BC$ is a diameter, the angle at $A$ is right, and the orthocentre is $A=h$ again. So in all cases $H=h$, and\n$$k=\\frac{a+h}2=a+\\frac{b+c}2 .$$\n\n**Projections.** Let $u$ be a unit complex number in the direction of $\\ell$. The projection of $z$ onto the line $\\{tu:t\\in\\mathbb R\\}$ is $u\\operatorname{Re}(z\\bar u)=\\frac u2(z\\bar u+\\bar zu)=\\frac12(z+u^2\\bar z)$. Hence\n$$p=\\frac12\\Big(b+\\frac{u^2}b\\Big),\\qquad q=\\frac12\\Big(c+\\frac{u^2}c\\Big).$$\n\n**Distances.** \n$$k-p=a+\\frac c2-\\frac{u^2}{2b},\\qquad\\text{so}\\qquad KP=|k-p|=|b|\\,|k-p|=\\frac12\\left|2ab+bc-u^2\\right|.$$\nSymmetrically $KQ=\\frac12\\left|2ac+bc-u^2\\right|$. Put $w=bc-u^2$. By the triangle inequality,\n$$KP+KQ=\\frac12\\big(|2ab+w|+|2ac+w|\\big)\\ge\\frac12\\big|(2ab+w)-(2ac+w)\\big|=|a|\\,|b-c|=BC .$$\nThis holds for every line $\\ell$ through $O$. $\\blacksquare$",
+  "source": {
+   "kind": "mathnet",
+   "country": "Romania",
+   "competition": "THE Fifteenth ROMANIAN MASTER OF MATHEMATICS",
+   "mathnet_id": "0cd9"
+  }
+ },
+ {
+  "id": "m105",
+  "type": "answer",
+  "difficulty": 8,
+  "techniques": [
+   "cauchy-schwarz"
+  ],
+  "statement": "Let $a_0,a_1,\\dots,a_{100}$ and $b_1,b_2,\\dots,b_{100}$ be real numbers such that for every $n=0,1,\\dots,99$ one of the following holds:\n$$a_{n+1}=\\frac{a_n}2,\\ \\ b_{n+1}=\\frac12-a_n\\qquad\\text{or}\\qquad a_{n+1}=2a_n^2,\\ \\ b_{n+1}=a_n .$$\nIf $a_{100}\\le a_0$, find the maximal value of $b_1+b_2+\\dots+b_{100}$.",
+  "hints": [
+   "At each step the sequence $a$ is either halved or replaced by twice its square, with $b$ recording a matching amount. If $a$ does not end above where it started, how large can the total of the $b$'s be?",
+   "Express each $b_n$ and the step rule through the ratio $a_n/a_{n-1}$, so that the condition $a_{100}\\le a_0$ can be fed into a fractional sum estimate.",
+   "Dispose of $a_0\\le0$ first. For $a_0>0$ all $a_n>0$; check that in both cases $b_n=\\frac{a_n}{a_{n-1}}-a_{n-1}$.",
+   "Both options satisfy $(a_n-\\frac{a_{n-1}}2)(a_n-2a_{n-1}^2)=0$. Divide by $a_na_{n-1}$ to get an identity involving $\\frac{a_n}{a_{n-1}}$ and $\\frac{a_{n-1}^2}{a_n}$, and sum it.",
+   "You then need $\\sum_{n=1}^{100}\\frac{a_{n-1}^2}{a_n}\\ge\\sum_{n=1}^{100}a_{n-1}$. Use the Engel form of Cauchy-Schwarz and $a_{100}\\le a_0$."
+  ],
+  "solution": "**Answer:** $\\boxed{50}$.\n\nLet $S=b_1+\\dots+b_{100}$.\n\n**$a_0<0$ is impossible.** We show $a_n>a_0$ for all $n\\ge1$. For $n=1$: $a_0/2>a_0$ as $a_0<0$, and $2a_0^2>0>a_0$. If $a_n>a_0$: when $a_n<0$, either $a_{n+1}=a_n/2>a_n>a_0$ or $a_{n+1}=2a_n^2>0>a_0$; when $a_n\\ge0$, both options give $a_{n+1}\\ge0>a_0$. So $a_{100}>a_0$, contradicting the hypothesis.\n\n**$a_0=0$.** Then every $a_n=0$, and each $b_n$ is $\\frac12$ or $0$, so $S\\le50$.\n\n**$a_0>0$.** Both options keep the sequence positive, so all $a_n>0$. If step $n$ uses the first option, $\\frac{a_n}{a_{n-1}}=\\frac12$ and $b_n=\\frac12-a_{n-1}$; if it uses the second, $\\frac{a_n}{a_{n-1}}=2a_{n-1}$ and $b_n=a_{n-1}$. In both cases\n$$b_n=\\frac{a_n}{a_{n-1}}-a_{n-1}.$$\nAlso in both cases $(a_n-\\frac{a_{n-1}}2)(a_n-2a_{n-1}^2)=0$, i.e. $a_n^2-a_n\\big(\\frac{a_{n-1}}2+2a_{n-1}^2\\big)+a_{n-1}^3=0$. Dividing by $a_na_{n-1}>0$:\n$$\\frac{a_n}{a_{n-1}}=\\frac12+2a_{n-1}-\\frac{a_{n-1}^2}{a_n}.$$\nTherefore\n$$S=\\sum_{n=1}^{100}\\Big(\\frac{a_n}{a_{n-1}}-a_{n-1}\\Big)=50+\\sum_{n=1}^{100}a_{n-1}-\\sum_{n=1}^{100}\\frac{a_{n-1}^2}{a_n}.$$\nLet $X=a_0+\\dots+a_{99}>0$ and $Y=a_1+\\dots+a_{100}>0$. Since $a_{100}\\le a_0$, $Y\\le X$. By the Cauchy-Schwarz inequality in Engel form,\n$$\\sum_{n=1}^{100}\\frac{a_{n-1}^2}{a_n}\\ge\\frac{X^2}{Y}\\ge\\frac{X^2}{X}=X .$$\nHence $S\\le50+X-X=50$.\n\n**The value $50$ is attained:** take $a_n=\\frac12$ for all $n$ and always the second option: $2\\cdot\\left(\\frac12\\right)^2=\\frac12$, so the sequence is constant, $a_{100}=a_0$, and every $b_n=\\frac12$, giving $S=50$.",
+  "source": {
+   "kind": "mathnet",
+   "country": "Turkey",
+   "competition": "Team Selection Test",
+   "mathnet_id": "0grr"
+  }
+ },
+ {
+  "id": "m106",
+  "type": "proof",
+  "difficulty": 6,
+  "techniques": [
+   "cauchy-schwarz",
+   "telescoping"
+  ],
+  "statement": "Let $n\\ge m\\ge1$ be integers. Prove that\n$$\\sum_{k=m}^{n}\\left(\\frac1{k^2}+\\frac1{k^3}\\right)\\ge m\\cdot\\left(\\sum_{k=m}^{n}\\frac1{k^2}\\right)^2 .$$",
+  "hints": [
+   "Show that the sum of $\\frac1{k^2}+\\frac1{k^3}$ over $m\\le k\\le n$ is at least $m$ times the square of the sum of $\\frac1{k^2}$ over the same range.",
+   "The right side is the square of a sum, so an inequality that bounds such a square by a product of two sums is natural; the work is in choosing the two sums so that the unwanted one collapses.",
+   "Write $\\frac1{k^2}+\\frac1{k^3}=\\frac{k+1}{k^3}$. Try to bound $\\big(\\sum\\frac1{k^2}\\big)^2$ by $\\Big(\\sum\\frac{k+1}{k^3}\\Big)\\cdot\\Big(\\sum c_k\\Big)$ for suitable $c_k$.",
+   "Cauchy-Schwarz forces $c_k=\\dfrac{(1/k^2)^2}{(k+1)/k^3}$. Simplify it.",
+   "$c_k=\\frac1{k(k+1)}=\\frac1k-\\frac1{k+1}$, and its sum over $m\\le k\\le n$ is less than $\\frac1m$."
+  ],
+  "solution": "For $k\\ge1$ put $x_k=\\frac1{k^2}+\\frac1{k^3}=\\frac{k+1}{k^3}>0$ and $y_k=\\frac1{k^2}$. By the Cauchy-Schwarz inequality,\n$$\\Big(\\sum_{k=m}^ny_k\\Big)^2=\\Big(\\sum_{k=m}^n\\sqrt{x_k}\\cdot\\frac{y_k}{\\sqrt{x_k}}\\Big)^2\\le\\Big(\\sum_{k=m}^nx_k\\Big)\\Big(\\sum_{k=m}^n\\frac{y_k^2}{x_k}\\Big).$$\nHere\n$$\\frac{y_k^2}{x_k}=\\frac{1/k^4}{(k+1)/k^3}=\\frac1{k(k+1)}=\\frac1k-\\frac1{k+1},$$\nso the last sum telescopes:\n$$\\sum_{k=m}^n\\frac{y_k^2}{x_k}=\\frac1m-\\frac1{n+1}<\\frac1m .$$\nSince $\\sum x_k>0$, we get\n$$\\Big(\\sum_{k=m}^n\\frac1{k^2}\\Big)^2<\\frac1m\\sum_{k=m}^n\\left(\\frac1{k^2}+\\frac1{k^3}\\right),$$\nand multiplying by $m$ gives the claim (even with strict inequality). $\\blacksquare$",
+  "source": {
+   "kind": "mathnet",
+   "country": "United States",
+   "competition": "USA TSTST",
+   "mathnet_id": "0kus"
+  }
+ },
+ {
+  "id": "m107",
+  "type": "answer",
+  "difficulty": 8,
+  "techniques": [
+   "similar-triangles",
+   "angle-chasing"
+  ],
+  "statement": "The incircle of triangle $ABC$ touches the sides $BC$ and $AC$ at points $A_1$ and $B_1$, respectively. The lines $B_1A_1$ and $AB$ meet at a point $X$ such that $A$ lies between $X$ and $B$. If $\\angle CXB=90^\\circ$ and $BC^2=AB^2+BC\\cdot AC$, find the angles of triangle $ABC$.",
+  "hints": [
+   "Given the length condition $BC^2=AB^2+BC\\cdot AC$ and that $X=A_1B_1\\cap AB$ sees $BC$ at a right angle, determine the three angles of the triangle.",
+   "Rewrite the length condition as a product of two lengths along $BC$ equal to $AB^2$; that is the signature of a pair of triangles sharing the angle at $B$. A suitable auxiliary point on $BC$ makes it appear.",
+   "Write $a=BC$, $b=CA$, $c=AB$. The condition says $a(a-b)=c^2$, so $a>b$. Let $Y$ be the point of $BC$ with $CY=b$. Show that $AY\\parallel A_1B_1$, and that $BY\\cdot BC=BA^2$.",
+   "From $BY\\cdot BC=BA^2$, triangles $BAC$ and $BYA$ are similar, so $\\angle BAY=\\angle BCA$. Transfer this angle to $X$ using $XA_1\\parallel AY$ and conclude that $X,A,A_1,C$ are concyclic.",
+   "The circle then gives $AA_1\\perp BC$. When is the foot of the altitude from $A$ the incircle's touch point?"
+  ],
+  "solution": "**Answer:** $\\angle A=108^\\circ$, $\\angle B=\\angle C=36^\\circ$.\n\nWrite $a=BC$, $b=CA$, $c=AB$, $s=\\frac{a+b+c}2$; the tangent lengths are $CA_1=CB_1=s-c$, $BA_1=s-b$, $AB_1=s-a$. We use directed angles $\\measuredangle(\\ell,m)$ between lines, modulo $180^\\circ$.\n\n**Step 1: an auxiliary point.** The condition reads $a^2-ab=c^2$, i.e. $a(a-b)=c^2>0$, so $a>b$. Let $Y$ be the point on segment $BC$ with $CY=b$; then $BY=a-b$. The homothety with centre $C$ and ratio $\\frac{b}{s-c}$ maps $B_1$ (on ray $CA$ at distance $s-c$) to $A$ and $A_1$ (on ray $CB$ at distance $s-c$) to $Y$. Hence $AY\\parallel B_1A_1$.\n\n**Step 2: similar triangles.** $BY\\cdot BC=(a-b)a=c^2=BA^2$, so $\\frac{BA}{BY}=\\frac{BC}{BA}$, and triangles $BAC$ and $BYA$ share the angle at $B$. By SAS they are similar, with $B\\to B$, $A\\to Y$, $C\\to A$. This similarity maps ray $BA$ to ray $BC$ and ray $BC$ to ray $BA$, so it reverses orientation; therefore directed angles change sign:\n$$\\measuredangle(AB,AY)=-\\measuredangle(CB,CA)=\\measuredangle(CA,CB).$$\n\n**Step 3: a circle.** The lines $XA$ and $AB$ coincide, and $XA_1\\parallel AY$. Hence\n$$\\measuredangle(XA,XA_1)=\\measuredangle(AB,AY)=\\measuredangle(CA,CB)=\\measuredangle(CA,CA_1).$$\nSo $X,A,A_1,C$ lie on one circle. (The four points are distinct: $X$ lies on line $AB$ outside segment $AB$, $A_1$ is interior to $BC$.) In this circle,\n$$\\measuredangle(A_1A,A_1C)=\\measuredangle(XA,XC)=\\measuredangle(XB,XC)=90^\\circ,$$\nusing that $A$ lies on line $XB$ and $\\angle CXB=90^\\circ$. So $AA_1\\perp BC$.\n\n**Step 4: the triangle is isosceles.** From the right triangles $ABA_1$ and $ACA_1$: $c^2-(s-b)^2=AA_1^2=b^2-(s-c)^2$. Hence\n$$c^2-b^2=(s-b)^2-(s-c)^2=(c-b)(2s-b-c)=(c-b)a .$$\nIf $c\\neq b$, dividing gives $c+b=a$, impossible in a triangle. So $b=c$, and the condition becomes $a^2-ab-b^2=0$, i.e. $\\frac ab=\\frac{1+\\sqrt5}2$. In the isosceles triangle, $\\cos C=\\frac{a/2}{b}=\\frac{1+\\sqrt5}4=\\cos36^\\circ$, so $\\angle B=\\angle C=36^\\circ$ and $\\angle A=108^\\circ$.\n\n**Step 5: such a triangle works.** Take $b=c$ and $a=\\frac{1+\\sqrt5}2b$ (angles $108^\\circ,36^\\circ,36^\\circ$). The length condition holds. By Menelaus for the transversal $A_1B_1X$ of triangle $ABC$, $\\frac{AX}{XB}=\\frac{A_1C}{BA_1}\\cdot\\frac{AB_1}{B_1C}=\\frac{s-c}{s-b}\\cdot\\frac{s-a}{s-c}=\\frac{s-a}{s-b}<1$ (as $a>b$), and since $A_1,B_1$ are interior points of their sides, $X$ lies on line $AB$ outside the segment, on the side of $A$; so $A$ lies between $X$ and $B$. Steps 1 to 3 used only the length condition, so $X,A,A_1,C$ are concyclic; and since $b=c$, $A_1$ is the midpoint of $BC$ and $AA_1\\perp BC$. Hence $\\measuredangle(XB,XC)=\\measuredangle(A_1A,A_1C)=90^\\circ$, i.e. $\\angle CXB=90^\\circ$. So the angles are $\\boxed{\\angle A=108^\\circ,\\ \\angle B=\\angle C=36^\\circ}$.",
+  "source": {
+   "kind": "mathnet",
+   "country": "Bulgaria",
+   "competition": "Team selection test for the 54th IMO",
+   "mathnet_id": "03bh"
+  }
+ },
+ {
+  "id": "m108",
+  "type": "proof",
+  "difficulty": 8,
+  "techniques": [
+   "angle-chasing"
+  ],
+  "statement": "In an acute-angled triangle $ABC$ the altitudes $BE$ and $CF$ meet at $H$. The line through $H$ perpendicular to $EF$ meets the arc $BC$ of the circumcircle of $ABC$ not containing $A$ at $K$. If $AK$ and $BC$ meet at $P$, prove that $PK=PH$.",
+  "hints": [
+   "Show that $P=AK\\cap BC$ is equidistant from $K$ and from the orthocentre $H$.",
+   "Find a circle through $H$ and $K$ whose centre is forced onto $BC$, then show by chasing angles at $K$ that this centre also lies on $AK$. Directed angles keep the argument free of case distinctions.",
+   "Two classical facts: $AO\\perp EF$ (with $O$ the circumcentre), and the reflection $H'$ of $H$ in $BC$ lies on the circumcircle and on line $AH$. So $HK\\parallel AO$, and any circle through $H$ and $H'$ has its centre on $BC$.",
+   "Let $Q$ be the centre of the circle through $H,H',K$. It suffices to show $Q$ lies on line $AK$. Useful lemma: if $X,Y,Z$ lie on a circle with centre $Q$, then $\\measuredangle QXY=\\measuredangle XZY-90^\\circ$.",
+   "Apply the lemma twice: in the circumcircle to $\\measuredangle OAK$ (using $H'$ as the third point), and in the circle $HH'K$ to $\\measuredangle QKH$. Then use $KH\\parallel AO$."
+  ],
+  "solution": "Let $\\Gamma$ be the circumcircle, $O$ its centre, and $\\measuredangle(\\ell,m)$, $\\measuredangle XYZ=\\measuredangle(YX,YZ)$ directed angles modulo $180^\\circ$.\n\n**Lemma.** If $X,Y,Z$ lie on a circle with centre $Q$, then $\\measuredangle QXY=\\measuredangle XZY-90^\\circ$.\n*Proof.* Let $X^*$ be the antipode of $X$, so $Q$ lies on $XX^*$ and $\\measuredangle XYX^*=90^\\circ$ (if $Y=X^*$ both sides are $0$). The directed angles of triangle $XYX^*$ sum to $0$: $\\measuredangle YXX^*+\\measuredangle XX^*Y+\\measuredangle X^*YX=0$, so $\\measuredangle QXY=\\measuredangle X^*XY=-\\measuredangle YXX^*=\\measuredangle XX^*Y+\\measuredangle X^*YX=\\measuredangle XX^*Y-90^\\circ$, and $\\measuredangle XX^*Y=\\measuredangle XZY$ (inscribed angles). $\\square$\n\n**Fact 1: $AO\\perp EF$.** As the triangle is acute, $E,F$ lie on the sides and $O$ is inside. $B,C,E,F$ lie on the circle with diameter $BC$, so $\\angle AFE=\\angle ACB=C$. In the isosceles triangle $OAB$, $\\angle AOB=2C$, so $\\angle OAB=90^\\circ-C$. The ray $AO$ meets segment $EF$ at some $Z$, and in triangle $AFZ$ the angles at $A$ and $F$ are $90^\\circ-C$ and $C$, so $\\angle AZF=90^\\circ$. Hence the line through $H$ perpendicular to $EF$ is parallel to $AO$: $HK\\parallel AO$.\n\n**Fact 2.** Let $H'$ be the reflection of $H$ in $BC$. Then $H'$ lies on line $AH$ (which is perpendicular to $BC$), and $\\angle BH'C=\\angle BHC=180^\\circ-A$ with $H'$ on the other side of $BC$ from $A$, so $ABH'C$ is cyclic: $H'\\in\\Gamma$.\n\n**The isosceles case.** If $AB=AC$, then $EF\\parallel BC$, the line through $H$ perpendicular to $EF$ is the altitude $AH$, so $K=H'$ and $P$ is the foot $D$ of that altitude; then $PK=DH'=DH=PH$.\n\n**The general case.** Let $AB\\neq AC$. Then $K\\neq H'$: otherwise $HK$ would be the line $AH$, and $AH\\perp EF$ together with $AH\\perp BC$ would give $EF\\parallel BC$, i.e. $\\frac{AE}{AC}=\\frac{AF}{AB}$; with $AE=AB\\cos A$ and $AF=AC\\cos A$ this forces $AB=AC$. Also $K\\neq A$ because $K$ is on the other arc. So $K$ is not on line $AHH'$, and $H,H',K$ are three non-collinear points; let $\\omega$ be their circle and $Q$ its centre. Since $BC$ is the perpendicular bisector of $HH'$, $Q$ lies on $BC$.\n\n*Angle at $K$ in $\\omega$:* by the lemma with $(X,Y,Z)=(K,H,H')$,\n$$\\measuredangle QKH=\\measuredangle KH'H-90^\\circ=-\\measuredangle AH'K-90^\\circ,$$\nbecause $H'H$ and $H'A$ are the same line.\n\n*Angle at $K$ from $AK$:* by the lemma in $\\Gamma$ with $(X,Y,Z)=(A,K,H')$, $\\measuredangle OAK=\\measuredangle AH'K-90^\\circ$. Since $KH\\parallel AO$,\n$$\\measuredangle(KA,KH)=\\measuredangle(AK,AO)=-\\measuredangle OAK=90^\\circ-\\measuredangle AH'K .$$\nModulo $180^\\circ$ the two results agree: $\\measuredangle(KQ,KH)=\\measuredangle(KA,KH)$. Hence the lines $KQ$ and $KA$ coincide, i.e. $Q$ lies on line $AK$.\n\nSince $K$ is on the arc $BC$ not containing $A$, the points $A$ and $K$ are on opposite sides of $BC$, so line $AK$ is not $BC$ and meets it in exactly one point, $P$. As $Q$ lies on both lines, $Q=P$. So $P$ is the centre of $\\omega$, and $PK=PH$. $\\blacksquare$",
+  "source": {
+   "kind": "mathnet",
+   "country": "Iran",
+   "competition": "37th Iranian Mathematical Olympiad",
+   "mathnet_id": "07fs"
+  }
+ },
+ {
+  "id": "m109",
+  "type": "proof",
+  "difficulty": 8,
+  "techniques": [
+   "similar-triangles",
+   "complex-numbers"
+  ],
+  "statement": "Let $ABC$ be a triangle with $\\angle BAC\\neq90^\\circ$ and $AB\\neq BC$. Let $T$ be the second intersection of the $A$-symmedian (the reflection of the median from $A$ in the bisector of angle $A$) with the circumcircle of $ABC$. Let $D\\neq A$ be the point on line $AC$ with $BD=BA$. The tangent at $D$ to the circumcircle of $ADT$ meets the circumcircle of $DCT$ a second time at $K$. Prove that $\\angle BKC=90^\\circ$.",
+  "hints": [
+   "Show that $K$ lies on the circle with diameter $BC$.",
+   "Chasing angles in the two circles through $D$ and $T$ produces a pair of directly similar triangles with common vertex $T$; that similarity pins down $K$, and coordinates on the circumcircle finish the computation.",
+   "Show that triangles $TKC$ and $TDA$ are directly similar (equal directed angles at $K,D$ and at $C,A$). So the spiral similarity with centre $T$ taking $A\\mapsto C$ also takes $D\\mapsto K$, and $K-C=\\lambda(D-A)$ with $\\lambda=\\frac{C-T}{A-T}$.",
+   "Use complex numbers with the circumcircle as unit circle. Then $d=b+c-\\frac{ac}b$, and you can check that $t=\\frac{2bc-ab-ac}{b+c-2a}$ is on the unit circle and on the symmedian.",
+   "Compute $\\lambda$ and $k$, and compare $|k-m|$ with $|c-m|$ where $m=\\frac{b+c}2$."
+  ],
+  "solution": "Directed angles $\\measuredangle XYZ=\\measuredangle(YX,YZ)$ are taken modulo $180^\\circ$. Use complex coordinates with the circumcircle $\\Gamma$ of $ABC$ the unit circle; lower-case letters are coordinates, $\\bar z=1/z$ on $\\Gamma$, and $m=\\frac{b+c}2$ is the midpoint of $BC$. Since $\\angle A\\neq90^\\circ$, $BC$ is not a diameter, so $b+c\\neq0$.\n\n**Non-degeneracy.** $D$ is the reflection of $A$ in the foot of the perpendicular from $B$ to $AC$; $D\\neq A$ as $\\angle A\\ne 90^\\circ$, and $D\\neq C$ as $BC\\ne BA$. Line $AC$ meets $\\Gamma$ only in $A,C$, so $D\\notin\\Gamma$ and $T\\ne D$. The tangent at $D$ to circle $ADT$ is not line $AC$ (that line passes through $A$, a second point of the circle), so $K\\neq C$; it does not pass through $T$, so $K\\ne T$; and the circles $ADT$, $DCT$ are not tangent at $D$, since they share the second point $T$ and are distinct ($A,D,C$ are collinear). So $K$ is well defined and $K\\notin\\{C,D,T\\}$.\n\n**Step 1: a spiral similarity.** In circle $DCTK$: $\\measuredangle TKC=\\measuredangle TDC=\\measuredangle TDA$ (as $D,C,A$ are collinear), and $\\measuredangle KCT=\\measuredangle KDT$. By the tangent-chord angle in circle $ADT$, $\\measuredangle KDT=\\measuredangle DAT$. So triangles $KCT$ and $DAT$ have equal directed angles at corresponding vertices $K\\leftrightarrow D$ and $C\\leftrightarrow A$, hence are directly similar with $T\\leftrightarrow T$. Equivalently, with $\\lambda=\\frac{c-t}{a-t}$ we have $c-t=\\lambda(a-t)$ and $k-t=\\lambda(d-t)$; subtracting,\n$$k=c+\\lambda(d-a).$$\n\n**Step 2: coordinates of $D$ and $T$.** The foot of the perpendicular from $b$ to chord $ac$ is $\\frac12\\big(a+b+c-\\frac{ac}b\\big)$, so $d=b+c-\\frac{ac}b$ and\n$$d-a=(b-a)+\\frac{c(b-a)}b=\\frac{(b-a)(b+c)}b .$$\nLet $t=\\frac{2bc-ab-ac}{b+c-2a}$; the denominator is nonzero because $|b+c|<2$ for $b\\neq c$. Then\n$$\\bar t=\\frac{\\frac2{bc}-\\frac1{ab}-\\frac1{ac}}{\\frac1b+\\frac1c-\\frac2a}=\\frac{2a-b-c}{ab+ac-2bc}=\\frac1t,$$\nso $t\\in\\Gamma$; and $t-a=\\frac{2(a-b)(a-c)}{b+c-2a}\\neq0$. Line $AX$ is the reflection of line $AY$ in the bisector of angle $A$ exactly when $\\measuredangle(AB,AX)=\\measuredangle(AY,AC)$, i.e. when $\\frac{(x-a)(y-a)}{(b-a)(c-a)}$ is real. With $x=t$, $y=m$:\n$$\\frac{(t-a)(m-a)}{(b-a)(c-a)}=\\frac{\\frac{2(a-b)(a-c)}{b+c-2a}\\cdot\\frac{b+c-2a}2}{(b-a)(c-a)}=1 .$$\nSo $t$ lies on the $A$-symmedian and on $\\Gamma$, and $t\\ne a$: it is the point $T$.\n\n**Step 3: computing $k$.** $c-t=\\frac{(c-a)(c-b)}{b+c-2a}$, so $\\lambda=\\frac{c-t}{a-t}=\\frac{(c-a)(c-b)}{-2(a-b)(a-c)}=\\frac{c-b}{2(a-b)}$. Hence\n$$k=c+\\frac{c-b}{2(a-b)}\\cdot\\frac{(b-a)(b+c)}b=c+\\frac{(b-c)(b+c)}{2b}=\\frac{2bc+b^2-c^2}{2b}.$$\nThen $k-m=\\frac{2bc+b^2-c^2-b^2-bc}{2b}=\\frac{c(b-c)}{2b}$, so $|k-m|=\\frac{|b-c|}2=MB=MC$.\n\nSo $K$ lies on the circle with diameter $BC$. Finally $K\\neq C$ (shown above) and $K\\ne B$ (as $k=b$ would give $(b-c)^2=0$). By Thales' theorem, $\\angle BKC=90^\\circ$. $\\blacksquare$",
+  "source": {
+   "kind": "mathnet",
+   "country": "Iran",
+   "competition": "40th Iranian Mathematical Olympiad",
+   "mathnet_id": "07hp"
+  }
+ },
+ {
+  "id": "m110",
+  "type": "answer",
+  "difficulty": 7,
+  "techniques": [
+   "trigonometry"
+  ],
+  "statement": "In an acute triangle $ABC$ the points $H$ and $O$ are the orthocentre and the circumcentre, respectively. The line $HO$ meets the sides $AB$ and $AC$ at points $X$ and $Y$, respectively, so that $H$ lies on the segment $OX$. It turns out that $XH=HO=OY$. Find the angle $\\angle BAC$.",
+  "hints": [
+   "The Euler line cuts off equal thirds $XH=HO=OY$ between sides $AB$ and $AC$. Determine angle $A$.",
+   "Turn the equal segments into ratios of distances from $H$ and $O$ to the sides, and express those distances through the circumradius and the cosines of the angles.",
+   "Along a line, the distance to a fixed line changes linearly. Since $O$ is the midpoint of $HY$ and $H$ the midpoint of $XO$: $d(H,AC)=2\\,d(O,AC)$ and $d(O,AB)=2\\,d(H,AB)$.",
+   "With circumradius $R$: $d(O,AC)=R\\cos B$ and $d(H,AC)=2R\\cos A\\cos C$, and similarly for $AB$. You get $\\cos A\\cos C=\\cos B$ and $4\\cos A\\cos B=\\cos C$.",
+   "Expand $\\cos B=-\\cos(A+C)$ and $\\cos C=-\\cos(A+B)$ to get $\\tan A\\tan C$ and $\\tan A\\tan B$, then use $\\tan A+\\tan B+\\tan C=\\tan A\\tan B\\tan C$."
+  ],
+  "solution": "**Answer:** $\\angle BAC=\\boxed{60^\\circ}$.\n\nLet $R$ be the circumradius and write $A,B,C$ for the angles, all acute. For a point $Z$ and a side line $\\ell$, let $f_\\ell(Z)$ be the signed distance from $Z$ to $\\ell$, positive on the side of the triangle; along any line, $f_\\ell$ is an affine function of the position.\n\n**Distances.** $O$ is inside the triangle and $\\angle BOC=2A$, so $f_{BC}(O)=R\\cos A$; likewise $f_{CA}(O)=R\\cos B$, $f_{AB}(O)=R\\cos C$. The altitude from $B$ has length $c\\sin A=2R\\sin A\\sin C$, and $BH=2R\\cos B$ (in the acute triangle $H$ lies on this altitude between $B$ and the foot). So\n$$f_{CA}(H)=2R(\\sin A\\sin C-\\cos B)=2R(\\sin A\\sin C+\\cos(A+C))=2R\\cos A\\cos C,$$\nand likewise $f_{AB}(H)=2R\\cos A\\cos B$, $f_{BC}(H)=2R\\cos B\\cos C$.\n\n**Necessity.** $H$ and $O$ are interior points ($H\\ne O$, since otherwise the line $HO$ is undefined), and $X,Y$ are the two points where line $HO$ meets the boundary; as $H$ lies between $X$ and $O$, the order on the line is $X,H,O,Y$. (We need $X\\ne Y$: if the line met the boundary in only one point, then $OY=OX=XH+HO=2HO\\ne HO$, contradicting $HO=OY$.) From $HO=OY$, $O$ is the midpoint of $HY$, so $0=f_{CA}(Y)=2f_{CA}(O)-f_{CA}(H)$. From $XH=HO$, $H$ is the midpoint of $XO$, so $0=f_{AB}(X)=2f_{AB}(H)-f_{AB}(O)$. Therefore\n$$\\cos A\\cos C=\\cos B,\\qquad 4\\cos A\\cos B=\\cos C .$$\nSince $\\cos B=-\\cos(A+C)=\\sin A\\sin C-\\cos A\\cos C$, the first gives $2\\cos A\\cos C=\\sin A\\sin C$, i.e. $\\tan A\\tan C=2$. Since $\\cos C=\\sin A\\sin B-\\cos A\\cos B$, the second gives $5\\cos A\\cos B=\\sin A\\sin B$, i.e. $\\tan A\\tan B=5$. Put $t=\\tan A>0$; then $\\tan B=\\frac5t$, $\\tan C=\\frac2t$. As $A+B+C=180^\\circ$, $\\tan A+\\tan B+\\tan C=\\tan A\\tan B\\tan C$, i.e. $t+\\frac7t=\\frac{10}t$, so $t^2=3$, $t=\\sqrt3$ and $A=60^\\circ$.\n\n**Such a triangle exists.** Take $A=60^\\circ$ and $B,C$ acute with $\\tan B=\\frac5{\\sqrt3}$, $\\tan C=\\frac2{\\sqrt3}$; this is consistent since $\\tan(A+B)=\\frac{\\sqrt3+5/\\sqrt3}{1-5}=-\\frac2{\\sqrt3}=-\\tan C$. Then $\\cos B=\\frac{\\sqrt{21}}{14}$, $\\cos C=\\frac{\\sqrt{21}}7$, and one checks $\\cos A\\cos C=\\cos B$ and $4\\cos A\\cos B=\\cos C$. The triangle is not equilateral, so $H\\ne O$. Let $Y'=2O-H$ and $X'=2H-O$, so that $X'H=HO=OY'$, with $H$ between $X'$ and $O$ and $O$ between $H$ and $Y'$. By the relations, $f_{CA}(Y')=0$ and $f_{AB}(X')=0$, and\n$$f_{AB}(Y')=2R(\\cos C-\\cos A\\cos B)>0,\\quad f_{BC}(Y')=2R(\\cos A-\\cos B\\cos C)=2R\\left(\\tfrac12-\\tfrac3{14}\\right)>0,$$\n$$f_{CA}(X')=R(4\\cos A\\cos C-\\cos B)=R\\cdot\\tfrac{3\\sqrt{21}}{14}>0,\\quad f_{BC}(X')=R(4\\cos B\\cos C-\\cos A)=R\\left(\\tfrac{6}{7}-\\tfrac12\\right)>0 .$$\nSo $Y'$ lies on side $AC$ and $X'$ on side $AB$ (strictly inside them); these are the points $Y,X$ where line $HO$ meets the sides, and $XH=HO=OY$ holds. Hence the answer is $60^\\circ$.",
+  "source": {
+   "kind": "mathnet",
+   "country": "Ukraine",
+   "competition": "62nd Ukrainian National Mathematical Olympiad, Third Round, First Tour",
+   "mathnet_id": "0hgg"
+  }
+ },
+ {
+  "id": "m111",
+  "type": "proof",
+  "difficulty": 6,
+  "techniques": [
+   "telescoping"
+  ],
+  "statement": "Let $n\\ge2$ be an integer, and let $a_1,a_2,\\dots,a_n$ be positive real numbers such that $a_1+a_2+\\dots+a_n=1$. Prove that\n$$\\sum_{k=1}^{n}\\frac{a_k}{1-a_k}\\left(a_1+a_2+\\dots+a_{k-1}\\right)^2<\\frac13 .$$",
+  "hints": [
+   "With $s_{k-1}$ the sum of the terms before $a_k$, show that the weighted sum of $\\frac{a_k}{1-a_k}s_{k-1}^2$ stays below $\\frac13$.",
+   "The constant $\\frac13$ and the squares of partial sums suggest comparing each term with the increment of a simple function of the partial sums, so that the bounds add up to something that collapses.",
+   "Let $s_k=a_1+\\dots+a_k$, so $s_0=0$, $s_n=1$. Note that $\\frac13=\\frac13(s_n^3-s_0^3)$.",
+   "Try to prove the termwise bound $\\frac{a_k}{1-a_k}s_{k-1}^2<\\frac13\\left(s_k^3-s_{k-1}^3\\right)$.",
+   "With $x=s_{k-1}$ and $a=a_k$, the right side is $a\\left(x^2+ax+\\frac{a^2}3\\right)$. Use $x+a\\le1$."
+  ],
+  "solution": "Let $s_k=a_1+\\dots+a_k$ for $0\\le k\\le n$, so $s_0=0$, $s_n=1$, and $s_k=s_{k-1}+a_k$.\n\n**Termwise bound.** Fix $k$ and write $x=s_{k-1}\\ge0$ and $a=a_k>0$. Since $x+a=s_k\\le1$ and $n\\ge2$, we have $0<a<1$ (all terms are positive), so $1-a>0$. Now\n$$\\frac13\\left(s_k^3-s_{k-1}^3\\right)=\\frac13\\left((x+a)^3-x^3\\right)=a\\left(x^2+ax+\\frac{a^2}3\\right),$$\nand\n$$x^2+ax+\\frac{a^2}3-\\frac{x^2}{1-a}=ax-\\frac{ax^2}{1-a}+\\frac{a^2}3=\\frac{ax(1-a-x)}{1-a}+\\frac{a^2}3 .$$\nHere $ax(1-a-x)\\ge0$ because $x\\ge0$ and $x+a\\le1$, and $\\frac{a^2}3>0$. Hence $\\frac{x^2}{1-a}<x^2+ax+\\frac{a^2}3$, and multiplying by $a>0$,\n$$\\frac{a_k}{1-a_k}s_{k-1}^2<\\frac13\\left(s_k^3-s_{k-1}^3\\right).$$\n\n**Summation.** Adding over $k=1,\\dots,n$, the right sides telescope:\n$$\\sum_{k=1}^{n}\\frac{a_k}{1-a_k}s_{k-1}^2<\\frac13\\left(s_n^3-s_0^3\\right)=\\frac13 .\\qquad\\blacksquare$$",
+  "source": {
+   "kind": "mathnet",
+   "country": "IMO",
+   "competition": "IMO 2021 Shortlisted Problems",
+   "mathnet_id": "06wa"
+  }
+ },
+ {
+  "id": "m112",
+  "type": "answer",
+  "difficulty": 6,
+  "techniques": [
+   "coordinates",
+   "polynomials"
+  ],
+  "statement": "Consider the hyperbola $y=\\frac1x$ and four circles $S_1,S_2,S_3,S_4$. The circle $S_1$ meets the hyperbola at exactly the four points $Z_1,Z_2,Z_3,Z_4$; $S_2$ meets it at exactly $Z_3,Z_4,Z_5,Z_6$; $S_3$ at exactly $Z_5,Z_6,Z_7,Z_8$; and $S_4$ at exactly $Z_7,Z_8,Z_1,Z_2$. The points $Z_1,\\dots,Z_8$ are distinct. The radii of $S_1,S_2,S_3$ are $R_1,R_2,R_3$. Find the radius of $S_4$.",
+  "hints": [
+   "Express the radius of the fourth circle through $R_1,R_2,R_3$.",
+   "Substitute $y=\\frac1x$ into the equation of a circle: the abscissae of the four intersection points are the roots of a quartic, and its coefficients encode the centre and the radius.",
+   "For the circle $(x-a)^2+(y-b)^2=R^2$, the abscissae $x_1,\\dots,x_4$ of the intersection points are the roots of $x^4-2ax^3+(a^2+b^2-R^2)x^2-2bx+1=0$.",
+   "By Vieta, $\\sum x_i=2a$, $\\prod x_i=1$, $\\sum\\frac1{x_i}=2b$ and $\\sum_{i<j}x_ix_j=a^2+b^2-R^2$. Find a formula for $R^2$ in terms of the points alone.",
+   "Show $4R^2=\\sum_i\\left(x_i^2+\\frac1{x_i^2}\\right)=\\sum_i OZ_i^2$, where $O$ is the origin."
+  ],
+  "solution": "**Answer:** $R_4=\\boxed{\\sqrt{R_1^2-R_2^2+R_3^2}}$.\n\n**Lemma.** If a circle of radius $R$ meets $y=\\frac1x$ in exactly four points $Z_1,\\dots,Z_4$, then $4R^2=OZ_1^2+OZ_2^2+OZ_3^2+OZ_4^2$, where $O$ is the origin.\n\n*Proof.* Let the circle be $(x-a)^2+(y-b)^2=R^2$. A point $(x,\\frac1x)$ ($x\\ne0$) lies on it iff $(x-a)^2+(\\frac1x-b)^2=R^2$; multiplying by $x^2\\neq0$,\n$$x^4-2ax^3+(a^2+b^2-R^2)x^2-2bx+1=0 .$$\nThis quartic has the four distinct abscissae $x_1,\\dots,x_4$ of the $Z_i$ as roots (distinct points of the hyperbola have distinct abscissae), so these are all its roots. Let $e_1=\\sum x_i$, $e_2=\\sum_{i<j}x_ix_j$, $e_3=\\sum_{i<j<k}x_ix_jx_k$, $e_4=x_1x_2x_3x_4$. Vieta's formulas give $e_1=2a$, $e_2=a^2+b^2-R^2$, $e_3=2b$, $e_4=1$. Then $\\sum\\frac1{x_i}=\\frac{e_3}{e_4}=2b$ and $\\sum_{i<j}\\frac1{x_ix_j}=\\frac{e_2}{e_4}=e_2$. Hence\n$$\\sum x_i^2=e_1^2-2e_2=4a^2-2e_2,\\qquad \\sum\\frac1{x_i^2}=\\Big(\\sum\\frac1{x_i}\\Big)^2-2\\sum_{i<j}\\frac1{x_ix_j}=4b^2-2e_2,$$\nand\n$$\\sum_{i=1}^4OZ_i^2=\\sum\\Big(x_i^2+\\frac1{x_i^2}\\Big)=4a^2+4b^2-4e_2=4R^2 .\\qquad\\square$$\n\n**Applying the lemma** to the four circles, with $d_i=OZ_i^2$:\n$$4R_1^2=d_1+d_2+d_3+d_4,\\quad 4R_2^2=d_3+d_4+d_5+d_6,\\quad 4R_3^2=d_5+d_6+d_7+d_8,\\quad 4R_4^2=d_7+d_8+d_1+d_2 .$$\nTherefore $4R_1^2-4R_2^2+4R_3^2=d_1+d_2+d_7+d_8=4R_4^2$, so $R_4^2=R_1^2-R_2^2+R_3^2$ and $R_4=\\sqrt{R_1^2-R_2^2+R_3^2}$. (Configurations exist. If $x_1,\\dots,x_4$ are distinct, nonzero, with product $1$, put $a=\\frac{e_1}2$, $b=\\frac{e_3}2$, $\\rho=a^2+b^2-e_2$; then $\\prod(x-x_i)=x^4-2ax^3+(a^2+b^2-\\rho)x^2-2bx+1$, so the four points $(x_i,\\frac1{x_i})$ satisfy $(x-a)^2+(y-b)^2=\\rho$, which forces $\\rho>0$ (four distinct points), and they are the only common points. So one may take $x_1x_2=x_5x_6=q$ and $x_3x_4=x_7x_8=\\frac1q$ with eight distinct abscissae.)",
+  "source": {
+   "kind": "mathnet",
+   "country": "Belarus",
+   "competition": "Selection and Training Session",
+   "mathnet_id": "01v6"
+  }
+ },
+ {
+  "id": "m113",
+  "type": "proof",
+  "difficulty": 8,
+  "techniques": [
+   "angle-chasing",
+   "complex-numbers"
+  ],
+  "statement": "$ABCD$ is a trapezoid with $AB\\parallel CD$ (vertices in this order around it). A point $T$ in its interior satisfies $\\angle ATD=\\angle CTB$. The line $AT$ meets the circumcircle of $ACD$ a second time at $K$, and the line $BT$ meets the circumcircle of $BCD$ a second time at $L$. Assuming $K\\neq L$, show that $KL\\parallel AB$.",
+  "hints": [
+   "Show that the two second intersection points $K$ and $L$ lie on a line parallel to the bases.",
+   "Bring in one more circle, through $T,C,D$: the angle condition becomes a statement about two of its chords, and powers of points on line $CD$ transfer it to $K$ and $L$.",
+   "Let $AT,BT$ meet line $CD$ at $A_1,B_1$, and meet the circle $TCD$ again at $A_2,B_2$. Use directed angles at $T$ to show $A_2B_2\\parallel CD$ (or $A_2=B_2$).",
+   "Compute the power of $A_1$ with respect to the circles $TCD$ and $ACD$: $A_1T\\cdot A_1A_2=A_1C\\cdot A_1D=A_1A\\cdot A_1K$ (signed). So $K-A_1=\\lambda(A_2-A_1)$ for a real $\\lambda$; do the same at $B_1$.",
+   "The homothety with centre $T$ taking line $AB$ to line $CD$ shows the two ratios are equal. Then write $K-L$ as a combination of $A_1-B_1$ and $A_2-B_2$."
+  ],
+  "solution": "Let $\\omega$ be the circle through $T,C,D$ (it exists, as $T$ is not on line $CD$). Directed angles $\\measuredangle(\\ell,m)$ are taken modulo $180^\\circ$.\n\n**Setup.** $T$ lies strictly between the parallel lines $AB$ and $CD$, so line $AT$ meets line $CD$ at a point $A_1$ with $T$ strictly between $A$ and $A_1$; similarly $B_1=BT\\cap CD$. Let $k>0$ be the ratio of the distances from $T$ to $CD$ and to $AB$. The homothety with centre $T$ and ratio $-k$ maps line $AB$ to line $CD$, hence $A\\mapsto A_1$ and $B\\mapsto B_1$:\n$$A_1-T=-k(A-T),\\qquad B_1-T=-k(B-T).$$\nLet $A_2$ be the second intersection of line $AT$ with $\\omega$ ($A_2=T$ if the line is tangent), and define $B_2$ from line $BT$ likewise.\n\n**Step 1: $A_2B_2\\parallel CD$ or $A_2=B_2$.** Since $T$ is inside the convex quadrilateral $ABCD$, the rays $TA,TB,TC,TD$ occur around $T$ in this rotational order, and $\\angle DTA$ (resp. $\\angle BTC$) is the rotation, in that common sense, from ray $TD$ to ray $TA$ (resp. from $TB$ to $TC$). The hypothesis therefore gives $\\measuredangle(TD,TA)=\\measuredangle(TB,TC)$, i.e.\n$$\\measuredangle(TA_2,TD)=\\measuredangle(TA,TD)=\\measuredangle(TC,TB)=\\measuredangle(TC,TB_2).$$\nTake $\\omega$ as the unit circle in the complex plane. For points $X,Y$ of $\\omega$, the inscribed angle theorem (with the tangent at $T$ playing the role of line $TX$ when $X=T$) says $\\measuredangle(TX,TY)\\equiv\\frac12\\big(\\arg y-\\arg x\\big)\\pmod{180^\\circ}$. So the displayed equality gives $\\arg\\frac d{a_2}\\equiv\\arg\\frac{b_2}c\\pmod{360^\\circ}$, and as all four numbers have modulus $1$, $\\frac d{a_2}=\\frac{b_2}c$, i.e. $a_2b_2=cd$. For points on the unit circle, $a_2b_2=cd$ means that the chord $A_2B_2$ is parallel to the chord $CD$ (both are perpendicular to the direction $\\sqrt{cd}$), or $A_2=B_2$. In either case $A_2-B_2$ is a real multiple of $C-D$.\n\n**Step 2: power of a point.** The point $A_1$ lies on line $CD$ and on line $AT$. Its power with respect to $\\omega$ and with respect to the circle $ACD$ (which meets line $AT$ at $A$ and $K$), computed with signed lengths, gives\n$$\\overline{A_1T}\\cdot\\overline{A_1A_2}=\\overline{A_1C}\\cdot\\overline{A_1D}=\\overline{A_1A}\\cdot\\overline{A_1K}.$$\nAs $A\\neq A_1$, this says $K-A_1=\\lambda(A_2-A_1)$ with $\\lambda=\\dfrac{\\overline{A_1T}}{\\overline{A_1A}}$. From the homothety, $T-A_1=k(A-T)$ and $A-A_1=(1+k)(A-T)$, so $\\lambda=\\frac k{1+k}$. In the same way $L-B_1=\\mu(B_2-B_1)$ with $\\mu=\\frac k{1+k}=\\lambda$.\n\n**Conclusion.** Subtracting,\n$$K-L=(1-\\lambda)(A_1-B_1)+\\lambda(A_2-B_2).$$\n$A_1-B_1$ is a real multiple of $C-D$ because $A_1,B_1$ lie on line $CD$, and so is $A_2-B_2$ by Step 1. Hence $K-L$ is a real multiple of $C-D$, nonzero by assumption, so $KL\\parallel CD\\parallel AB$. $\\blacksquare$",
+  "source": {
+   "kind": "mathnet",
+   "country": "Turkey",
+   "competition": "Team Selection Test for IMO 2023",
+   "mathnet_id": "0gtt"
+  }
+ },
+ {
+  "id": "m114",
+  "type": "proof",
+  "difficulty": 7,
+  "techniques": [
+   "trigonometry"
+  ],
+  "statement": "Let $ABC$ be a triangle with inradius $r$. Let $R_A$ be the radius of the circle which is internally tangent at $A$ to the circumcircle of $ABC$ and tangent to the line $BC$; define $R_B$ and $R_C$ similarly. Show that\n$$\\frac1{R_A}+\\frac1{R_B}+\\frac1{R_C}\\le\\frac2r .$$",
+  "hints": [
+   "Prove that the reciprocals of the radii of the three circles tangent to the circumcircle at a vertex and to the opposite side sum to at most $\\frac2r$.",
+   "Locate the centre of each circle on the radius $OA$ and compute its radius from a distance condition; afterwards everything is an inequality between trigonometric functions of the angles.",
+   "The centre is $P=A+t(O-A)$ with radius $tR$. Signed distances to $BC$ vary linearly along $AO$; with $h_a$ the altitude and $R\\cos A$ the signed distance from $O$ to $BC$, show $\\frac1{R_A}=\\frac1R+\\frac{1-\\cos A}{h_a}$.",
+   "Use $\\frac1{h_a}=\\frac a{2S}$ and $\\frac2r=\\frac{a+b+c}S$ ($S$ the area). The claim becomes $\\frac{6S}R\\le\\sum a(1+\\cos A)$; then pass to $a=2R\\sin A$.",
+   "You should reach $4\\sin A\\sin B\\sin C\\le\\sin A+\\sin B+\\sin C$. Write both sides through half-angles; it reduces to $8\\sin\\frac A2\\sin\\frac B2\\sin\\frac C2\\le1$."
+  ],
+  "solution": "Let $O,R$ be the circumcentre and circumradius, $S$ the area, $a,b,c$ the sides, $s=\\frac{a+b+c}2$, $h_a=\\frac{2S}a$, and write $A,B,C$ also for the angles.\n\n**Computing $R_A$.** A circle internally tangent to the circumcircle at $A$ has its centre on segment $AO$: $P=A+t(O-A)$, radius $tR$, with $0<t<1$. Let $f$ be the signed distance to line $BC$, positive on the side of $A$; $f$ is affine, $f(A)=h_a$, and $f(O)=R\\cos A$ (as $\\angle BOC=2A$ or $360^\\circ-2A$; $O$ is on the side of $A$ iff $A$ is acute). Since the circle passes through $A$ with $f(A)>0$, it touches line $BC$ exactly when $f(P)=tR$ (if $f(P)=-tR$, every point of the circle would have $f\\le0$). Thus\n$$(1-t)h_a+tR\\cos A=tR\\iff t=\\frac{h_a}{h_a+R(1-\\cos A)},$$\nwhich indeed lies in $(0,1)$. Hence $R_A=tR$ and\n$$\\frac1{R_A}=\\frac{h_a+R(1-\\cos A)}{Rh_a}=\\frac1R+\\frac{1-\\cos A}{h_a}=\\frac1R+\\frac{a(1-\\cos A)}{2S}.$$\n\n**Reduction.** Since $r=\\frac Ss$, $\\frac2r=\\frac{a+b+c}S$. Summing the three formulas, the claim is\n$$\\frac3R+\\sum\\frac{a(1-\\cos A)}{2S}\\le\\sum\\frac{a}S\\iff\\frac{6S}R\\le\\sum a(1+\\cos A).$$\nWith $a=2R\\sin A$ etc. and $S=\\frac{abc}{4R}=2R^2\\sin A\\sin B\\sin C$, the left side is $12R\\sin A\\sin B\\sin C$ and the right side is $2R\\left(\\sum\\sin A+\\frac12\\sum\\sin2A\\right)$.\n\n**Two identities** (with $A+B+C=180^\\circ$):\n- $\\sin2A+\\sin2B=2\\sin(A+B)\\cos(A-B)=2\\sin C\\cos(A-B)$ and $\\sin2C=2\\sin C\\cos C=-2\\sin C\\cos(A+B)$, so $\\sum\\sin2A=2\\sin C\\big(\\cos(A-B)-\\cos(A+B)\\big)=4\\sin A\\sin B\\sin C$.\n- $\\sin A+\\sin B=2\\cos\\frac C2\\cos\\frac{A-B}2$ and $\\sin C=2\\cos\\frac C2\\cos\\frac{A+B}2$, so $\\sum\\sin A=4\\cos\\frac A2\\cos\\frac B2\\cos\\frac C2$.\n\nSo the claim becomes $12\\prod\\sin A\\le2\\sum\\sin A+4\\prod\\sin A$, i.e. $4\\prod\\sin A\\le\\sum\\sin A$. Writing $\\sin A=2\\sin\\frac A2\\cos\\frac A2$, this is\n$$32\\prod\\sin\\tfrac A2\\prod\\cos\\tfrac A2\\le4\\prod\\cos\\tfrac A2\\iff8\\sin\\tfrac A2\\sin\\tfrac B2\\sin\\tfrac C2\\le1,$$\nsince all half-angle cosines are positive.\n\n**The last inequality.** Let $x=\\sin\\frac C2\\in(0,1)$. Then\n$$\\sin\\tfrac A2\\sin\\tfrac B2=\\tfrac12\\Big(\\cos\\tfrac{A-B}2-\\cos\\tfrac{A+B}2\\Big)\\le\\tfrac12\\big(1-\\sin\\tfrac C2\\big)=\\tfrac{1-x}2,$$\nso $8\\prod\\sin\\frac A2\\le4x(1-x)\\le(x+(1-x))^2=1$. All steps were equivalences or this bound, so $\\frac1{R_A}+\\frac1{R_B}+\\frac1{R_C}\\le\\frac2r$. $\\blacksquare$ (Equality holds for the equilateral triangle.)",
+  "source": {
+   "kind": "mathnet",
+   "country": "Romania",
+   "competition": "66th NMO SELECTION TESTS FOR THE BALKAN AND INTERNATIONAL MATHEMATICAL OLYMPIADS",
+   "mathnet_id": "0bmu"
+  }
+ },
+ {
+  "id": "o87",
+  "type": "answer",
+  "difficulty": 1,
+  "techniques": [
+   "coloring"
+  ],
+  "statement": "A bug walks on a $3\\times3$ board made of nine unit cells. In each step it moves to a cell that shares a side with its current cell. The bug starts in the middle cell of the top row. Can it visit every cell of the board exactly once?",
+  "hints": [
+   "Decide whether the bug can make a walk that starts in the middle cell of the top row and visits each of the nine cells exactly once.",
+   "Paint the cells in a pattern and watch how the colours change as the bug moves.",
+   "Colour the board like a chessboard, with the four corner cells black. How many cells of each colour are there? What colour is the starting cell?",
+   "Each step goes to a cell of the opposite colour. Write down the colours the bug sees, in order, for a walk through all nine cells.",
+   "Count how many cells of the starting colour the walk would need, and compare with how many exist."
+  ],
+  "solution": "The answer is no.\n\nColour the board like a chessboard with the four corners black. Then the black cells are the four corners and the centre, so there are $5$ black cells, and the other $4$ cells (the middles of the sides) are white. The starting cell, the middle of the top row, is white.\n\nTwo cells sharing a side always have different colours, so the colours along the walk alternate. A walk through all nine cells starting at a white cell sees the colours W, B, W, B, W, B, W, B, W. It would use $5$ white cells. But there are only $4$ white cells. Hence no such walk exists: $\\boxed{\\text{No}}$.",
+  "source": {
+   "kind": "original"
+  }
+ },
+ {
+  "id": "o88",
+  "type": "answer",
+  "difficulty": 2,
+  "techniques": [
+   "extremal"
+  ],
+  "statement": "Several distinct positive integers add up to exactly $100$. What is the largest possible number of integers in such a collection?",
+  "hints": [
+   "Find the greatest $n$ for which there are $n$ distinct positive integers with sum $100$.",
+   "To fit as many numbers as possible into a fixed total, think about the cheapest choice.",
+   "Suppose there are $n$ numbers. Sort them from smallest to largest. How small can the smallest one be? The second smallest? The $k$-th smallest?",
+   "Show the $k$-th smallest is at least $k$, so the total is at least $1+2+\\dots+n$. Find the largest $n$ for which this is at most $100$.",
+   "Finally show that this largest $n$ is really achievable: you must hit $100$ exactly, not just stay below it."
+  ],
+  "solution": "Suppose $n$ distinct positive integers have sum $100$, and sort them as $a_1<a_2<\\dots<a_n$. Since they are distinct positive integers, $a_1\\ge1$ and each next one is at least one more than the previous, so $a_k\\ge k$ for every $k$. Hence\n$$100=a_1+\\dots+a_n\\ge1+2+\\dots+n=\\frac{n(n+1)}2.$$\nFor $n=14$ the right side is $105>100$, and it only grows with $n$. So $n\\le13$.\n\nFor $n=13$ take $1,2,\\dots,12$ (sum $78$) and $22$. These are distinct and sum to $100$. So the maximum is $\\boxed{13}$.",
+  "source": {
+   "kind": "original"
+  }
+ },
+ {
+  "id": "o89",
+  "type": "answer",
+  "difficulty": 2,
+  "techniques": [
+   "graph-theory"
+  ],
+  "statement": "Five people are at a party. Friendship is mutual, and each person is either a friend of another person or not. Is it possible that the numbers of friends the five people have (among the other four) are exactly $4,4,3,2,1$ in some order?",
+  "hints": [
+   "Decide whether the five people can have $4,4,3,2,1$ friends respectively.",
+   "Draw people as points and friendships as segments between them, and look at the extreme degrees.",
+   "Look at a person who has $4$ friends. Who are those friends?",
+   "There are two people with $4$ friends. What is then the least number of friends that anyone at the party can have?"
+  ],
+  "solution": "The answer is no.\n\nSuppose it were possible. A person with $4$ friends is a friend of all four other people. Call the two people with $4$ friends $A$ and $B$. Every other person is a friend of $A$ and also a friend of $B$, so each of the other three people has at least $2$ friends. (Also $A$ and $B$ themselves have $4$.) Hence every one of the five people has at least $2$ friends. But the person who is supposed to have exactly $1$ friend contradicts this. So $\\boxed{\\text{No}}$.\n\n(The degree sum $4+4+3+2+1=14$ is even, so a parity count alone does not rule this out.)",
+  "source": {
+   "kind": "original"
+  }
+ },
+ {
+  "id": "o90",
+  "type": "answer",
+  "difficulty": 2,
+  "techniques": [
+   "casework"
+  ],
+  "statement": "In how many ways can exactly $50$ cents be paid using pennies ($1$ cent), nickels ($5$ cents), dimes ($10$ cents) and quarters ($25$ cents)? Two ways are the same if they use the same number of coins of each kind (the order does not matter, and a kind of coin may be used zero times).",
+  "hints": [
+   "Count the quadruples (pennies, nickels, dimes, quarters) of non-negative integers with total value $50$ cents.",
+   "Split the count by how many of the largest coins are used, so that each piece is a smaller, easier count.",
+   "Split into cases by the number of quarters: $0$, $1$ or $2$. In each case the remaining amount must be paid with pennies, nickels and dimes.",
+   "Once the numbers of dimes and nickels are chosen, the pennies are forced. So for each amount to pay, count the choices of (dimes, nickels) whose value does not exceed that amount.",
+   "For an amount $A$ divisible by $5$, with $d$ dimes the remaining $A-10d$ allows nickels from $0$ up to $(A-10d)/5$."
+  ],
+  "solution": "The pennies are determined by the other three numbers (they make up the remainder), so we count choices of quarters $q$, dimes $d$ and nickels $n$ with $25q+10d+5n\\le50$.\n\n**$q=0$.** Need $10d+5n\\le50$. For each $d=0,1,\\dots,5$, the number of nickels can be $0,1,\\dots,\\frac{50-10d}5$, which is $11-2d$ choices. Total: $11+9+7+5+3+1=36$.\n\n**$q=1$.** Need $10d+5n\\le25$. Then $d\\in\\{0,1,2\\}$, and nickels range over $0,\\dots,\\lfloor\\frac{25-10d}5\\rfloor=5-2d$, giving $6-2d$ choices: $6+4+2=12$.\n\n**$q=2$.** Then $10d+5n\\le0$ forces $d=n=0$: $1$ way.\n\nTotal: $36+12+1=\\boxed{49}$.",
+  "source": {
+   "kind": "original"
+  }
+ },
+ {
+  "id": "o91",
+  "type": "answer",
+  "difficulty": 2,
+  "techniques": [
+   "symmetry"
+  ],
+  "statement": "Find the sum of all positive integers less than $100$ that have no common prime factor with $100$ (that is, $\\gcd(n,100)=1$).",
+  "hints": [
+   "Compute $\\sum n$ over all $n$ with $1\\le n<100$ and $\\gcd(n,100)=1$.",
+   "Look for a transformation of the set of terms that sends it to itself, and use it to group the terms.",
+   "If $n$ has no common factor with $100$, what about $100-n$? Compare $\\gcd(n,100)$ and $\\gcd(100-n,100)$.",
+   "So the allowed numbers split into pairs $\\{n,100-n\\}$ with a fixed sum. Check that no number is paired with itself, then count the numbers.",
+   "The allowed numbers are the odd numbers not divisible by $5$. Count them."
+  ],
+  "solution": "Let $S$ be the set of integers $n$ with $1\\le n\\le 99$ and $\\gcd(n,100)=1$. Any common divisor of $n$ and $100$ also divides $100-n$, and conversely any common divisor of $100-n$ and $100$ divides $n$. So $\\gcd(100-n,100)=\\gcd(n,100)$, and $n\\mapsto100-n$ maps $S$ to itself.\n\nMoreover $n=100-n$ would give $n=50$, which is not in $S$. So $S$ splits into pairs $\\{n,100-n\\}$, each with sum $100$.\n\nNow count $S$. Since $100=2^2\\cdot5^2$, $n\\in S$ exactly when $n$ is odd and not a multiple of $5$. Among $1,\\dots,99$ there are $50$ odd numbers, of which $10$ are multiples of $5$ ($5,15,\\dots,95$). So $|S|=40$, forming $20$ pairs.\n\nThe sum is $20\\cdot100=\\boxed{2000}$.",
+  "source": {
+   "kind": "original"
+  }
+ },
+ {
+  "id": "o92",
+  "type": "answer",
+  "difficulty": 1,
+  "techniques": [
+   "double-counting"
+  ],
+  "statement": "A school has $30$ students and some number of clubs. Every student belongs to exactly $3$ clubs, and every club has exactly $10$ members. How many clubs does the school have?",
+  "hints": [
+   "Find the number of clubs.",
+   "Count one and the same collection of facts in two different ways.",
+   "Count the memberships, that is, the pairs (student, club) with the student in the club.",
+   "Count these pairs once by going through the students, and once by going through the clubs. Both counts give the same total."
+  ],
+  "solution": "Let $c$ be the number of clubs and count the pairs (student, club) in which the student belongs to the club.\n\nGoing through the students: each of the $30$ students is in $3$ clubs, giving $30\\cdot3=90$ pairs.\n\nGoing through the clubs: each of the $c$ clubs has $10$ members, giving $10c$ pairs.\n\nSo $10c=90$ and $c=\\boxed{9}$.\n\nSuch a school exists: split the students into three groups of $10$ and the clubs into three groups of $3$, and let every student of the $i$-th group belong to the three clubs of the $i$-th group of clubs.",
+  "source": {
+   "kind": "original"
+  }
+ },
+ {
+  "id": "o93",
+  "type": "answer",
+  "difficulty": 2,
+  "techniques": [
+   "recursion"
+  ],
+  "statement": "A staircase has $10$ steps. In one move you climb $1$, $2$ or $3$ steps. In how many different ways can you go from the ground to the top of the staircase? Two ways are different if the sequences of move sizes are different (for example $1,2$ and $2,1$ are different ways to climb $3$ steps).",
+  "hints": [
+   "Count the sequences of moves of sizes $1$, $2$, $3$ whose sizes add up to $10$.",
+   "Relate the answer for a staircase of $n$ steps to the answers for shorter staircases, then build up from the small cases.",
+   "Let $a_n$ be the number of ways to climb $n$ steps. Look at the last move of a climb. What can it be, and what is left to climb before it?",
+   "This gives $a_n$ in terms of $a_{n-1}$, $a_{n-2}$ and $a_{n-3}$. Work out $a_1,a_2,a_3$ directly and then continue up to $a_{10}$."
+  ],
+  "solution": "Let $a_n$ be the number of ways to climb $n$ steps, and set $a_0=1$ (one way to climb nothing). Consider the last move of a climb of $n\\ge3$ steps. It climbs $1$, $2$ or $3$ steps, and before it the climber has climbed $n-1$, $n-2$ or $n-3$ steps in an arbitrary valid way. These three cases are disjoint and cover everything, so\n$$a_n=a_{n-1}+a_{n-2}+a_{n-3}\\qquad(n\\ge3).$$\nDirectly: $a_1=1$ (just $1$), $a_2=2$ ($1,1$ and $2$), and $a_3=4$ ($1,1,1$; $1,2$; $2,1$; $3$), which agrees with $a_2+a_1+a_0=4$.\n\nContinuing: $a_4=4+2+1=7$, $a_5=7+4+2=13$, $a_6=13+7+4=24$, $a_7=24+13+7=44$, $a_8=44+24+13=81$, $a_9=81+44+24=149$, $a_{10}=149+81+44=\\boxed{274}$.",
+  "source": {
+   "kind": "original"
+  }
+ },
+ {
+  "id": "o94",
+  "type": "proof",
+  "difficulty": 2,
+  "techniques": [
+   "constructive",
+   "induction"
+  ],
+  "statement": "Prove that for every integer $n\\ge3$ there are $n$ pairwise distinct positive integers $d_1,\\dots,d_n$ with\n$$\\frac1{d_1}+\\frac1{d_2}+\\dots+\\frac1{d_n}=1.$$",
+  "hints": [
+   "For each $n\\ge3$, exhibit (describe how to build) $n$ distinct positive integers whose reciprocals add up to $1$.",
+   "Find one small example, then look for a move that turns an example with $n$ terms into one with $n+1$ terms.",
+   "Start with $n=3$ and find three distinct unit fractions summing to $1$. Then try to split one fraction $\\frac1m$ into two smaller unit fractions.",
+   "Check the identity $\\frac1m=\\frac1{m+1}+\\frac1{m(m+1)}$.",
+   "Which fraction should be split, so that the new denominators do not clash with the old ones?"
+  ],
+  "solution": "We build the examples one after another.\n\n**$n=3$.** $\\frac12+\\frac13+\\frac16=1$, with denominators $2,3,6$.\n\n**From $n$ to $n+1$.** Suppose $d_1<d_2<\\dots<d_n$ are distinct positive integers with $\\sum\\frac1{d_i}=1$, and let $m=d_n$ be the largest one; $m\\ge3$ since $n\\ge3$. For every positive integer $m$,\n$$\\frac1{m+1}+\\frac1{m(m+1)}=\\frac{m+1}{m(m+1)}=\\frac1m.$$\nReplace $\\frac1{d_n}=\\frac1m$ by $\\frac1{m+1}+\\frac1{m(m+1)}$. The sum is still $1$ and now there are $n+1$ terms, with denominators $d_1,\\dots,d_{n-1},\\,m+1,\\,m(m+1)$. They are distinct: $d_1,\\dots,d_{n-1}$ are all smaller than $m$, while $m+1>m$ and $m(m+1)>m+1$ (because $m>1$).\n\nBy induction, examples exist for every $n\\ge3$. $\\blacksquare$\n\n(For instance $n=4$: $2,3,7,42$; $n=5$: $2,3,7,43,1806$.)",
+  "source": {
+   "kind": "original"
+  }
+ },
+ {
+  "id": "o95",
+  "type": "answer",
+  "difficulty": 5,
+  "techniques": [
+   "coloring",
+   "constructive"
+  ],
+  "statement": "Number the rows and columns of a $7\\times7$ board $1,2,\\dots,7$. Sixteen non-overlapping $1\\times3$ tiles are placed on the board, each covering three cells in a row or three cells in a column, so that exactly one cell is left uncovered. Determine all cells that can be the uncovered cell.",
+  "hints": [
+   "Find every cell (row, column) of the board that can be the single uncovered cell in such a placement of sixteen tiles.",
+   "Colour the cells so that every tile covers a known pattern of colours, then compare with the colour counts of the board. You also need to show that each cell you allow really occurs.",
+   "Colour the cell in row $i$ and column $j$ by the remainder of $i+j$ modulo $3$. What colours does one tile cover, horizontal or vertical?",
+   "Count how many cells of each colour the board has. Sixteen tiles cover equally many cells of each colour, so the uncovered cell has a colour that is determined by the counts.",
+   "Repeat with the remainder of $i-j$ modulo $3$ and combine the two conditions. Then show, with explicit tilings, that all the cells you found are possible. Symmetry reduces the number of tilings to draw."
+  ],
+  "solution": "Write $(i,j)$ for the cell in row $i$ and column $j$.\n\n**Necessary conditions.** A tile covers three consecutive cells in a row, whose values of $j$ are $j,j+1,j+2$, or three consecutive cells in a column. In either case the values of $i+j$ modulo $3$ are $0,1,2$ in some order, and so are the values of $i-j$ modulo $3$ (the difference changes by $\\pm1$ at each cell along a row or a column). So each tile covers exactly one cell of each residue class of $i+j$ and one of each class of $i-j$. Sixteen tiles therefore cover exactly $16$ cells of each class, so the uncovered cell must lie in a class that contains $16+1=17$ cells of the board (and the other two classes must contain $16$).\n\nCount the board's classes. Among $1,\\dots,7$ there are $3$ numbers $\\equiv1\\pmod 3$ ($1,4,7$), $2$ numbers $\\equiv2$ ($2,5$) and $2$ numbers $\\equiv0$ ($3,6$). The number of cells with $i+j\\equiv0$ is $3\\cdot2+2\\cdot3+2\\cdot2=16$ (residue pairs $(1,2),(2,1),(0,0)$). With $i+j\\equiv1$: pairs $(1,0),(0,1),(2,2)$ give $6+6+4=16$. With $i+j\\equiv2$: pairs $(1,1),(2,0),(0,2)$ give $9+4+4=17$. Hence the uncovered cell has $i+j\\equiv2\\pmod3$.\n\nSimilarly for $i-j$: $i-j\\equiv0$ comes from pairs $(1,1),(2,2),(0,0)$, giving $9+4+4=17$ cells; $i-j\\equiv1$ comes from $(1,0),(2,1),(0,2)$, giving $6+6+4=16$; $i-j\\equiv2$ comes from $(0,1),(1,2),(2,0)$, giving $6+6+4=16$. So the uncovered cell has $i\\equiv j\\pmod 3$.\n\nAdding, $2i\\equiv i+j\\equiv2$, so $i\\equiv1$, and then $j\\equiv1\\pmod3$. Thus $i,j\\in\\{1,4,7\\}$: at most nine cells are possible.\n\n**All nine occur.**\n- Uncovered $(1,b)$ with $b\\in\\{1,4,7\\}$: in row $1$ the cells to the left of column $b$ and to the right of it form blocks of lengths $b-1$ and $7-b$, which are $0,6$ or $3,3$ or $6,0$; cover each block with horizontal tiles. Rows $2$ to $7$ form a $6\\times7$ rectangle: in each column place two vertical tiles.\n- Uncovered $(7,b)$: the same picture reflected top to bottom. Uncovered $(a,1)$ and $(a,7)$: the same pictures with rows and columns exchanged. This gives eight cells $(1,1),(1,4),(1,7),(7,1),(7,4),(7,7),(4,1),(4,7)$.\n- Uncovered $(4,4)$: use four rectangles around the centre: rows $1$–$3$ by columns $1$–$4$ (four vertical tiles), rows $1$–$4$ by columns $5$–$7$ (four horizontal tiles), rows $5$–$7$ by columns $4$–$7$ (four vertical tiles), rows $4$–$7$ by columns $1$–$3$ (four horizontal tiles). They are disjoint, cover $48$ cells, and miss only $(4,4)$.\n\nSo the possible uncovered cells are exactly the nine cells $(i,j)$ with $i,j\\in\\{1,4,7\\}$.\n\n$\\boxed{(i,j)\\ \\text{with}\\ i,j\\in\\{1,4,7\\}}$",
+  "source": {
+   "kind": "original"
+  }
+ },
+ {
+  "id": "o96",
+  "type": "proof",
+  "difficulty": 5,
+  "techniques": [
+   "extremal",
+   "graph-theory"
+  ],
+  "statement": "In a group of people, some pairs know each other (knowing is mutual). Prove that the people can be divided into two teams (one of them may be empty) so that every person knows at least as many people in the other team as in their own team.",
+  "hints": [
+   "Show that a split into two teams exists in which no one has strictly more acquaintances in their own team than in the opposite team.",
+   "There are only finitely many ways to split the group, so some split is best in a measurable sense.",
+   "Among all splits, choose one that maximizes a suitable count of acquaintance pairs. Which pairs should the count be about?",
+   "Count the acquainted pairs whose two members lie in different teams, and take a split with the most such pairs. Suppose some person $v$ has more acquaintances in their own team than in the other team.",
+   "Move $v$ to the other team. Count exactly how many acquainted pairs change from \"same team\" to \"different teams\" and vice versa, and compare."
+  ],
+  "solution": "Model the group as a graph: people are vertices, and two vertices are joined by an edge when the people know each other. A split is a choice of two (possibly empty) teams $A$, $B$ with $A\\cup B$ equal to the whole group and $A\\cap B=\\emptyset$. Call an edge *crossing* if its endpoints are in different teams.\n\nThere are finitely many splits, so we may choose a split for which the number of crossing edges is as large as possible. We claim this split has the required property.\n\nSuppose not: some person $v$, say in team $A$, has $s$ acquaintances in $A$ and $t$ acquaintances in $B$ with $s>t$. Move $v$ to team $B$, keeping everybody else where they are. Only edges at $v$ can change their status:\n- The $s$ edges from $v$ to acquaintances in $A$ were not crossing and become crossing.\n- The $t$ edges from $v$ to acquaintances in $B$ were crossing and become non-crossing.\nAll other edges are unchanged. So the number of crossing edges increases by $s-t>0$, contradicting the maximality of our split.\n\nHence in the chosen split nobody has more acquaintances in their own team than in the other team. $\\blacksquare$",
+  "source": {
+   "kind": "original"
+  }
+ },
+ {
+  "id": "o97",
+  "type": "proof",
+  "difficulty": 5,
+  "techniques": [
+   "graph-theory",
+   "extremal"
+  ],
+  "statement": "A country has several cities, and some pairs of cities are joined by a direct two-way road (at most one road between two cities). Every city has direct roads to at least three other cities. Prove that one can start in some city, travel along a closed route that uses at least three different roads, visits an even number of different cities, never visits a city twice (except returning to the start), and comes back to the start.",
+  "hints": [
+   "Prove that the road network contains a cycle with an even number of cities (equivalently, an even number of roads).",
+   "Look at an extreme object in the network, such as a route that cannot be extended, and use what the degree condition says about its end.",
+   "Take a route (a path without repeated cities) with as many cities as possible. Where can the neighbours of its first city lie?",
+   "The first city $v_0$ has at least three neighbours, all on the path $v_0,v_1,\\dots,v_m$. Besides $v_1$ there are two more, $v_i$ and $v_j$ with $2\\le i<j$. Each of them closes a cycle with the path.",
+   "There are three natural cycles using $v_0$, $v_i$, $v_j$. Compute their numbers of cities, and see what happens if all of them are odd."
+  ],
+  "solution": "Because there are finitely many cities, we can choose a longest path $v_0v_1\\dots v_m$ (the cities $v_0,\\dots,v_m$ are all different, consecutive ones are joined by roads, and $m$ is as large as possible).\n\nEvery neighbour of $v_0$ lies on this path. Indeed, if $v_0$ had a neighbour $w$ outside the path, then $w v_0 v_1\\dots v_m$ would be a longer path.\n\nThe city $v_0$ has at least three neighbours, all among $v_1,\\dots,v_m$. One of them is $v_1$ (it is joined to $v_0$ by the path), so at least two others exist; call them $v_i$ and $v_j$ with $2\\le i<j\\le m$.\n\nConsider these three closed routes:\n1. $v_0v_1\\dots v_iv_0$, which visits $i+1$ cities ($i+1\\ge3$);\n2. $v_0v_1\\dots v_jv_0$, which visits $j+1$ cities;\n3. $v_0v_iv_{i+1}\\dots v_jv_0$, which visits $(j-i+1)+1=j-i+2$ cities ($\\ge3$ since $j>i$).\n\nEach is a cycle: the cities in each list are distinct and consecutive ones are joined (using the roads $v_0v_i$ and $v_0v_j$ for the closing steps).\n\nSuppose all three numbers of cities were odd. Then $i+1$ odd gives $i$ even, and $j+1$ odd gives $j$ even. But then $j-i+2$ is even, a contradiction. So at least one of the three cycles has an even number of cities. $\\blacksquare$",
+  "source": {
+   "kind": "original"
+  }
+ },
+ {
+  "id": "o98",
+  "type": "answer",
+  "difficulty": 4,
+  "techniques": [
+   "casework"
+  ],
+  "statement": "Find the number of quadruples $(a,b,c,d)$ of positive integers with $a\\le b\\le c\\le d$ such that\n$$\\frac1a+\\frac1b+\\frac1c+\\frac1d=1.$$",
+  "hints": [
+   "Count the non-decreasing quadruples of positive integers whose reciprocals add up to $1$.",
+   "Bound the smallest variable, then let each of its possible values open a smaller problem with fewer unknowns.",
+   "Since $a$ is the smallest, $1=\\frac1a+\\dots\\le\\frac4a$. Find the possible values of $a$, and rule out $a=1$.",
+   "For each value of $a$, bound $b$ in the same way using the remaining sum $1-\\frac1a$ shared by three fractions.",
+   "Once $a$ and $b$ are fixed you must solve $\\frac1c+\\frac1d=\\frac pq$. Bound $c$ again and solve for $d$, or use a factoring trick when the right side is a unit fraction $\\frac1k$, namely $(c-k)(d-k)=k^2$."
+  ],
+  "solution": "Since all four fractions are positive, $a\\ge2$. Also $1\\le\\frac4a$ gives $a\\le4$. We treat the cases $a=2,3,4$ and use repeatedly that for $x\\le y$ with $\\frac1x+\\frac1y=s$ we have $\\frac1x<s\\le\\frac2x$.\n\n**Case $a=2$.** Then $\\frac1b+\\frac1c+\\frac1d=\\frac12$ with $b\\ge2$. Since $\\frac1b<\\frac12$, $b\\ge3$; and $\\frac12\\le\\frac3b$ gives $b\\le6$.\n- $b=3$: $\\frac1c+\\frac1d=\\frac16$, with $c\\ge7$ and $\\frac16\\le\\frac2c$ so $c\\le12$. Multiplying out, $(c-6)(d-6)=36$ with $1\\le c-6\\le d-6$. So $c-6\\in\\{1,2,3,4,6\\}$ and $(c,d)=(7,42),(8,24),(9,18),(10,15),(12,12)$: $5$ solutions.\n- $b=4$: $\\frac1c+\\frac1d=\\frac14$, $c\\ge5$, and $(c-4)(d-4)=16$ with $1\\le c-4\\le d-4$: $c-4\\in\\{1,2,4\\}$, $(c,d)=(5,20),(6,12),(8,8)$: $3$ solutions.\n- $b=5$: $\\frac1c+\\frac1d=\\frac3{10}$ with $c\\ge5$ and $\\frac3{10}\\le\\frac2c$, so $c\\le6$. $c=5$ gives $\\frac1d=\\frac1{10}$, $d=10$. $c=6$ gives $\\frac1d=\\frac3{10}-\\frac16=\\frac2{15}$, not a unit fraction. $1$ solution: $(2,5,5,10)$.\n- $b=6$: $\\frac1c+\\frac1d=\\frac13$ with $c\\ge6$ and $\\frac13\\le\\frac2c$, so $c\\le6$. $c=6$ gives $d=6$. $1$ solution: $(2,6,6,6)$.\n\nThat is $5+3+1+1=10$ solutions.\n\n**Case $a=3$.** Then $\\frac1b+\\frac1c+\\frac1d=\\frac23$ with $b\\ge3$ and $\\frac23\\le\\frac3b$, so $b\\le4$.\n- $b=3$: $\\frac1c+\\frac1d=\\frac13$, $c\\ge4$ (since $c=3$ would need $\\frac1d=0$), and $(c-3)(d-3)=9$ with $1\\le c-3\\le d-3$: $(c,d)=(4,12),(6,6)$: $2$ solutions.\n- $b=4$: $\\frac1c+\\frac1d=\\frac5{12}$ with $c\\ge4$ and $\\frac5{12}\\le\\frac2c$, so $c\\le4$. $c=4$ gives $\\frac1d=\\frac5{12}-\\frac14=\\frac16$, $d=6$. $1$ solution: $(3,4,4,6)$.\n\nThat is $3$ solutions.\n\n**Case $a=4$.** Then $b,c,d\\ge4$, so $\\frac1b+\\frac1c+\\frac1d\\le\\frac34$, with equality only for $b=c=d=4$. Since the sum must be $1-\\frac14=\\frac34$, we get exactly $(4,4,4,4)$: $1$ solution.\n\nTotal: $10+3+1=\\boxed{14}$.",
+  "source": {
+   "kind": "original"
+  }
+ },
+ {
+  "id": "o99",
+  "type": "answer",
+  "difficulty": 4,
+  "techniques": [
+   "symmetry"
+  ],
+  "statement": "A round table has $2024$ chairs placed at equal distances around it. Alice and Bob take turns, Alice first. On a turn, a player seats a guest on an empty chair, subject to the rule that the chair must not be next to a chair that already has a guest (the two neighbours of a chair are the chairs immediately to its left and right). A player who cannot make a move loses. Which player has a winning strategy?",
+  "hints": [
+   "Decide who wins this game with best play from both sides, and describe the winning strategy.",
+   "Think about what structure of the table one of the players could exploit.",
+   "Number the chairs $0,1,\\dots,2023$ around the table. Which chair is exactly opposite chair $x$?",
+   "Suppose the player who moves second always answers by taking the chair opposite to the one the opponent just took. Show that this reply is always legal. What do you know about the guests seated before the opponent's move?",
+   "For legality you must check three things about the opposite chair $x'$: it is empty, it is not adjacent to an occupied chair, and it is not adjacent to the chair $x$ just taken."
+  ],
+  "solution": "Number the chairs $0,1,\\dots,2023$ around the table, with arithmetic modulo $2024$. For a chair $x$ let $x'=x+1012$ be the opposite chair. Then $(x')'=x$, and $x'$ is a neighbour of $y$ exactly when $x$ is a neighbour of $y'$ (shifting everything by $1012$ preserves neighbourhood).\n\n**Bob (the second player) wins.** His strategy: whenever Alice seats a guest on chair $x$, Bob seats a guest on $x'$.\n\nWe prove by induction that Bob can always do this legally. Before each of Alice's moves, the set $T$ of occupied chairs is *symmetric*: $y\\in T\\iff y'\\in T$ (at the start $T=\\emptyset$, and each round adds $x$ and $x'$ together). Suppose Alice legally takes $x$, so $x\\notin T$ and neither neighbour of $x$ is in $T$. We check that $x'$ is legal for Bob, in the position $T\\cup\\{x\\}$:\n- $x'$ is empty: $x'\\ne x$ because $1012\\not\\equiv0\\pmod{2024}$, and $x'\\notin T$ since otherwise $x=(x')'\\in T$ by symmetry.\n- $x'$ is not adjacent to a chair of $T$: if a neighbour $z$ of $x'$ were in $T$, then $z'\\in T$ by symmetry, and $z'$ is a neighbour of $x$, contradicting the legality of Alice's move.\n- $x'$ is not adjacent to $x$: that would need $1012\\equiv\\pm1\\pmod{2024}$, which is false.\n\nSo Bob's reply is legal, and the occupied set is symmetric again. Every move of Alice is thus followed by a legal move of Bob. The game is finite (at most $2024$ guests), so it ends, and the player who cannot move must be Alice (Bob always has a move after Alice's). Hence Bob wins: $\\boxed{\\text{the second player (Bob)}}$.",
+  "source": {
+   "kind": "original"
+  }
+ },
+ {
+  "id": "o100",
+  "type": "answer",
+  "difficulty": 6,
+  "techniques": [
+   "double-counting",
+   "constructive"
+  ],
+  "statement": "Each cell of a $7\\times7$ table contains either $0$ or $1$. There are no two rows and two columns such that all four cells where these rows and columns cross contain $1$ (the two rows need not be adjacent, nor the two columns). What is the largest possible number of $1$s in the table?",
+  "hints": [
+   "Find the maximum number of $1$s in a $7\\times7$ table of $0$s and $1$s that contains no \"rectangle of four $1$s\" at the crossings of two rows and two columns, and show that this maximum is attained.",
+   "Count a suitable family of objects, such as pairs of positions inside the rows, in two ways, and then use an inequality. A matching construction must also be exhibited.",
+   "For each row, look at the pairs of columns in which that row has a $1$. What does the rectangle condition say about a given pair of columns across different rows?",
+   "A given pair of columns can occur in at most one row. Count (row, pair of columns) in two ways to bound $\\sum_i\\binom{r_i}2$, where $r_i$ is the number of $1$s in row $i$.",
+   "Show that $22$ ones would force $\\sum\\binom{r_i}2\\ge24$; to do this write $\\sum r_i^2=\\sum(r_i-3)^2+6\\sum r_i-63$. For the construction think of seven \"lines\" of three columns each, any two of which share exactly one column, for instance $\\{i,i+1,i+3\\}$ modulo $7$."
+  ],
+  "solution": "**Upper bound.** Let $r_i$ be the number of $1$s in row $i$ and $S=\\sum r_i$ the total. Count the triples (row $i$, two columns $c<c'$) such that row $i$ has $1$s in both columns $c$ and $c'$.\n\nBy rows: row $i$ contributes $\\binom{r_i}2$, so the total is $\\sum_i\\binom{r_i}2$.\n\nBy column pairs: a given pair of columns can occur in at most one row, because two rows both having $1$s in these two columns would form a forbidden rectangle. There are $\\binom72=21$ pairs of columns. So the total is at most $21$.\n\nHence $\\sum_i\\binom{r_i}2\\le21$.\n\nSuppose $S\\ge22$. Turning some $1$s into $0$s keeps the table free of rectangles, so we may assume $S=22$. Then\n$$\\sum r_i^2=\\sum(r_i-3)^2+6\\sum r_i-63=\\sum(r_i-3)^2+69.$$\nSince $\\sum(r_i-3)=22-21=1\\ne0$, not all $r_i$ equal $3$, so some integer $r_i-3$ is nonzero and $\\sum(r_i-3)^2\\ge1$. Thus $\\sum r_i^2\\ge70$ and\n$$\\sum_i\\binom{r_i}2=\\frac{\\sum r_i^2-\\sum r_i}2\\ge\\frac{70-22}2=24>21,$$\na contradiction. So $S\\le21$.\n\n**Construction with $21$.** Number rows and columns $0,\\dots,6$. In row $i$ put $1$s exactly in columns $i,\\ i+1,\\ i+3$ (modulo $7$). Each row has three $1$s, so there are $21$ in total. Two different rows $i\\ne i'$ share at most one column with a $1$: a common column would give a solution of $i+a\\equiv i'+b\\pmod 7$ with $a,b\\in\\{0,1,3\\}$, i.e. $i-i'\\equiv b-a$. The differences $b-a$ with $a\\ne b$ are $\\pm1,\\pm2,\\pm3$, that is $1,6,2,5,3,4$ modulo $7$, each exactly once, and $a=b$ gives $i=i'$. So $i-i'$ determines $(a,b)$ uniquely and two rows share exactly one column. No rectangle can occur.\n\nThe maximum is $\\boxed{21}$.",
+  "source": {
+   "kind": "original"
+  }
+ },
+ {
+  "id": "o101",
+  "type": "proof",
+  "difficulty": 5,
+  "techniques": [
+   "pigeonhole"
+  ],
+  "statement": "The integers $1,2,\\dots,10$ are written in a row in some order. Prove that one can find four of them that appear in increasing order from left to right, or four that appear in decreasing order from left to right (the four need not be next to each other).",
+  "hints": [
+   "Show that every arrangement of $1,\\dots,10$ in a row contains an increasing or a decreasing subsequence of length $4$.",
+   "Attach to each number some data that is forced to be different for different numbers, and count the possible values of this data.",
+   "For each position $k$, let $a_k$ be the length of the longest increasing subsequence that ends at position $k$ and $b_k$ the length of the longest decreasing subsequence that ends there. Suppose all $a_k,b_k\\le3$.",
+   "Show that the pairs $(a_k,b_k)$ are pairwise different for different positions $k$: compare two positions $i<j$ and look at whether the number at $i$ is smaller or larger than the one at $j$.",
+   "Count the possible pairs $(a,b)$ with $1\\le a,b\\le3$ and compare with $10$."
+  ],
+  "solution": "Let the row be $x_1,x_2,\\dots,x_{10}$ (a permutation of $1,\\dots,10$). For each position $k$ let $a_k$ be the length of the longest increasing subsequence that ends at $x_k$ and $b_k$ the length of the longest decreasing subsequence that ends at $x_k$. Both are at least $1$ (the single number $x_k$).\n\nClaim: if $i<j$ then $(a_i,b_i)\\ne(a_j,b_j)$. The numbers are distinct, so either $x_i<x_j$ or $x_i>x_j$.\n- If $x_i<x_j$, then appending $x_j$ to a longest increasing subsequence ending at $x_i$ gives an increasing subsequence ending at $x_j$ of length $a_i+1$. So $a_j\\ge a_i+1>a_i$.\n- If $x_i>x_j$, then similarly $b_j\\ge b_i+1>b_i$.\nIn both cases the pairs differ.\n\nNow suppose, for contradiction, that there is no increasing and no decreasing subsequence of length $4$. Then every $a_k$ and every $b_k$ is at most $3$, so each pair $(a_k,b_k)$ lies in $\\{1,2,3\\}\\times\\{1,2,3\\}$, which has only $9$ elements. There are $10$ positions with pairwise different pairs, which is impossible (pigeonhole). Hence some $a_k\\ge4$ or some $b_k\\ge4$, which gives the required four numbers. $\\blacksquare$",
+  "source": {
+   "kind": "original"
+  }
+ },
+ {
+  "id": "o102",
+  "type": "answer",
+  "difficulty": 2,
+  "techniques": [
+   "angle-chasing"
+  ],
+  "statement": "Triangle $ABC$ has $AB=AC$ and $\\angle BAC=40^\\circ$. The point $D$ lies on the segment $AC$, with $D\\ne C$, and satisfies $BD=BC$. Find $\\angle ABD$.",
+  "hints": [
+   "Find the measure, in degrees, of the angle between $BA$ and $BD$.",
+   "Isosceles triangles hand equal angles from one place to another. Write down every angle you can determine, one triangle at a time.",
+   "Start with the angles of triangle $ABC$. Since $AB=AC$, the two base angles are equal.",
+   "Triangle $BCD$ is also isosceles. Which two of its angles are equal, and what is the third one?",
+   "Having found $\\angle DBC$, compare it with $\\angle ABC$. Why does the ray $BD$ lie inside the angle $ABC$?"
+  ],
+  "solution": "Since $AB=AC$, the base angles are equal: $\\angle ABC=\\angle ACB=\\tfrac12(180^\\circ-40^\\circ)=70^\\circ$.\n\nThe point $D$ lies on segment $AC$ and $D\\ne C$, so $\\angle BCD=\\angle BCA=70^\\circ$. In triangle $BCD$ we have $BD=BC$, so the angles opposite these sides are equal: $\\angle BDC=\\angle BCD=70^\\circ$. Hence $\\angle DBC=180^\\circ-70^\\circ-70^\\circ=40^\\circ$.\n\nBecause $D$ lies on segment $AC$, the ray $BD$ lies inside angle $ABC$, so $\\angle ABD=\\angle ABC-\\angle DBC=70^\\circ-40^\\circ=\\boxed{30^\\circ}$.",
+  "source": {
+   "kind": "original"
+  }
+ },
+ {
+  "id": "o103",
+  "type": "answer",
+  "difficulty": 2,
+  "techniques": [
+   "similar-triangles"
+  ],
+  "statement": "In triangle $ABC$ the angle at $C$ is a right angle, $CA=6$ and $CB=8$. A square has one vertex at $C$, one vertex on the segment $CA$, one vertex on the segment $CB$, and its fourth vertex on the hypotenuse $AB$. Find the side length of the square.",
+  "hints": [
+   "Find the side length of the square described.",
+   "When a line cuts off a corner of a triangle parallel to the opposite side, the small triangle is a scaled copy of the big one.",
+   "Name the square $CDEF$ with $D$ on $CA$, $F$ on $CB$ and $E$ on $AB$, and let its side be $s$. Which side of the square is parallel to $CB$?",
+   "Compare triangle $ADE$ with triangle $ACB$. Express $AD$ in terms of $s$ and set up a proportion."
+  ],
+  "solution": "Let the square be $CDEF$ with $D$ on $CA$, $F$ on $CB$, $E$ on $AB$, and side $s$. Then $DE\\parallel CF$, that is $DE\\parallel CB$, and $DE\\perp CA$.\n\nTriangles $ADE$ and $ACB$ both have a right angle (at $D$ and at $C$) and share the angle at $A$, so they are similar. Matching sides, $\\dfrac{AD}{AC}=\\dfrac{DE}{CB}$. Here $AD=6-s$ and $DE=s$, so\n$$\\frac{6-s}{6}=\\frac{s}{8}\\ \\Longrightarrow\\ 48-8s=6s\\ \\Longrightarrow\\ s=\\frac{48}{14}=\\boxed{\\dfrac{24}{7}}.$$",
+  "source": {
+   "kind": "original"
+  }
+ },
+ {
+  "id": "o104",
+  "type": "answer",
+  "difficulty": 2,
+  "techniques": [
+   "complex-numbers"
+  ],
+  "statement": "A complex number $z$ satisfies $z+\\dfrac1z=1$. Find the value of $z^{2025}+\\dfrac1{z^{2025}}$.",
+  "hints": [
+   "Compute $z^{2025}+z^{-2025}$ for a complex number $z$ with $z+1/z=1$.",
+   "Work out what kind of complex number $z$ must be, then look for a power of $z$ that is simple.",
+   "Multiply the equation by $z$ and solve the quadratic. Where do the solutions sit on the unit circle, and at what angle?",
+   "Write each solution as $e^{i\\theta}$, and use that $2025$ is a multiple of $3$."
+  ],
+  "solution": "Multiplying $z+\\frac1z=1$ by $z$ gives $z^2-z+1=0$ (note $z\\ne0$), so $z=\\frac{1\\pm i\\sqrt3}2=e^{\\pm i\\pi/3}$. Then\n$$z^{2025}=e^{\\pm 2025\\,i\\pi/3}=e^{\\pm 675\\,i\\pi}=(-1)^{675}=-1,$$\nand $\\dfrac1{z^{2025}}=-1$ as well. The sum is $\\boxed{-2}$.",
+  "source": {
+   "kind": "original"
+  }
+ },
+ {
+  "id": "o105",
+  "type": "answer",
+  "difficulty": 2,
+  "techniques": [
+   "generating-functions"
+  ],
+  "statement": "In how many ways can exactly $20$ cents be paid using $1$-cent, $2$-cent and $5$-cent coins? Coins of the same value are identical, and the order of the coins does not matter. (Two ways differ if the numbers of coins of some value differ.)",
+  "hints": [
+   "Count the triples $(a,b,c)$ of non-negative integers with $a+2b+5c=20$.",
+   "Encode each kind of coin by a power series in which the exponent records the amount of money, and see what multiplying the series does.",
+   "Using only $1$-cent coins, the amounts that can be paid are $0,1,2,\\dots$, each in one way. Write this as the series $1+x+x^2+\\cdots$. What is the series for the $2$-cent coins alone? For the $5$-cent coins alone?",
+   "The answer is the coefficient of $x^{20}$ in the product of the three series. To extract it, first find the coefficient of $x^m$ in the product of the first two, then sum over the possible numbers of $5$-cent coins."
+  ],
+  "solution": "A way to pay $m$ cents corresponds to a triple $(a,b,c)$ of non-negative integers with $a+2b+5c=m$. Multiplying out\n$$\\frac1{1-x}\\cdot\\frac1{1-x^2}\\cdot\\frac1{1-x^5}=\\left(\\sum_{a\\ge0}x^a\\right)\\left(\\sum_{b\\ge0}x^{2b}\\right)\\left(\\sum_{c\\ge0}x^{5c}\\right),$$\nthe coefficient of $x^m$ counts exactly these triples. So the answer is the coefficient of $x^{20}$.\n\nGroup the last factor: if the number of $5$-cent coins is $c$, the remaining amount $r=20-5c$ must be paid with $1$- and $2$-cent coins. The coefficient of $x^r$ in $\\frac1{(1-x)(1-x^2)}$ is the number of $b\\ge0$ with $2b\\le r$ (then $a=r-2b$ is determined), namely $\\lfloor r/2\\rfloor+1$. For $c=0,1,2,3,4$ we have $r=20,15,10,5,0$, giving $11,8,6,3,1$. Hence the number of ways is\n$$11+8+6+3+1=\\boxed{29}.$$",
+  "source": {
+   "kind": "original"
+  }
+ },
+ {
+  "id": "o106",
+  "type": "answer",
+  "difficulty": 1,
+  "techniques": [
+   "expectation"
+  ],
+  "statement": "The numbers $1,2,\\dots,10$ are written in a row in a uniformly random order. Call a position $i$ with $1\\le i\\le 9$ an ascent if the number in position $i$ is smaller than the number in position $i+1$. What is the expected number of ascents?",
+  "hints": [
+   "Find the average number of ascents over all $10!$ equally likely arrangements.",
+   "Count the ascents one position at a time, and add up the expectations. You do not need to know how the ascents depend on each other.",
+   "For each $i$ from $1$ to $9$ let $X_i=1$ if position $i$ is an ascent and $X_i=0$ otherwise. The number of ascents is $X_1+\\dots+X_9$.",
+   "What is the probability that position $i$ holds a smaller number than position $i+1$? Swapping the two entries turns an arrangement with an ascent at $i$ into one without."
+  ],
+  "solution": "Let $X_i=1$ if there is an ascent at position $i$ and $X_i=0$ otherwise, for $i=1,\\dots,9$. The number of ascents is $X=X_1+\\dots+X_9$, and by linearity of expectation $E[X]=\\sum_i E[X_i]=\\sum_i P(\\text{ascent at }i)$.\n\nFix $i$. Swapping the entries in positions $i$ and $i+1$ is a bijection on the set of arrangements, and it exchanges the arrangements where position $i$ holds the smaller number with those where it holds the larger number (the two entries are distinct). So exactly half of the arrangements have an ascent at $i$, i.e. $P(\\text{ascent at }i)=\\tfrac12$.\n\nTherefore $E[X]=9\\cdot\\tfrac12=\\boxed{\\dfrac92}$.",
+  "source": {
+   "kind": "original"
+  }
+ },
+ {
+  "id": "o108",
+  "type": "answer",
+  "difficulty": 2,
+  "techniques": [
+   "coordinates"
+  ],
+  "statement": "$ABCD$ is a square with side length $4$ (the vertices are in order around the square). $M$ is the midpoint of side $BC$ and $N$ is the midpoint of side $CD$. Find $\\cos\\angle MAN$.",
+  "hints": [
+   "Find the exact value of the cosine of the angle at $A$ in triangle $MAN$.",
+   "Place the square on a coordinate grid so that every point involved gets simple coordinates.",
+   "Put $A$ at the origin, $B=(4,0)$ and $D=(0,4)$. Find the coordinates of $C$, $M$ and $N$.",
+   "The cosine of the angle between two vectors is their dot product divided by the product of their lengths."
+  ],
+  "solution": "Place $A=(0,0)$, $B=(4,0)$, $C=(4,4)$, $D=(0,4)$. Then $M$, the midpoint of $BC$, is $(4,2)$ and $N$, the midpoint of $CD$, is $(2,4)$.\n\nThe vectors are $\\vec{AM}=(4,2)$ and $\\vec{AN}=(2,4)$, with $\\vec{AM}\\cdot\\vec{AN}=8+8=16$ and $|\\vec{AM}|=|\\vec{AN}|=\\sqrt{20}$. Therefore\n$$\\cos\\angle MAN=\\frac{16}{\\sqrt{20}\\sqrt{20}}=\\frac{16}{20}=\\boxed{\\dfrac45}.$$",
+  "source": {
+   "kind": "original"
+  }
+ },
+ {
+  "id": "o109",
+  "type": "answer",
+  "difficulty": 5,
+  "techniques": [
+   "expectation"
+  ],
+  "statement": "A permutation $\\sigma$ of $\\{1,2,\\dots,10\\}$ is chosen uniformly at random from all $10!$ permutations. Write $\\sigma$ as a product of disjoint cycles in the usual way, counting each fixed point as a cycle of length $1$. (For example, the permutation of $\\{1,\\dots,5\\}$ with $1\\to2\\to3\\to1$, $4\\to5\\to4$ has $2$ cycles.) What is the expected number of cycles of $\\sigma$? Give the exact value as a fraction.",
+  "hints": [
+   "Find the average number of cycles of a random permutation of $\\{1,\\dots,10\\}$.",
+   "The quantity being averaged can be written as a sum of many simple 0-1 quantities, and averages of sums are easy even when the pieces are dependent.",
+   "Fix $k$ and a $k$-element subset $S$ of $\\{1,\\dots,10\\}$. How many different cyclic arrangements of $S$ are there, that is, how many permutations of $S$ consist of a single $k$-cycle?",
+   "For a given cyclic arrangement $c$ of $S$, how many permutations of the whole set contain $c$ as one of their cycles? Divide by $10!$.",
+   "Use linearity of expectation over all candidate cycles of length $k$, and simplify. Then sum over $k$."
+  ],
+  "solution": "Let $n=10$. For a subset $S\\subseteq\\{1,\\dots,n\\}$ with $|S|=k$ and a permutation $c$ of $S$ that is a single $k$-cycle, let $I_{c}(\\sigma)=1$ if $c$ is one of the cycles of $\\sigma$ (that is, $\\sigma$ agrees with $c$ on $S$) and $0$ otherwise. Every cycle of every permutation $\\sigma$ is counted by exactly one such pair, so the number of cycles of $\\sigma$ equals $\\sum I_c(\\sigma)$ over all such $c$, and\n$$E[\\text{cycles}]=\\sum_{c}P(\\sigma\\text{ agrees with }c\\text{ on }S).$$\n\nCount the candidates. There are $\\binom nk$ subsets $S$ of size $k$. On a given $S$ the number of $k$-cycles is $(k-1)!$: start the cycle at the smallest element of $S$ and list the other $k-1$ elements in the order they are visited, in any of $(k-1)!$ orders.\n\nNow fix such a $c$. The permutations $\\sigma$ that agree with $c$ on $S$ are determined by their action on the remaining $n-k$ elements, which can be any permutation of those elements (it maps the complement of $S$ to itself, since $\\sigma(S)=S$). There are $(n-k)!$ of them, so $P(\\sigma\\text{ agrees with }c)=\\frac{(n-k)!}{n!}$.\n\nThus the expected number of cycles of length $k$ is\n$$\\binom nk\\,(k-1)!\\,\\frac{(n-k)!}{n!}=\\frac{n!}{k!\\,(n-k)!}\\cdot(k-1)!\\cdot\\frac{(n-k)!}{n!}=\\frac1k.$$\nSumming over $k=1,\\dots,10$ gives\n$$E[\\text{cycles}]=1+\\frac12+\\frac13+\\dots+\\frac1{10}=\\boxed{\\dfrac{7381}{2520}}.$$\n(Indeed, $2520\\cdot H_{10}=2520+1260+840+630+504+420+360+315+280+252=7381$.)",
+  "source": {
+   "kind": "original"
+  }
+ },
+ {
+  "id": "o110",
+  "type": "answer",
+  "difficulty": 5,
+  "techniques": [
+   "expectation"
+  ],
+  "statement": "A fair coin is flipped repeatedly until the three most recent flips, in order, read heads, tails, heads (H, T, H) for the first time. For example, the flips H, H, T, T, H, T, H stop after $7$ flips. What is the expected number of flips?",
+  "hints": [
+   "Find the expected total number of flips until the pattern HTH first appears.",
+   "Describe the situation by how much of the target pattern you currently have, and relate the average remaining wait from each situation to the others.",
+   "Let $a$ be the expected number of further flips needed when the last flips give no progress toward HTH (for example at the start), $b$ when the last flip was H, and $c$ when the last two flips were H, T. Think about what the next flip does in each case.",
+   "In state $c$ (last two flips H, T): a head ends the game, a tail leads back to a state with no progress. In state $b$: a head leaves you in state $b$ again, a tail moves you to state $c$. Write three linear equations.",
+   "Solve the system. Also explain why the expectations $a,b,c$ are finite, so that the equations make sense."
+  ],
+  "solution": "Say we are in state $B$ if the last flip is H, in state $C$ if the last two flips are H, T, and in state $A$ otherwise (this includes the start, and the situation where the last flip is T and the one before it is not H). Let $a,b,c$ be the expected numbers of further flips until HTH appears, starting from each state. The transitions on the next flip are:\n\n- From $A$: H leads to $B$; T leads to $A$ (a T after no progress is still no progress).\n- From $B$ (last flip H): H leads to $B$ (the last flip is still H); T leads to $C$.\n- From $C$ (last flips H, T): H completes HTH and the game ends; T gives last flips T, T, which is state $A$.\n\n**Finiteness.** From any state, the next three flips are H, T, H with probability $\\tfrac18$, which ends the game by then (it may end sooner). So the game is not over after $3m$ further flips with probability at most $(7/8)^m$, and hence the expected number of further flips is at most $3\\sum_{m\\ge0}(7/8)^m<\\infty$.\n\n**Equations.** Conditioning on the next flip (each outcome has probability $\\tfrac12$), and counting that flip:\n$$a=1+\\tfrac12 b+\\tfrac12 a,\\qquad b=1+\\tfrac12 b+\\tfrac12 c,\\qquad c=1+\\tfrac12\\cdot0+\\tfrac12 a.$$\nFrom the second equation $b=2+c$. From the third $c=1+\\tfrac a2$, so $b=3+\\tfrac a2$. The first equation gives $\\tfrac a2=1+\\tfrac b2$, i.e. $a=2+b=5+\\tfrac a2$, so $a=10$.\n\nThe game starts in state $A$, so the expected number of flips is $\\boxed{10}$.",
+  "source": {
+   "kind": "original"
+  }
+ },
+ {
+  "id": "o111",
+  "type": "proof",
+  "difficulty": 5,
+  "techniques": [
+   "angle-chasing"
+  ],
+  "statement": "Let $ABC$ be a triangle with $\\angle BAC=60^\\circ$. The bisector of angle $ABC$ meets side $AC$ at $D$, and the bisector of angle $ACB$ meets side $AB$ at $E$. The segments $BD$ and $CE$ meet at $I$. Prove that\n(a) $BE+CD=BC$, and\n(b) $ID=IE$.",
+  "hints": [
+   "Prove both statements: the segments $BE$ and $CD$ together have the length of $BC$, and $I$ is equally far from $D$ and from $E$.",
+   "Find the angles at $I$ first; they turn out to be special, and they will let you transport lengths from one side of the figure to another.",
+   "Compute $\\angle BIC$ from the angles of triangle $BIC$, using that $BI$ and $CI$ bisect the angles at $B$ and $C$. What are $\\angle BIE$ and $\\angle CID$?",
+   "Mark the point $F$ on segment $BC$ with $BF=BE$. Compare triangles $BEI$ and $BFI$.",
+   "Now compare triangles $CFI$ and $CDI$. What do you learn about $CF$ and $CD$?"
+  ],
+  "solution": "Write $\\beta=\\angle ABC$ and $\\gamma=\\angle ACB$, so $\\beta+\\gamma=120^\\circ$. Since $BI$ and $CI$ are the bisectors of these angles, in triangle $BIC$\n$$\\angle BIC=180^\\circ-\\tfrac\\beta2-\\tfrac\\gamma2=180^\\circ-60^\\circ=120^\\circ.$$\nThe point $I$ lies on the segments $BD$ and $CE$, between $B$ and $D$ and between $C$ and $E$ (the cevians $BD$ and $CE$ cross inside the triangle). Therefore $\\angle BIE=180^\\circ-\\angle BIC=60^\\circ$ and $\\angle CID=180^\\circ-\\angle BIC=60^\\circ$.\n\n**A point $F$ on $BC$.** In triangle $BEC$ we have $\\angle BCE=\\gamma/2$ and $\\angle BEC=180^\\circ-\\beta-\\gamma/2=60^\\circ+\\gamma/2$ (using $\\beta+\\gamma=120^\\circ$), which is larger than $\\gamma/2$. The larger side lies opposite the larger angle, so $BC>BE$. Hence there is a point $F$ on the segment $BC$, strictly between $B$ and $C$, with $BF=BE$.\n\n**Triangles $BEI$ and $BFI$.** They have $BE=BF$, a common side $BI$, and $\\angle EBI=\\angle FBI=\\beta/2$ (the ray $BI$ is the bisector of angle $ABC$, and $E$, $F$ lie on the two sides of that angle). So they are congruent (SAS). Consequently $IF=IE$ and $\\angle BIF=\\angle BIE=60^\\circ$.\n\n**Triangles $CFI$ and $CDI$.** Since $F$ lies on segment $BC$, the ray $IF$ lies inside angle $BIC$, so $\\angle FIC=\\angle BIC-\\angle BIF=120^\\circ-60^\\circ=60^\\circ=\\angle DIC$. Also $\\angle FCI=\\angle DCI=\\gamma/2$ (ray $CI$ bisects angle $ACB$, and $F$, $D$ lie on its two sides), and $CI$ is common. So the triangles are congruent (ASA), giving $CF=CD$ and $IF=ID$.\n\n(a) $BC=BF+FC=BE+CD$. \n\n(b) $ID=IF=IE$. $\\blacksquare$",
+  "source": {
+   "kind": "original"
+  }
+ },
+ {
+  "id": "o112",
+  "type": "answer",
+  "difficulty": 4,
+  "techniques": [
+   "similar-triangles"
+  ],
+  "statement": "Triangle $ABC$ has side lengths $AB=13$, $BC=14$ and $CA=15$. Let $D$, $E$, $F$ be the feet of the perpendiculars from $A$ to $BC$, from $B$ to $CA$, and from $C$ to $AB$, respectively. Find the area of triangle $DEF$.",
+  "hints": [
+   "Find the exact area of the triangle formed by the three feet of the altitudes.",
+   "Triangles cut off at the corners of the figure may be scaled copies of the whole triangle. Scaled copies relate lengths and areas in a predictable way.",
+   "First check that the triangle is acute, so the three feet lie inside the sides. Compute $\\cos A$, $\\cos B$, $\\cos C$.",
+   "In the right triangles $ABE$ and $ACF$, express $AE$ and $AF$ using $\\cos A$. Then compare triangle $AEF$ with triangle $ABC$.",
+   "The triangle $ABC$ is cut into $AEF$, $BDF$, $CDE$ and $DEF$. Compute the first three areas from the similarity ratios and subtract from the area of $ABC$."
+  ],
+  "solution": "**Setup.** Let $a=BC=14$, $b=CA=15$, $c=AB=13$. By the law of cosines\n$$\\cos A=\\frac{b^2+c^2-a^2}{2bc}=\\frac{198}{390}=\\frac{33}{65},\\quad \\cos B=\\frac{a^2+c^2-b^2}{2ac}=\\frac{140}{364}=\\frac5{13},\\quad \\cos C=\\frac{a^2+b^2-c^2}{2ab}=\\frac{252}{420}=\\frac35.$$\nAll three are positive, so the triangle is acute and each foot lies strictly inside the corresponding side (the foot of the altitude from $B$ lies strictly inside segment $AC$ exactly when the angles at $A$ and $C$ are both acute, and similarly for the other two feet). The area of $ABC$ is $84$ by Heron's formula ($s=21$, $\\sqrt{21\\cdot7\\cdot8\\cdot6}=84$).\n\n**Corner triangles.** In the right triangle $ABE$ (right angle at $E$), $AE=AB\\cos A$. In the right triangle $ACF$ (right angle at $F$), $AF=AC\\cos A$. Hence\n$$\\frac{AE}{AB}=\\frac{AF}{AC}=\\cos A,$$\nand triangles $AEF$ and $ABC$ share the angle at $A$ (since $E$ lies on $AC$ and $F$ on $AB$, $\\angle EAF=\\angle CAB$). Matching $AE\\leftrightarrow AB$ and $AF\\leftrightarrow AC$, the triangles are similar (SAS) with ratio $\\cos A$. Therefore $[AEF]=\\cos^2A\\,[ABC]$. In the same way $[BDF]=\\cos^2B\\,[ABC]$ and $[CDE]=\\cos^2C\\,[ABC]$.\n\n**Subtracting.** Since $D,E,F$ lie on the sides, triangle $ABC$ is the union of the non-overlapping triangles $AEF$, $BDF$, $CDE$ and $DEF$. Thus\n$$[DEF]=84\\left(1-\\cos^2A-\\cos^2B-\\cos^2C\\right)=84\\left(1-\\frac{1089}{4225}-\\frac{625}{4225}-\\frac{1521}{4225}\\right)=84\\cdot\\frac{990}{4225}=84\\cdot\\frac{198}{845}=\\boxed{\\dfrac{16632}{845}}.$$",
+  "source": {
+   "kind": "original"
+  }
+ },
+ {
+  "id": "o113",
+  "type": "proof",
+  "difficulty": 5,
+  "techniques": [
+   "complex-numbers"
+  ],
+  "statement": "Let $A_1A_2\\dots A_n$ be a regular $n$-gon inscribed in a circle of radius $1$ with centre $O$, and let $P$ be any point of the plane with $OP=r$. Prove that\n(a) if $n\\ge3$, then $\\displaystyle\\sum_{k=1}^{n}PA_k^4=n\\,(r^4+4r^2+1)$;\n(b) if $n\\ge4$, then $\\displaystyle\\sum_{k=1}^{n}PA_k^6=n\\,(r^6+9r^4+9r^2+1)$.",
+  "hints": [
+   "Prove both formulas. In particular, the sums depend on $P$ only through its distance from the centre.",
+   "Put the figure in the complex plane, where a regular polygon has a very clean description and distances are easy to expand.",
+   "Take $O=0$, so the vertices are $w_k=\\varepsilon\\omega^k$ for $k=1,\\dots,n$, where $\\omega=e^{2\\pi i/n}$ and $|\\varepsilon|=1$, and $P=p$ with $|p|=r$. Show that $PA_k^2=r^2+1-s_k$ where $s_k=p\\bar w_k+\\bar p w_k$.",
+   "Which sums $\\sum_k w_k^m$ vanish, and for which $m$? Compute $\\sum_k s_k$, $\\sum_k s_k^2$ (and later $\\sum_k s_k^3$) by expanding, using $|w_k|=1$.",
+   "Then $\\sum PA_k^4=\\sum(r^2+1-s_k)^2$ and $\\sum PA_k^6=\\sum(r^2+1-s_k)^3$; expand and substitute."
+  ],
+  "solution": "Place the circle as the unit circle in the complex plane with $O=0$. Then $A_k$ corresponds to $w_k=\\varepsilon\\omega^k$ ($k=1,\\dots,n$) with $\\omega=e^{2\\pi i/n}$ and $|\\varepsilon|=1$, and $P$ corresponds to $p$ with $|p|=r$.\n\n**Root-of-unity sums.** If $n\\nmid m$ then $\\omega^m\\ne1$, and $\\sum_{k=1}^n\\omega^{km}=\\omega^m\\frac{\\omega^{nm}-1}{\\omega^m-1}=0$. Hence $\\sum_k w_k^m=\\varepsilon^m\\sum_k\\omega^{km}=0$, and taking conjugates $\\sum_k\\bar w_k^{\\,m}=0$ as well. For $n\\ge3$ this applies to $m=1,2$; for $n\\ge4$ also to $m=3$.\n\n**Squared distances.** Since $|w_k|=1$,\n$$PA_k^2=|p-w_k|^2=(p-w_k)(\\bar p-\\bar w_k)=r^2+1-s_k,\\qquad s_k:=p\\bar w_k+\\bar p w_k.$$\nPut $u=r^2+1$. Now compute the power sums of $s_k$.\n\n- $\\sum_k s_k=p\\sum\\bar w_k+\\bar p\\sum w_k=0$.\n- $s_k^2=p^2\\bar w_k^2+2p\\bar p\\,w_k\\bar w_k+\\bar p^2w_k^2=p^2\\bar w_k^2+2r^2+\\bar p^2w_k^2$. Summing over $k$ and using $\\sum w_k^2=\\sum\\bar w_k^2=0$ (valid for $n\\ge3$) gives $\\sum_k s_k^2=2nr^2$.\n- $s_k^3=p^3\\bar w_k^3+3p^2\\bar p\\,\\bar w_k^2w_k+3p\\bar p^2\\,\\bar w_kw_k^2+\\bar p^3w_k^3=p^3\\bar w_k^3+\\bar p^3w_k^3+3r^2s_k$, using $|w_k|=1$. For $n\\ge4$, $\\sum w_k^3=\\sum\\bar w_k^3=0$ and $\\sum s_k=0$, so $\\sum_k s_k^3=0$.\n\n**(a)** For $n\\ge3$,\n$$\\sum PA_k^4=\\sum(u-s_k)^2=nu^2-2u\\sum s_k+\\sum s_k^2=n(r^2+1)^2+2nr^2=n(r^4+4r^2+1).$$\n\n**(b)** For $n\\ge4$,\n$$\\sum PA_k^6=\\sum(u-s_k)^3=nu^3-3u^2\\sum s_k+3u\\sum s_k^2-\\sum s_k^3=nu^3+6nur^2=nu\\,(u^2+6r^2).$$\nSince $u^2+6r^2=r^4+8r^2+1$, this equals $n(r^2+1)(r^4+8r^2+1)=n(r^6+9r^4+9r^2+1)$. $\\blacksquare$\n\n(Remark: the hypotheses are really used. For $n=3$ in (b) one has $\\sum w_k^3=3\\varepsilon^3\\ne0$, and the sum then does depend on the direction of $P$.)",
+  "source": {
+   "kind": "original"
+  }
+ },
+ {
+  "id": "o114",
+  "type": "answer",
+  "difficulty": 5,
+  "techniques": [
+   "generating-functions"
+  ],
+  "statement": "How many strings $d_1d_2\\dots d_8$ of eight decimal digits (each $d_i\\in\\{0,1,\\dots,9\\}$, leading zeros allowed) have digit sum $d_1+d_2+\\dots+d_8=36$?",
+  "hints": [
+   "Count the $8$-tuples of digits from $0$ to $9$ whose sum is exactly $36$.",
+   "Package the choices for each digit into a polynomial whose exponents record the digit's value; the count you want is one coefficient of a product.",
+   "Each digit contributes the factor $1+x+\\dots+x^9$. The answer is the coefficient of $x^{36}$ in its eighth power. Write the factor as a quotient using the geometric series formula.",
+   "You then need the coefficient of $x^{36}$ in $(1-x^{10})^8(1-x)^{-8}$. Expand $(1-x^{10})^8$ with the binomial theorem and recall the coefficients of $(1-x)^{-8}$.",
+   "The coefficient of $x^m$ in $(1-x)^{-8}$ is $\\binom{m+7}{7}$. Only terms with $10j\\le36$ contribute."
+  ],
+  "solution": "The number of such strings is the coefficient of $x^{36}$ in\n$$\\left(1+x+\\dots+x^9\\right)^8=\\left(\\frac{1-x^{10}}{1-x}\\right)^8=(1-x^{10})^8\\,(1-x)^{-8},$$\nbecause choosing the term $x^{d_i}$ from the $i$-th factor gives the exponent $d_1+\\dots+d_8$.\n\nBy the binomial theorem $(1-x^{10})^8=\\sum_{j=0}^8(-1)^j\\binom8jx^{10j}$, and $(1-x)^{-8}=\\sum_{m\\ge0}\\binom{m+7}{7}x^m$ (this is the number of ways to write $m$ as an ordered sum of $8$ non-negative integers). The coefficient of $x^{36}$ in the product is therefore\n$$\\sum_{j}(-1)^j\\binom8j\\binom{36-10j+7}{7},$$\nwhere only $j$ with $10j\\le36$, i.e. $j=0,1,2,3$, contribute:\n$$\\binom{43}{7}-8\\binom{33}{7}+28\\binom{23}{7}-56\\binom{13}{7}.$$\nWith $\\binom{43}{7}=32\\,224\\,114$, $\\binom{33}{7}=4\\,272\\,048$, $\\binom{23}{7}=245\\,157$, $\\binom{13}{7}=1716$, this is\n$$32\\,224\\,114-34\\,176\\,384+6\\,864\\,396-96\\,096=\\boxed{4\\,816\\,030}.$$",
+  "source": {
+   "kind": "original"
+  }
+ },
+ {
+  "id": "o115",
+  "type": "answer",
+  "difficulty": 6,
+  "techniques": [
+   "generating-functions",
+   "complex-numbers"
+  ],
+  "statement": "How many subsets of $\\{1,2,\\dots,2025\\}$ have a sum of elements divisible by $5$? The empty set (sum $0$) counts. Give the answer as a closed-form expression.",
+  "hints": [
+   "Count the subsets of $\\{1,2,\\dots,2025\\}$ (including the empty set) whose elements add up to a multiple of $5$.",
+   "Encode every subset by a product of simple factors, one per element, and find a way to keep only the exponents that are multiples of $5$.",
+   "The polynomial $f(x)=\\prod_{i=1}^{2025}(1+x^i)$ has $x^s$ with coefficient equal to the number of subsets with sum $s$. You want the sum of the coefficients of $x^s$ over $5\\mid s$. Which averages of $f$ at the fifth roots of unity isolate those terms?",
+   "If $\\omega=e^{2\\pi i/5}$, then $\\frac15\\sum_{j=0}^4f(\\omega^j)$ is the required count. For $j\\ne0$, split the product over $i$ into $405$ blocks of five consecutive integers.",
+   "Within one block, $ji$ runs over all residues mod $5$. Evaluate $\\prod_{r=0}^4(1+\\omega^r)$ using the factorisation of $z^5-1$ at $z=-1$."
+  ],
+  "solution": "Let $f(x)=\\prod_{i=1}^{2025}(1+x^i)$. Expanding, $f(x)=\\sum_s c_sx^s$ where $c_s$ is the number of subsets with element sum $s$. We want $\\sum_{5\\mid s}c_s$.\n\n**Roots of unity filter.** Let $\\omega=e^{2\\pi i/5}$. For an integer $s$, $\\sum_{j=0}^4\\omega^{js}$ equals $5$ if $5\\mid s$ and $0$ otherwise (a geometric sum with ratio $\\omega^s\\ne1$ in the second case). Therefore\n$$\\sum_{5\\mid s}c_s=\\frac15\\sum_{j=0}^{4}f(\\omega^j).$$\n\n**The terms.** For $j=0$: $f(1)=2^{2025}$.\n\nFor $j\\in\\{1,2,3,4\\}$: since $\\gcd(j,5)=1$, as $i$ runs over any five consecutive integers, $\\omega^{ji}$ runs over all five fifth roots of unity exactly once. The integers $1,\\dots,2025$ split into $405$ blocks of five consecutive integers, so\n$$f(\\omega^j)=\\left(\\prod_{r=0}^{4}(1+\\omega^r)\\right)^{405}.$$\nSince $z^5-1=\\prod_{r=0}^4(z-\\omega^r)$, putting $z=-1$ gives $-2=\\prod_{r}(-1-\\omega^r)=(-1)^5\\prod_r(1+\\omega^r)$, hence $\\prod_{r}(1+\\omega^r)=2$. So $f(\\omega^j)=2^{405}$.\n\n**Result.**\n$$\\sum_{5\\mid s}c_s=\\frac{2^{2025}+4\\cdot2^{405}}{5}=\\boxed{\\dfrac{2^{2025}+2^{407}}{5}}.$$",
+  "source": {
+   "kind": "original"
+  }
+ },
+ {
+  "id": "o116",
+  "type": "answer",
+  "difficulty": 4,
+  "techniques": [
+   "diophantine"
+  ],
+  "statement": "Find all pairs of integers $(x,y)$ such that\n$$x^3-y^3=3xy+37.$$",
+  "hints": [
+   "Determine every pair of integers $(x,y)$ satisfying the equation.",
+   "Rewrite the equation in terms of quantities that make it nearly one-variable, then show that only a few cases are possible.",
+   "Write $d=x-y$ and use $x^3-y^3=d^3+3xyd$. Rewrite the equation to isolate $xy$ in terms of $d$.",
+   "Given $d$ and the product $P=xy$, the number $y$ satisfies $y^2+dy-P=0$. This forces the discriminant $d^2+4P$ to be non-negative, which bounds $d$.",
+   "After clearing denominators, treat the cases $d>1$ and $d<1$ separately (the sign of $d-1$ matters when multiplying an inequality). Then check the few remaining values of $d$."
+  ],
+  "solution": "Let $d=x-y$. Since $x^3-y^3=(x-y)^3+3xy(x-y)=d^3+3dxy$, the equation reads\n$$d^3+3dxy=3xy+37,\\qquad\\text{i.e.}\\qquad 3xy\\,(d-1)=37-d^3.$$\n\nIf $d=1$ the left side is $0$ while the right side is $36$, impossible. So $d\\ne1$ and\n$$xy=P:=\\frac{37-d^3}{3(d-1)}.$$\nSince $x=y+d$, we have $y^2+dy-P=0$, which has a real solution $y$ only if its discriminant is non-negative: $d^2+4P\\ge0$, that is\n$$d^2+\\frac{4(37-d^3)}{3(d-1)}\\ge0.$$\nMultiply by $3(d-1)$ and note $3d^2(d-1)+4(37-d^3)=-d^3-3d^2+148$.\n\n* If $d>1$ we multiply by a positive number, getting $148-d^3-3d^2\\ge0$, i.e. $d^3+3d^2\\le148$. Since $5^3+3\\cdot5^2=200>148$ and the left side increases for $d>1$, this gives $d\\in\\{2,3,4\\}$.\n* If $d<1$, i.e. $d\\le0$, we multiply by a negative number and the inequality reverses: $148-d^3-3d^2\\le0$, i.e. $d^2(d+3)\\ge148$. But for $d\\le-3$ we have $d^2(d+3)\\le0$, and for $-3\\le d\\le0$ we have $d^2\\le9$ and $d+3\\le3$, so $d^2(d+3)\\le27<148$. So there is no solution.\n\nNow check $d=2,3,4$:\n- $d=2$: $P=\\frac{29}{3}$, not an integer.\n- $d=3$: $P=\\frac{10}{6}$, not an integer.\n- $d=4$: $P=\\frac{-27}{9}=-3$. Then $y^2+4y+3=0$, so $y=-1$ or $y=-3$, with $x=y+4=3$ or $1$.\n\nVerification: $(3,-1)$: $27+1=28=3\\cdot3\\cdot(-1)+37=28$. $(1,-3)$: $1+27=28=3\\cdot1\\cdot(-3)+37=28$.\n\nThe solutions are $\\boxed{(x,y)=(3,-1)\\ \\text{and}\\ (1,-3)}$.",
+  "source": {
+   "kind": "original"
+  }
+ },
+ {
   "id": "m01",
   "type": "proof",
   "difficulty": 6,

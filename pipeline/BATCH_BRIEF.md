@@ -41,3 +41,12 @@ Spread problems across the techniques assigned to you, and across difficulty wit
 
 ## Report
 When done, reply with a short list: ids written, ids dropped and why, and anything you are unsure about. Terse.
+
+## Lessons from batch 1 (critics flagged these repeatedly; avoid them)
+- The `technique:` text must not give away the key idea or the proof plan. Say what kind of tool applies, nothing more. Hints carry the plan.
+- Only tag a technique that the solution actually uses. No decorative secondary tags.
+- Do not reuse the worked examples in `data/techniques/*.md`, and do not duplicate any existing problem: `pipeline/cache/existing.txt` lists every existing id, primary technique and the start of its statement. Read it first.
+- Geometry: state every orientation/convexity assumption you use, and handle degenerate positions.
+- Where a statement needs a fix (missing assumption, false for trivial cases), change it minimally and say so in your report.
+- Candidate pool: `pipeline/cache/candidates.json` (6,078 English, image-free MathNet rows; fields id, country, competition, type, topics, problem, solution, answer). Skip competitions that are HMMT, Harvard-MIT, Berkeley, "February"/"November" contests, or other non-national sources. Skip ids already used (grep `mathnet_id:` in `data/problems/*.md`).
+- Official solutions are terse or flawed. Write your own complete solution.
