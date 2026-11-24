@@ -53,3 +53,13 @@ Mobile-first static web app: math-olympiad flashcards + built-in technique textb
 - Pending: reply from the MathNet maintainer about copyright-asserting contests; local-model benchmark when the new Mac arrives.
 - Final scale target changed: the plan was 1,500 problems; after batch 2 (212 problems live) the user chose to stop large batches. Add more later with `pipeline/BATCHES.md`.
 
+
+## Status file
+
+Keep `STATUS.md` at the repo root current. At the end of every task that changes this repo, update it in the same commit:
+- Updated: today's date
+- Done: what's finished, newest first (keep about 5 lines; drop the oldest)
+- In progress: what's underway right now
+- Next: the next 2-3 steps
+
+Keep it under 25 lines, plain language, no narration.
